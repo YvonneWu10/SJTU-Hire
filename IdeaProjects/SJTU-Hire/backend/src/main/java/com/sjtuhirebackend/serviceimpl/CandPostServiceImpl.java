@@ -110,4 +110,18 @@ public class CandPostServiceImpl implements CandPostService {
 
         return ans;
     }
+
+    public List<CandPost> getPagedCandPosts(int pageIndex, int pageSize){
+        // 计算起始索引
+        int startIndex = pageIndex * pageSize;
+        // 调用 repository 的 findByPages 方法进行分页查询
+        return candPostDao.getPagedCandPosts(startIndex, pageSize);
+    }
+
+    public int getTotalPages(int pageSize) {
+        // 获取总的数据行数
+        long totalItems = candPostDao.count();
+        // 计算总页数
+        return (int) Math.ceil((double) totalItems / pageSize);
+    }
 }

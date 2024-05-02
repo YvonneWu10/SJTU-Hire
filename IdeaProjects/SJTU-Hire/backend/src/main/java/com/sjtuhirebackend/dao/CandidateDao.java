@@ -11,6 +11,7 @@ public interface CandidateDao {
     List<Candidate> getCandidates();
     List<Candidate> getCandidatesByCandIdList(List<String> candIds);
     List<Candidate> getCandidatesByCandName(String candName);
+    List<Candidate> getCandidatesByCandNameContaining(String candName);
     List<Candidate> getCandidatesByCandAge(int candAge);
     List<Candidate> getCandidatesByCandGender(String candGender);
     Candidate getCandidatesByCandPhone(String candPhone);
@@ -25,4 +26,6 @@ public interface CandidateDao {
     List<Candidate> getCandidatesByCandWorkYearAfter(int candWorkYear);
     List<Candidate> getCandidatesByCandExpectedSalary(int candExpectedSalary);
     List<Candidate> getCandidatesByCandExpectedSalaryBetween(int lb, int ub);
+    List<String> getDistinctCandMajors();
+    List<String> getDistinctUniversities();
 }

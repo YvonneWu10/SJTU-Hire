@@ -40,4 +40,8 @@ public interface CandidateService {
     List<Candidate> getCandidatesByCandExpectedSalary(int candExpectedSalary);
 
     List<Candidate> getCandidatesByCandExpectedSalaryBetween(int lb, int ub);
+
+    List<String> getDistinctCandMajors();
+
+    List<String> getDistinctCandUniversities();
 }

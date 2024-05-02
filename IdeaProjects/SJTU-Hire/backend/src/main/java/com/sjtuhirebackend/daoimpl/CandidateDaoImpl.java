@@ -33,6 +33,9 @@ public class CandidateDaoImpl implements CandidateDao {
     public List<Candidate> getCandidatesByCandName(String candName){
         return candidateRepository.findByCandName(candName);
     }
+    public List<Candidate> getCandidatesByCandNameContaining(String candName){
+        return candidateRepository.findByCandNameContaining(candName);
+    }
     public List<Candidate> getCandidatesByCandAge(int candAge){
         return candidateRepository.findByCandAge(candAge);
     }
@@ -74,5 +77,11 @@ public class CandidateDaoImpl implements CandidateDao {
     }
     public List<Candidate> getCandidatesByCandExpectedSalaryBetween(int lb, int ub){
         return candidateRepository.findByCandExpectedSalaryBetween(lb, ub);
+    }
+    public List<String> getDistinctCandMajors(){
+        return candidateRepository.findDistinctMajor();
+    }
+    public List<String> getDistinctUniversities(){
+        return candidateRepository.findDistinctUniversity();
     }
 }

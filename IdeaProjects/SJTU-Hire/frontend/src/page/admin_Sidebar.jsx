@@ -46,8 +46,9 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
             "/job-management": "1",
             "/company-management": "2",
             "/resume-management": "3",
-            "/user-management": "4",
-            "/statistics": "5"
+            "/candidate-management": "4",
+            "/HR-management": "5",
+            "/statistics": "6"
         };
         return keyMap[path] || "0";  // Default to "1" if path is not found
     };
@@ -81,12 +82,15 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
                     <Link to="/company-management">公司管理</Link>
                 </Menu.Item>
                 <Menu.Item key="3" icon={<ProfileOutlined />}>
-                    <Link to="/resume-management">简历管理</Link>
+                    <Link to="/resume-management">投递管理</Link>
                 </Menu.Item>
                 <Menu.Item key="4" icon={<UserSwitchOutlined />}>
-                    <Link to="/user-management">用户管理</Link>
+                    <Link to="/candidate-management">招聘者管理</Link>
                 </Menu.Item>
-                <Menu.Item key="5" icon={<BarChartOutlined />}>
+                <Menu.Item key="5" icon={<UserSwitchOutlined />}>
+                    <Link to="/HR-management">HR管理</Link>
+                </Menu.Item>
+                <Menu.Item key="6" icon={<BarChartOutlined />}>
                     <Link to="/statistics">统计分析</Link>
                 </Menu.Item>
             </Menu>

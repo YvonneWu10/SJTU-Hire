@@ -19,4 +19,6 @@ public interface CandPostService {
     List<CandPost> getCandPostBySubmissionDateBetween(Date lb, Date ub);
     List<CandPost> getCandPostBySubmissionStage(String submissionStage);
     Map<String,Object> getCandPostByHRId(int hrId);
+    List<CandPost> getPagedCandPosts(int pageIndex, int pageSize); //分页列举
+    int getTotalPages(int pageSize);    //总页数
 }

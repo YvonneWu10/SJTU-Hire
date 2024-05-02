@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Input, Card, Space } from 'antd';
+import { Input, Card, Space } from 'antd';
 import { useSearchParams } from 'react-router-dom';
-import { searchPosts } from "../service/post";
+import { AdminsearchPosts } from "../service/post";
 import PostList from "../components/post_list";
-import SidebarLayout from './admin_SidebarLayout'; // 确保路径正确
+import SidebarLayout from './admin_SidebarLayout';
 
 const { Search } = Input;
 
@@ -11,16 +11,21 @@ const AdminPage = () => {
     const [posts, setPosts] = useState([]);
     const [totalPage, setTotalPage] = useState(0);
     const [searchParams, setSearchParams] = useSearchParams();
-    const postName = searchParams.get("postName") || "";
     const pageIndex = searchParams.get("pageIndex") != null ? Number.parseInt(searchParams.get("pageIndex")) : 1;
-    const pageSize = searchParams.get("pageSize") != null ? Number.parseInt(searchParams.get("pageSize")) : 30;
+    const pageSize = searchParams.get("pageSize") != null ? Number.parseInt(searchParams.get("pageSize")) : 25;
+    const postName = searchParams.get("postName") || "";
+    const city = searchParams.get("city") || "";
+    const workType = searchParams.get("workType") || "";
+    const workStyle = searchParams.get("workStyle") || "";
 
     const getPosts = async () => {
-        let resPosts = await searchPosts(postName, pageIndex, pageSize, "","","");
+        console.log("In search Posts");
+        let resPosts = await AdminsearchPosts(pageIndex, pageSize, postName, city, workType, workStyle);
         let posts = resPosts.items;
         let totalPage = resPosts.total;
         setPosts(posts);
         setTotalPage(totalPage);
+        console.log("API Response:", resPosts);
     };
 
     // 用来调试，监听searchParams
@@ -30,7 +35,7 @@ const AdminPage = () => {
 
     useEffect(() => {
         getPosts();
-    }, [pageIndex, pageSize, postName]);
+    }, [pageIndex, pageSize, postName, city, workType, workStyle]);
 
     const handlePageChange = (page) => {
         const currentParams = new URLSearchParams(searchParams);

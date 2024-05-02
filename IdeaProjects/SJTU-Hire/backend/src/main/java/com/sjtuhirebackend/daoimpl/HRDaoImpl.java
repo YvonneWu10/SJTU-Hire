@@ -26,6 +26,7 @@ public class HRDaoImpl implements HRDao {
     public List<HR> getHRByName(String HRName){
         return hrRepository.findByHRName(HRName);
     }
+    public List<HR> getHRByNameContaining(String HRName){ return hrRepository.findByHRNameContaining(HRName); };
     public List<HR> getHRByCompanyId(int companyId){
         return hrRepository.findByCompanyId(companyId);
     }

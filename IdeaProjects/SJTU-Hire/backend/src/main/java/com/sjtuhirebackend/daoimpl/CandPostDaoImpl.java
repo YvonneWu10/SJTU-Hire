@@ -46,4 +46,11 @@ public class CandPostDaoImpl implements CandPostDao {
     public List<CandPost> getCandPostBySubmissionStage(String submissionStage){
         return candPostRepository.findBySubmissionStage(submissionStage);
     }
+    public List<CandPost> getPagedCandPosts(int pageIndex,int pageSize){
+        return candPostRepository.findByPages(pageIndex,pageSize);
+    }
+
+    public long count(){
+        return candPostRepository.count();
+    };
 }

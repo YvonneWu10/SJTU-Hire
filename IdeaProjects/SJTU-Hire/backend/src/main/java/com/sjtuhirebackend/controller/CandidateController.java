@@ -54,4 +54,78 @@ public class CandidateController {
     public ResponseEntity<List<Candidate>> getAllCandidates() {
         return new ResponseEntity<>(candidateService.getCandidates(), HttpStatus.OK);
     }
+
+    @RequestMapping("/administer/SearchCandidates")
+    public ResponseEntity<List<Candidate>> searchCandidates(@RequestHeader Map<String, Object> header,
+                                                            @RequestParam(defaultValue = "") String candName,
+                                                            @RequestParam(defaultValue = "") String candUniversity,
+                                                            @RequestParam(defaultValue = "") String candGender,
+                                                            @RequestParam(defaultValue = "") String candMajor) {
+        String userType = (String) header.get("user-type");
+        String id = null;
+        if ("candidate".equals(userType)) {
+            id = authService.getCandIdByHeader(header);
+        }
+        if ("admin".equals(userType)) {
+            id = authService.getAdminIdByHeader(header);
+        }
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+        List<Candidate> result = candidateService.getCandidates();
+
+        //根据candName筛选
+        if (!Objects.equals(candName,"")){
+            result.retainAll(candidateService.getCandidatesByCandName(candName));
+        }
+        //根据candUniversity筛选
+        if (!Objects.equals(candUniversity,"")){
+            result.retainAll(candidateService.getCandidatesByCandUniversity(candUniversity));
+        }
+
+        //根据candGender筛选
+        if (!Objects.equals(candGender,"")){
+            result.retainAll(candidateService.getCandidatesByCandGender(candGender));
+        }
+        //根据candMajor筛选
+        if (!Objects.equals(candMajor,"")){
+            result.retainAll(candidateService.getCandidatesByCandMajor(candMajor));
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @RequestMapping("/administer/CandMajors")
+    public ResponseEntity<List<String>> getCandMajors(@RequestHeader Map<String, Object> header) {
+        String userType = (String) header.get("user-type");
+        String id = null;
+        if ("candidate".equals(userType)) {
+            id = authService.getCandIdByHeader(header);
+        }
+        if ("admin".equals(userType)) {
+            id = authService.getAdminIdByHeader(header);
+        }
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<>(candidateService.getDistinctCandMajors(), HttpStatus.OK);
+    }
+
+    @RequestMapping("/administer/CandUniversities")
+    public ResponseEntity<List<String>> getCandUniversities(@RequestHeader Map<String, Object> header) {
+        String userType = (String) header.get("user-type");
+        String id = null;
+        if ("candidate".equals(userType)) {
+            id = authService.getCandIdByHeader(header);
+        }
+        if ("admin".equals(userType)) {
+            id = authService.getAdminIdByHeader(header);
+        }
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<>(candidateService.getDistinctCandUniversities(), HttpStatus.OK);
+    }
 }

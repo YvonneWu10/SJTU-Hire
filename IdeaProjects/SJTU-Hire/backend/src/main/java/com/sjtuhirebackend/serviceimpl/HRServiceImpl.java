@@ -23,7 +23,7 @@ public class HRServiceImpl implements HRService {
         return hrDao.getHR(HRId);
     }
     public List<HR> getHRByName(String HRName){
-        return hrDao.getHRByName(HRName);
+        return hrDao.getHRByNameContaining(HRName);
     }
     public List<HR> getHRByCompanyId(int companyId){
         return hrDao.getHRByCompanyId(companyId);

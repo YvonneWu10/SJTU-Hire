@@ -4,6 +4,8 @@ import com.sjtuhirebackend.entity.CandPost;
 import com.sjtuhirebackend.entity.CandPostPK;
 import jakarta.persistence.Column;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Date;
 import java.util.List;
@@ -19,4 +21,7 @@ public interface CandPostRepository extends JpaRepository<CandPost, CandPostPK> 
     List<CandPost> findBySubmissionDateAfter(Date submissionDate);
     List<CandPost> findBySubmissionDateBetween(Date lb, Date ub);
     List<CandPost> findBySubmissionStage(String submissionStage);
+
+    @Query(value = "SELECT * FROM cand_post p LIMIT :startIndex, :pageSize", nativeQuery = true)
+    List<CandPost> findByPages(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize);
 }

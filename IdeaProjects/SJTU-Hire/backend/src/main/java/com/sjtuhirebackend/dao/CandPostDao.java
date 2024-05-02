@@ -17,4 +17,6 @@ public interface CandPostDao {
     List<CandPost> getCandPostBySubmissionDateAfter(Date submissionDate);
     List<CandPost> getCandPostBySubmissionDateBetween(Date lb, Date ub);
     List<CandPost> getCandPostBySubmissionStage(String submissionStage);
+    List<CandPost> getPagedCandPosts(int pageIndex,int pageSize);
+    long count();
 }

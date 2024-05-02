@@ -32,7 +32,7 @@ public class CandidateServiceImpl implements CandidateService {
         return candidateDao.getCandidateByCandId(candId);
     }
     public List<Candidate> getCandidatesByCandName(String candName){
-        return candidateDao.getCandidatesByCandName(candName);
+        return candidateDao.getCandidatesByCandNameContaining(candName);
     }
     public List<Candidate> getCandidatesByCandAge(int candAge){
         return candidateDao.getCandidatesByCandAge(candAge);
@@ -75,5 +75,11 @@ public class CandidateServiceImpl implements CandidateService {
     }
     public List<Candidate> getCandidatesByCandExpectedSalaryBetween(int lb, int ub){
         return candidateDao.getCandidatesByCandExpectedSalaryBetween(lb, ub);
+    }
+    public List<String> getDistinctCandMajors(){
+        return candidateDao.getDistinctCandMajors();
+    }
+    public List<String> getDistinctCandUniversities(){
+        return candidateDao.getDistinctUniversities();
     }
 }

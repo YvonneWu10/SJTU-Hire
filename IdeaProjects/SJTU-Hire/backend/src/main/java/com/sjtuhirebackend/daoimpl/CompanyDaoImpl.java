@@ -23,7 +23,7 @@ public class CompanyDaoImpl implements CompanyDao {
         return companyRepository.findByCompanyId(id);
     }
     public List<Company> getCompanyByName(String searchCompstr){
-        return companyRepository.findByCompanyName(searchCompstr);
+        return companyRepository.findByCompanyNameContaining(searchCompstr);
     }
     // 根据公司规模查找公司
     public List<Company> getCompanyByScale(String searchScale){

@@ -10,6 +10,7 @@ public interface HRDao {
     HR getHR(int HRId);
     HR getHRByHRToken(String HRToken);
     List<HR> getHRByName(String HRName);
+    List<HR> getHRByNameContaining(String HRName);
     List<HR> getHRByCompanyId(int companyId);
     List<HR> getHRByDepartmentId(int departmentId);
     List<HR> getHRByCompanyIdAndDepartmentId(int companyId, int departmentId);

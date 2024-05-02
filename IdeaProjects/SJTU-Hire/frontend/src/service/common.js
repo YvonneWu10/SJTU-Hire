@@ -10,14 +10,18 @@ export async function getJson(url, type) {
     if (type === "candidate") {
         // 统一命名为token传给后端，否则不知道为什么后端会识别不出来
         opts.headers['token'] = localStorage.getItem("candidateToken");
+        opts.headers['User-Type'] = "candidate";
     }
     else if (type === "HR") {
         opts.headers['token'] = localStorage.getItem("HRToken");
+        opts.headers['User-Type'] = "HR";
     }
     else if (type === "admin") {
         opts.headers['token'] = localStorage.getItem("adminToken");
+        opts.headers['User-Type'] = "admin";
     }
 
+    console.log(`Making request to ${url} with options:`, opts);
     let res = await fetch(url, opts);
     console.log(`Response in getJson: ${res}`);
     if (!res.ok) {

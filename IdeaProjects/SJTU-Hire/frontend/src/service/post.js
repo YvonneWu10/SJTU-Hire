@@ -26,6 +26,32 @@ export async function searchPosts(pageIndex, pageSize, postName, city, workType,
     return response;
 }
 
+export async function AdminsearchPosts(pageIndex, pageSize, postName, city, workType, workStyle) {
+    const url = `${PREFIX}/administer/SearchPosts?pageIndex=${pageIndex}&pageSize=${pageSize}
+                 &postName=${postName}&city=${city}&workType=${workType}&workStyle=${workStyle}`;
+    let posts;
+    let response;
+    try {
+        posts = await getJson(url, "admin");
+        if (Array.isArray(posts)) {
+            response = {
+                total: Math.ceil(posts.length / pageSize),
+                items: posts
+            }
+        } else {
+            throw new Error('Received post data is not an array!');
+        }
+    } catch (e) {
+        console.log(e);
+        response = {
+            total: 0,
+            items: []
+        };
+    }
+
+    return response;
+}
+
 export async function getPostById(id) {
     const url = `${PREFIX}/candidate_view/Post/${id}`;
     let post;
@@ -46,6 +72,22 @@ export async function retPostCities() {
     let cities;
     try {
         cities = await getJson(url, "candidate");
+        if (!Array.isArray(cities)) {
+            throw new Error('Received post data is not an array!');
+        }
+    } catch (e) {
+        console.log(e);
+        cities = [];
+    }
+
+    return cities;
+}
+
+export async function retAdminPostCities() {
+    const url = `${PREFIX}/administer/PostCities`;
+    let cities;
+    try {
+        cities = await getJson(url, "admin");
         if (!Array.isArray(cities)) {
             throw new Error('Received post data is not an array!');
         }

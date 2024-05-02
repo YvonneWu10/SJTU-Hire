@@ -22,69 +22,44 @@ public class PostController {
     @Autowired
     private AuthService authService;
 
-    @RequestMapping("/candidate_view/SearchPosts")
+    @RequestMapping(value = {"/candidate_view/SearchPosts", "/administer/SearchPosts"})
     public ResponseEntity<List<Post>> searchPosts(@RequestHeader Map<String, Object> header,
                                                   @RequestParam(defaultValue = "") String postName,
                                                   @RequestParam(defaultValue = "") String city,
                                                   @RequestParam(defaultValue = "") String workType,
                                                   @RequestParam(defaultValue = "") String workStyle) {
-        String id = authService.getCandIdByHeader(header);
+        String userType = (String) header.get("user-type");
+        String id = null;
+        if ("candidate".equals(userType)) {
+            id = authService.getCandIdByHeader(header);
+        }
+        if ("admin".equals(userType)) {
+            id = authService.getAdminIdByHeader(header);
+        }
         if (id == null) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
 
-        if (Objects.equals(postName, "") && Objects.equals(city, "")) {
-            return new ResponseEntity<>(postService.getPosts(), HttpStatus.OK);
-        }
+        List<Post> result = postService.getPosts(); // 获取所有岗位
 
-        List<Post> result = new ArrayList<>();
-        boolean flag = false;
-
+        // 根据postName筛选
         if (!Objects.equals(postName, "")) {
-            flag = true;
-            result = postService.getPostByName(postName);
+            result.retainAll(postService.getPostByName(postName));
         }
 
+        // 根据city筛选
         if (!Objects.equals(city, "")) {
-            if (flag && result.isEmpty()) {
-                return new ResponseEntity<>(result, HttpStatus.OK);
-            }
-
-            List<Post> cityRes = postService.getPostByCity(city);
-            if (!flag) {
-                flag = true;
-                result = cityRes;
-            } else {
-                result.retainAll(cityRes);
-            }
+            result.retainAll(postService.getPostByCity(city));
         }
 
+        // 根据workType筛选
         if (!Objects.equals(workType, "")) {
-            if (flag && result.isEmpty()) {
-                return new ResponseEntity<>(result, HttpStatus.OK);
-            }
-
-            List<Post> workTypeRes = postService.getPostByWorkType(workType);
-            if (!flag) {
-                flag = true;
-                result = workTypeRes;
-            } else {
-                result.retainAll(workTypeRes);
-            }
+            result.retainAll(postService.getPostByWorkType(workType));
         }
 
+        // 根据workStyle筛选
         if (!Objects.equals(workStyle, "")) {
-            if (flag && result.isEmpty()) {
-                return new ResponseEntity<>(result, HttpStatus.OK);
-            }
-
-            List<Post> workStyleRes = postService.getPostByWorkStyle(workStyle);
-            if (!flag) {
-                flag = true;
-                result = workStyleRes;
-            } else {
-                result.retainAll(workStyleRes);
-            }
+            result.retainAll(postService.getPostByWorkStyle(workStyle));
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -105,9 +80,16 @@ public class PostController {
         return new ResponseEntity<>(postService.getPostById(postId), HttpStatus.OK);
     }
 
-    @RequestMapping("/candidate_view/PostCities")
+    @RequestMapping(value = {"/candidate_view/PostCities", "/administer/PostCities"})
     public ResponseEntity<List<String>> getPostCities(@RequestHeader Map<String, Object> header) {
-        String id = authService.getCandIdByHeader(header);
+        String userType = (String) header.get("user-type");
+        String id = null;
+        if ("candidate".equals(userType)) {
+            id = authService.getCandIdByHeader(header);
+        }
+        if ("admin".equals(userType)) {
+            id = authService.getAdminIdByHeader(header);
+        }
         if (id == null) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
