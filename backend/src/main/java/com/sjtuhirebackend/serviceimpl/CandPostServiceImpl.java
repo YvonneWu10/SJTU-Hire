@@ -1,11 +1,9 @@
 package com.sjtuhirebackend.serviceimpl;
 
-import com.sjtuhirebackend.dao.CandPostDao;
+import com.sjtuhirebackend.dao.*;
 
 import com.sjtuhirebackend.entity.CandPost;
 
-import com.sjtuhirebackend.dao.CandidateDao;
-import com.sjtuhirebackend.dao.PostDao;
 import com.sjtuhirebackend.entity.CandPost;
 import com.sjtuhirebackend.entity.CandPostPK;
 import com.sjtuhirebackend.entity.Candidate;
@@ -46,6 +44,8 @@ public class CandPostServiceImpl implements CandPostService {
     private PostDao postDao;
     @Autowired
     private CandidateDao candidateDao;
+    @Autowired
+    private CompanyDao companyDao;
 
     public List<CandPost> getAllCandPosts(){
         return candPostDao.getAllCandPosts();
@@ -107,6 +107,29 @@ public class CandPostServiceImpl implements CandPostService {
         ans.put("candPost", responsibleRecords);
         ans.put("candInfo", candList);
         ans.put("postInfo", postList);
+
+        return ans;
+    }
+
+    public Map<String, Object> getCandPostDetailByCandId(String candidateId) {
+        List<CandPost> candPostList = candPostDao.getCandPostByCandId(candidateId);
+
+        List<Integer> postIdList = (candPostList.stream().map(CandPost::getBiId).toList()).stream().map(CandPostPK::getPostId).toList();
+        List<Post> postList = new ArrayList<>();
+        for (int postId: postIdList){
+            postList.add(postDao.getPostByPostId(postId));
+        }
+
+        List<Integer> companyIdList = (postList.stream().map(Post::getCompanyId).toList());
+        List<String> companyNameList = new ArrayList<>();
+        for (int companyId: companyIdList){
+            companyNameList.add(companyDao.getCompany(companyId).getCompanyName());
+        }
+
+        Map<String, Object> ans = new HashMap<>();
+        ans.put("candPosts", candPostList);
+        ans.put("posts", postList);
+        ans.put("companies", companyNameList);
 
         return ans;
     }

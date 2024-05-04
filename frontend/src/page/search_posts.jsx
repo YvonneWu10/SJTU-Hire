@@ -5,11 +5,11 @@ import {Avatar, Button, Card, Input, Menu, Select, Space} from "antd";
 import {useEffect, useState} from "react";
 import {retPostCities, searchPosts} from "../service/post";
 
-import {Link, useSearchParams} from "react-router-dom";
+import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import {PrivateLayout} from "../components/layout";
 import PostList from "../components/post_list";
 import {UserOutlined} from "@ant-design/icons";
-import {getUsernameById} from "../service/candidate";
+import { searchCandidateUsername } from "../service/candidate";
 
 const { Search } = Input;
 
@@ -24,7 +24,7 @@ const candidateMenuItems: MenuProps['items'] = [
         key: 'companySearch',
     },
     {
-        label: '投递列表',
+        label: (<Link to="/candidate_view/Delivery">投递列表</Link>),
         key: 'deliveryList',
     },
 ];
@@ -36,6 +36,7 @@ export default function SearchPostsPage() {
     const [cities, setCities] = useState([]);
     const [user, setUser] = useState("");
     const [curMenu, setCurMenu] = useState('postSearch');
+    const navigate = useNavigate();
 
     const [searchParams, setSearchParams] = useSearchParams();
     const pageIndex = searchParams.get("pageIndex") != null ? Number.parseInt(searchParams.get("pageIndex")) : 1;
@@ -60,7 +61,7 @@ export default function SearchPostsPage() {
 
     const getUserName = async () => {
         console.log(`Entering getUserName`);
-        let resUser = await getUsernameById();
+        let resUser = await searchCandidateUsername();
         setUser(resUser);
     };
 
@@ -148,6 +149,10 @@ export default function SearchPostsPage() {
         setCurMenu(event.key);
     };
 
+    const personalCenterOnClick = () => {
+        navigate("/candidate_view/PersonalCenter");
+    };
+
     return PrivateLayout("candidate", {
             header: (
                 <div>
@@ -155,7 +160,7 @@ export default function SearchPostsPage() {
                           items={candidateMenuItems}/>
                     <Avatar size="large" icon={<UserOutlined/>} style={{position: 'absolute', top: 25, right: 170}}/>
                     { user && <span className="avatar-subtitle" style={{position: 'absolute', top: 65, right: 160}}>您好，{user}</span> }
-                    <Button className={"ant-button-primary"} style={{position: 'absolute', top: 40, right: 50}}>个人中心</Button>
+                    <Button className={"ant-button-primary"} style={{position: 'absolute', top: 40, right: 50}} onClick={personalCenterOnClick}>个人中心</Button>
                 </div>
 )
 }, {

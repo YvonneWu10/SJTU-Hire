@@ -19,4 +19,5 @@ public interface CandPostService {
     List<CandPost> getCandPostBySubmissionDateBetween(Date lb, Date ub);
     List<CandPost> getCandPostBySubmissionStage(String submissionStage);
     Map<String,Object> getCandPostByHRId(int hrId);
+    Map<String, Object> getCandPostDetailByCandId(String candidateId);
 }

@@ -16,4 +16,5 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
     List<Project> findByEndDateAfter(Date endDate);
     List<Project> findByProjectAchievement(int projectAchievement);
     List<Project> findByProjectAchievementBetween(int lb, int ub);
+    List<Project> findByParticipant(String participant);
 }

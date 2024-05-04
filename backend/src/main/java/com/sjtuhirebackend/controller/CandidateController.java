@@ -37,7 +37,6 @@ public class CandidateController {
     @Autowired
     private AuthService authService;
 
-
     @RequestMapping("/candidate_view/username")
     public ResponseEntity<Map<String, Object>> getCandNameByCandToken(@RequestHeader Map<String, Object> header) {
         String id = authService.getCandIdByHeader(header);
@@ -53,5 +52,15 @@ public class CandidateController {
     @RequestMapping("/AllCandidates")
     public ResponseEntity<List<Candidate>> getAllCandidates() {
         return new ResponseEntity<>(candidateService.getCandidates(), HttpStatus.OK);
+    }
+
+    @RequestMapping("/candidate_view/PersonalCenter")
+    public ResponseEntity<Map<String, Object>> getCandInfoByCandToken(@RequestHeader Map<String, Object> header) {
+        String id = authService.getCandIdByHeader(header);
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<>(candidateService.getCandInfoByCandId(id), HttpStatus.OK);
     }
 }

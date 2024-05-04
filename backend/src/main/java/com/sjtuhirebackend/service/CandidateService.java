@@ -3,6 +3,7 @@ package com.sjtuhirebackend.service;
 import com.sjtuhirebackend.entity.Candidate;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CandidateService {
     String getCandNameByCandId(String id);
@@ -40,4 +41,5 @@ public interface CandidateService {
     List<Candidate> getCandidatesByCandExpectedSalary(int candExpectedSalary);
 
     List<Candidate> getCandidatesByCandExpectedSalaryBetween(int lb, int ub);
+    Map<String, Object> getCandInfoByCandId(String id);
 }

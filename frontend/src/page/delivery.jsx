@@ -3,16 +3,18 @@ import '../css/global.css'
 import type {SelectProps, MenuProps} from 'antd';
 import {Avatar, Button, Card, Input, Menu, Select, Space} from "antd";
 import {useEffect, useState} from "react";
+import {retPostCities, searchPosts} from "../service/post";
 
 import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import {PrivateLayout} from "../components/layout";
+import PostList from "../components/post_list";
 import {UserOutlined} from "@ant-design/icons";
-import { searchCandidateUsername } from "../service/candidate";
-import CompanyList from "../components/company_list";
-import {searchCompany} from "../service/company";
-
+import {searchCandidateUsername} from "../service/candidate";
+import DeliveredPostList from "../components/deliveredPost_list";
+import {searchDeliveredPosts} from "../service/candPost";
 
 const { Search } = Input;
+
 
 const candidateMenuItems: MenuProps['items'] = [
     {
@@ -30,28 +32,40 @@ const candidateMenuItems: MenuProps['items'] = [
 ];
 
 
-export default function SearchCompanyPage() {
-    const [company, setCompany] = useState([]);
+export default function DeliveryPage() {
+    const [posts, setPosts] = useState([]);
+    const [companies, setCompanies] = useState([]);
+    const [candPosts, setCandPosts] = useState([]);
     const [totalPage, setTotalPage] = useState(0);
     const [user, setUser] = useState("");
-    const [curMenu, setCurMenu] = useState('companySearch');
+    const [curMenu, setCurMenu] = useState('deliveryList');
     const navigate = useNavigate();
 
     const [searchParams, setSearchParams] = useSearchParams();
     const pageIndex = searchParams.get("pageIndex") != null ? Number.parseInt(searchParams.get("pageIndex")) : 1;
     const pageSize = searchParams.get("pageSize") != null ? Number.parseInt(searchParams.get("pageSize")) : 25;
-    const companyName = searchParams.get("companyName") || "";
+    // const postName = searchParams.get("postName") || "";
+    // const city = searchParams.get("city") || "";
+    // const workType = searchParams.get("workType") || "";
+    // const workStyle = searchParams.get("workStyle") || "";
 
-    const getCompany = async () => {
-        let resCompany = await searchCompany(pageIndex, pageSize, companyName);
-        let companies = resCompany.items;
-        let totalPage = resCompany.total;
-        setCompany(companies);
+    const getDeliveredPosts = async () => {
+        let resDeliveredPosts = await searchDeliveredPosts(pageIndex, pageSize);
+        let resPosts = resDeliveredPosts.posts;
+        let resCompanies = resDeliveredPosts.companies;
+        let resCandPosts = resDeliveredPosts.candPosts;
+        let totalPage = resDeliveredPosts.total;
+        setPosts(resPosts);
+        setCompanies(resCompanies);
+        setCandPosts(resCandPosts);
         setTotalPage(totalPage);
+        // console.log(`DeliveryPage posts:`, resPosts);
+        // console.log(`DeliveryPage companies:`, resCompanies);
+        // console.log(`DeliveryPage candPosts:`, resCandPosts);
     };
 
     const getUserName = async () => {
-        console.log(`Entering getUserName`);
+        // console.log(`Entering getUserName`);
         let resUser = await searchCandidateUsername();
         setUser(resUser);
     };
@@ -66,20 +80,12 @@ export default function SearchCompanyPage() {
     }, [searchParams]);
 
     useEffect(() => {
-        getCompany();
-    }, [pageIndex, pageSize, companyName]);
+        getDeliveredPosts();
+    }, [pageIndex, pageSize]);
 
     const handlePageChange = (page) => {
         const currentParams = new URLSearchParams(searchParams);
         currentParams.set("pageIndex", (page).toString());
-        setSearchParams(currentParams);
-    };
-
-    const handleSearch = (companyName) => {
-        const currentParams = new URLSearchParams(searchParams);
-        currentParams.set("pageIndex", 1);
-        currentParams.set("pageSize", 25);
-        currentParams.set("companyName", companyName);
         setSearchParams(currentParams);
     };
 
@@ -106,11 +112,7 @@ export default function SearchCompanyPage() {
                 <div className="center-container">
                     <Card className="card-container">
                         <Space direction="vertical" size="large" style={{width: "100%"}}>
-                            <div className="input-select-container">
-                                <Search allowClear placeholder="输入公司名" onSearch={handleSearch} enterButton size="middle"
-                                        style={{width: '20%'}} />
-                            </div>
-                            <CompanyList company={company} pageSize={pageSize} total={totalPage * pageSize} current={pageIndex}
+                            <DeliveredPostList posts={posts} companies={companies} candPosts={candPosts} pageSize={pageSize} total={totalPage * pageSize} current={pageIndex}
                                       onPageChange={handlePageChange}/>
                         </Space>
                     </Card>

@@ -29,4 +29,10 @@ public class Project {
     private Date endDate;
     @Column(name = "projectAchievement")
     private int projectAchievement;
+    @Column(name = "participant")
+    private String participant;
+    @Column(name = "role")
+    private String role;
+    @Column(name = "description")
+    private String description;
 }

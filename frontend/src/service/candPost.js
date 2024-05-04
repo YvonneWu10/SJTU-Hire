@@ -39,3 +39,29 @@ export async function getCandPostById(candId, postId) {
 
     return candPostInfo;
 }
+
+export async function searchDeliveredPosts(pageIndex, pageSize) {
+    const url = `${PREFIX}/candidate_view/DeliveredPost`;
+    let result;
+    let response;
+    try {
+        result = await getJson(url, "candidate");
+        response = {
+            total: Math.ceil(result["candPosts"].length / pageSize),
+            posts: result["posts"],
+            companies: result["companies"],
+            candPosts: result["candPosts"]
+        };
+        // console.log(`response in searchDeliveredPosts: ${response.companies}`);
+    } catch (e) {
+        console.log(e);
+        response = {
+            total: 0,
+            posts: [],
+            companies: [],
+            candPosts: []
+        };
+    }
+
+    return response;
+}
