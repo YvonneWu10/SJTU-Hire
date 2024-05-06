@@ -2,6 +2,7 @@ package com.sjtuhirebackend.daoimpl;
 
 import com.sjtuhirebackend.dao.CandPostDao;
 import com.sjtuhirebackend.entity.CandPost;
+import com.sjtuhirebackend.entity.CandPostPK;
 import com.sjtuhirebackend.repository.CandPostRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,5 +55,18 @@ public class CandPostDaoImpl implements CandPostDao {
     }
     public void updateSubmissionStageByBiIdCandIdAndBiIdPostId(String submissionStage, String candId, Integer postId){
         candPostRepository.updateSubmissionStageByBiIdCandIdAndBiIdPostId(submissionStage, candId, postId);
+    }
+    public List<CandPost> getCandPostBySubmissionStageIsNot(String submissionStage){
+        return candPostRepository.findBySubmissionStageIsNot(submissionStage);
+    }
+    public void insertCandPost(String candId, Integer postId, Date submissionDate, String submissionStage){
+        CandPost candPost = new CandPost();
+        CandPostPK candPostPK = new CandPostPK();
+        candPostPK.setCandId(candId);
+        candPostPK.setPostId(postId);
+        candPost.setBiId(candPostPK);
+        candPost.setSubmissionDate(submissionDate);
+        candPost.setSubmissionStage(submissionStage);
+        candPostRepository.save(candPost);
     }
 }

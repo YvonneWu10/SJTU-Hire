@@ -25,4 +25,6 @@ public interface CandPostService {
     List<CandPost> getCandPostByPostIdIn(List<Integer> postIds);
     void forwardSubmissionStageByCandIdAndPostId(String candId, Integer postId);
     void terminateSubmissionStageByCandIdAndPostId(String candId, Integer postId);
+    List<CandPost> getCandPostBySubmissionStageIsNot(String submissionStage);
+    void insertCandPostByInvitation(String CandId, Integer postId);
 }

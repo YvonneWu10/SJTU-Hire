@@ -16,6 +16,7 @@ import {getAllCandidatesAvailable} from "../service/hr_candidate_view";
 import {Header} from "antd/es/layout/layout";
 import HRCandList from "../components/hr_cand_list";
 import HRMenu from "../components/hr_menu";
+import {retResponsiblePosts} from "../service/candPost";
 
 const { Search } = Input;
 
@@ -44,7 +45,7 @@ const rightMenuItems: MenuProps['items'] = [
 export default function SearchAvailableCandidatesPage() {
     const [candidates, setCandidates] = useState([]);
     const [totalPage, setTotalPage] = useState(0);
-    const [current, setCurrent] = useState('homepage');
+    const [postNames, setPostNames] = useState([]);
 
     // const candId = useContext(UserContext);
     // console.log("context candId:", candId);
@@ -107,6 +108,15 @@ export default function SearchAvailableCandidatesPage() {
         setSearchParams(currentParams);
     };
 
+    useEffect(() => {
+        getResponsiblePostName();
+    }, []);
+
+    const getResponsiblePostName = async () => {
+        let res = await retResponsiblePosts();
+        setPostNames(res);
+    };
+
     return PrivateLayout("HR", {
             header:(
                 <div>
@@ -125,7 +135,7 @@ export default function SearchAvailableCandidatesPage() {
                                         onChange={handleCandDegree}
                                         options={candDegreeOption}/>
                             </div>
-                            <HRCandList candidates={candidates} pageSize={pageSize} total={totalPage * pageSize} current={pageIndex}
+                            <HRCandList candidates={candidates} pageSize={pageSize} total={totalPage * pageSize} current={pageIndex} postNames={postNames}
                                       onPageChange={handlePageChange}/>
                         </Space>
                     </Card>

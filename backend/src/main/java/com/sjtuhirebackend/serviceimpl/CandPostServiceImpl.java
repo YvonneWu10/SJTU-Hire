@@ -19,6 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -90,6 +93,8 @@ public class CandPostServiceImpl implements CandPostService {
         List<Integer> responsiblePostId = postDao.getPostIdByHRId(hrId);
         // return all candpost given post id
         List<CandPost> responsibleRecords = candPostDao.getCandPostByPostIdIn(responsiblePostId);
+        List<CandPost> validRecords = candPostDao.getCandPostBySubmissionStageIsNot("邀请");
+        responsibleRecords.retainAll(validRecords);
         List<String> candIdList = (responsibleRecords.stream().map(CandPost::getBiId).toList()).stream().map(CandPostPK::getCandId).toList();
         List<Integer> postIdList = (responsibleRecords.stream().map(CandPost::getBiId).toList()).stream().map(CandPostPK::getPostId).toList();
         // return candidate list given candID list
@@ -138,6 +143,13 @@ public class CandPostServiceImpl implements CandPostService {
     }
 
     public void terminateSubmissionStageByCandIdAndPostId(String candId, Integer postId){
-        candPostDao.updateSubmissionStageByBiIdCandIdAndBiIdPostId("淘汰", candId, postId);
+        candPostDao.updateSubmissionStageByBiIdCandIdAndBiIdPostId("流程终止", candId, postId);
+    }
+    public List<CandPost> getCandPostBySubmissionStageIsNot(String submissionStage){
+        return candPostDao.getCandPostBySubmissionStageIsNot(submissionStage);
+    }
+
+    public void insertCandPostByInvitation(String candId, Integer postId) {
+        candPostDao.insertCandPost(candId, postId, Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()), "邀请");
     }
 }

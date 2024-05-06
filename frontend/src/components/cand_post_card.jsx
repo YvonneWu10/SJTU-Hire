@@ -1,6 +1,6 @@
 import '../css/global.css'
 
-import {Avatar, Button, Card, Col, Row, Steps} from "antd"
+import {Avatar, Button, Card, Col, message, Row, Steps} from "antd"
 import {Link} from "react-router-dom";
 import * as antIcons from "@ant-design/icons";
 import {forwardSubmissionStageByCandPostId, terminateSubmissionStageByCandPostId} from "../service/candPost";
@@ -30,19 +30,21 @@ export default function CandPostCard({ cand, post, candPost }) {
     const forwardStage = async() => {
         await forwardSubmissionStageByCandPostId(cand.candId, post.postId);
         refreshPage();
+        message.info('已推进流程');
         // getCandPost();
     }
 
     const terminateStage = async() => {
         await terminateSubmissionStageByCandPostId(cand.candId, post.postId);
         refreshPage();
+        message.info('已终止流程');
         // getCandPost();
     }
 
     const isDisabled = (submissionStage) => {
         if (submissionStage === "录取"){
             return true;
-        } else if (submissionStage === "淘汰"){
+        } else if (submissionStage === "流程终止"){
             return true;
         }
         return false;

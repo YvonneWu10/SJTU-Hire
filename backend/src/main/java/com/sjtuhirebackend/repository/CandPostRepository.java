@@ -28,7 +28,5 @@ public interface CandPostRepository extends JpaRepository<CandPost, CandPostPK> 
     @Modifying
     @Query(value = "UPDATE cand_post cp SET cp.submissionStage = ?1 WHERE cp.candId = ?2 AND cp.postId = ?3", nativeQuery = true)
     void updateSubmissionStageByBiIdCandIdAndBiIdPostId(String submissionStage, String candId, Integer postId);
-
-//    void saveSubmissionStageByBiIdCandIdAndBiIdPostId(String submissionStage, String candId, Integer postId);
-
+    List<CandPost> findBySubmissionStageIsNot(String submissionStage);
 }

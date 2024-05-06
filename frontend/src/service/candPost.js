@@ -82,3 +82,12 @@ export async function retResponsiblePosts() {
 
     return postNames;
 }
+
+export async function inviteByCandPostId(candId, postId) {
+    const url = `${PREFIX}/hr_view/invite/${candId}/${postId}`;
+    try {
+        await getJson(url, "HR");
+    } catch (e) {
+        console.log(e);
+    }
+}

@@ -34,7 +34,7 @@ export default function CandPostPage() {
     const postName = searchParams.get("postName") || "";
     // const submissionStage = searchParams.get("submissionStage") || " ";
     const pageIndex = searchParams.get("pageIndex") != null ? Number.parseInt(searchParams.get("pageIndex")) : 1;
-    const pageSize = searchParams.get("pageSize") != null ? Number.parseInt(searchParams.get("pageSize")) : 30;
+    const pageSize = searchParams.get("pageSize") != null ? Number.parseInt(searchParams.get("pageSize")) : 10;
 
     const getCandPostInfo = async () => {
         let CandPostInfo = await searchCandPost(candName, postName, pageIndex, pageSize);
@@ -76,7 +76,7 @@ export default function CandPostPage() {
         setSearchParams({
             "candName": candName,
             "pageIndex": 1,
-            "pageSize": 30
+            "pageSize": 10
         });
     };
 
@@ -84,7 +84,7 @@ export default function CandPostPage() {
         setSearchParams({
             "postName": postName,
             "pageIndex": 1,
-            "pageSize": 30
+            "pageSize": 10
         });
     };
 

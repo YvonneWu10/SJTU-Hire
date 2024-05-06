@@ -68,4 +68,26 @@ public class CandPostController {
         candPostService.terminateSubmissionStageByCandIdAndPostId(candId, postId);
         return new ResponseEntity<>("", HttpStatus.OK);
     }
+
+    @RequestMapping("/hr_view/invite/{candId}/{postId}")
+    public ResponseEntity<String> HRInvite(@RequestHeader Map<String, Object> header,
+                                                           @PathVariable String candId,
+                                                           @PathVariable Integer postId) {
+        Integer id = authService.getHRIdByHeader(header);
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        if (postId == null || candId == null){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        // 确定是否这个HR有权限访问这个candPost
+        Post post = postService.getPostById(postId);
+        if (post.getHRId() != id){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+        candPostService.insertCandPostByInvitation(candId, postId);
+        return new ResponseEntity<>("", HttpStatus.OK);
+    }
 }

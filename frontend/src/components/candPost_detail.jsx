@@ -111,7 +111,7 @@ export default function CandPostDetails({ candidate, post, candPost, projectList
             "hr面" : 4,
             "offer评估" :5,
             "录取": 6,
-            "淘汰": -1,
+            "流程终止": -1,
         };
         return keyMap[stage];
     };
@@ -126,7 +126,7 @@ export default function CandPostDetails({ candidate, post, candPost, projectList
             "hr面" : "wait",
             "offer评估" :"wait",
             "录取": "wait",
-            "淘汰": "error",
+            "流程终止": "error",
         };
         return keyMap[stage];
     };

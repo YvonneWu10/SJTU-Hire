@@ -20,4 +20,6 @@ public interface CandPostDao {
     List<CandPost> getCandPostByCandIdInAndPostId(List<String> candIds, Integer postId);
     List<CandPost> getCandPostByCandIdIn(List<String> candIds);
     void updateSubmissionStageByBiIdCandIdAndBiIdPostId(String submissionStage, String candId, Integer PostId);
+    List<CandPost> getCandPostBySubmissionStageIsNot(String submissionStage);
+    void insertCandPost(String candId, Integer postId, Date submissionDate, String submissionStage);
 }

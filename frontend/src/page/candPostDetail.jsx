@@ -1,6 +1,6 @@
 import '../css/global.css'
 
-import {Button, Card, Menu, Space} from "antd";
+import {Button, Card, Menu, message, Space} from "antd";
 import React, { useEffect, useState } from "react";
 import {
     forwardSubmissionStageByCandPostId,
@@ -39,17 +39,19 @@ export default function CandPostDetailPage() {
     const forwardStage = async() => {
         await forwardSubmissionStageByCandPostId(candId, postId);
         getCandPost();
+        message.info("已推进流程");
     }
 
     const terminateStage = async() => {
         await terminateSubmissionStageByCandPostId(candId, postId);
         getCandPost();
+        message.info("已终止流程");
     }
 
     const isDisabled = (submissionStage) => {
         if (submissionStage === "录取"){
             return true;
-        } else if (submissionStage === "淘汰"){
+        } else if (submissionStage === "流程终止"){
             return true;
         }
         return false;

@@ -1,7 +1,8 @@
 import { List, Pagination, Space } from "antd"
 import HRCandCard from "./hr_cand_card";
 
-export default function HRCandList({ candidates, pageSize, current, total, onPageChange }) {
+export default function HRCandList({ candidates, postNames, pageSize, current, total, onPageChange }) {
+    // console.log(postNames);
     return <Space direction="vertical" style={{ width: "100%" }}>
         <List
             grid={{
@@ -10,7 +11,7 @@ export default function HRCandList({ candidates, pageSize, current, total, onPag
             dataSource={candidates.slice((current-1) * pageSize, current * pageSize)}
             renderItem={(cand, _) => (
                 <List.Item>
-                    <HRCandCard cand={cand} />
+                    <HRCandCard cand={cand} postNames={postNames} />
                 </List.Item>
             )}
         />

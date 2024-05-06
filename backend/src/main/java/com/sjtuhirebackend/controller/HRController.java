@@ -47,6 +47,7 @@ public class HRController {
         if (Objects.equals(postName, "") && Objects.equals(candName, "")){
             return new ResponseEntity<>(candPostService.getCandPostInfoByHRId(id), HttpStatus.OK);
         }
+        List<CandPost> validPosts = candPostService.getCandPostBySubmissionStageIsNot("邀请");
         if (!Objects.equals(postName, "")){
             // process postName
             postName = postName.split(" ")[1];
@@ -55,6 +56,7 @@ public class HRController {
                 return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
             }
             List<CandPost> candPosts = candPostService.getCandPostByPostIdIn(resPostId);
+            candPosts.retainAll(validPosts);
             List<String> candIdList = (candPosts.stream().map(CandPost::getBiId).toList()).stream().map(CandPostPK::getCandId).toList();
             if (!Objects.equals(candName, "")){
                 List<String> candIdListByName = candidateService.getCandIdByCandName(candName);
@@ -81,6 +83,7 @@ public class HRController {
         }
 
         List<CandPost> candPosts = candPostService.getCandPostByHRId(id);
+
         List<String> candIdList = (candPosts.stream().map(CandPost::getBiId).toList()).stream().map(CandPostPK::getCandId).toList();
         if (!Objects.equals(candName, "")){
             List<String> candList = candidateService.getCandIdByCandName(candName);
