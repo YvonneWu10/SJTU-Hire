@@ -91,8 +91,8 @@ public class PostController {
     }
 
     @RequestMapping("/candidate_view/Post/{postId}")
-    public ResponseEntity<Post> getPostDetailById(@RequestHeader Map<String, Object> header,
-                                                  @PathVariable Integer postId) {
+    public ResponseEntity<Map<String, Object>> getPostDetailById(@RequestHeader Map<String, Object> header,
+                                                                 @PathVariable Integer postId) {
         String id = authService.getCandIdByHeader(header);
         if (id == null) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
@@ -102,7 +102,7 @@ public class PostController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(postService.getPostById(postId), HttpStatus.OK);
+        return new ResponseEntity<>(postService.getPostDetailById(postId), HttpStatus.OK);
     }
 
     @RequestMapping("/candidate_view/PostCities")

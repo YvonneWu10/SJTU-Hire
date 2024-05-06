@@ -1,14 +1,22 @@
 package com.sjtuhirebackend.serviceimpl;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.sjtuhirebackend.dao.CompanyDao;
+import com.sjtuhirebackend.dao.DepartmentDao;
+import com.sjtuhirebackend.dao.PostDao;
 import com.sjtuhirebackend.entity.Company;
+import com.sjtuhirebackend.entity.Department;
+import com.sjtuhirebackend.entity.Post;
 import com.sjtuhirebackend.service.CompanyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -16,6 +24,10 @@ import java.util.List;
 public class CompanyServiceImpl implements CompanyService {
     @Autowired
     private CompanyDao companyDao;
+    @Autowired
+    private DepartmentDao departmentDao;
+    @Autowired
+    private PostDao postDao;
 
     public List<Company> getCompanies(){
         return companyDao.getCompanies();
@@ -51,6 +63,23 @@ public class CompanyServiceImpl implements CompanyService {
 
     public void deleteCompany(int companyId){
         companyDao.deleteCompany(companyId);
+    }
+
+    public Map<String, Object> getCompanyDetailById(int companyId) {
+        Company company = companyDao.getCompany(companyId);
+//        System.out.println("company: " + company);
+        List<Department> departments = departmentDao.getByCompanyId(companyId);
+        List<List<Post>> posts = new ArrayList<>();
+        for (Department department : departments) {
+            posts.add(postDao.getPostByCompDep(companyId, department.getBiId().getDepartmentId()));
+        }
+
+        Map<String, Object> ans = new HashMap<>();
+        ans.put("posts", posts);
+        ans.put("company", company);
+        ans.put("departments", departments);
+
+        return ans;
     }
 
 }

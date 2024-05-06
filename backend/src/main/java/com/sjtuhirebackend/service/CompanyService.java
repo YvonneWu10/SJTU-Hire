@@ -3,6 +3,7 @@ package com.sjtuhirebackend.service;
 import com.sjtuhirebackend.entity.Company;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CompanyService {
     // 获取公司信息
@@ -23,4 +24,6 @@ public interface CompanyService {
                             String companyType, String companyField);
 
     void deleteCompany(int companyId);
+
+    Map<String, Object> getCompanyDetailById(int companyId);
 }

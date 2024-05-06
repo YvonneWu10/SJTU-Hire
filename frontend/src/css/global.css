@@ -66,8 +66,9 @@ svg {
 }
 
 .ant-button-primary {
-    background-color: #F1F5F8;
-    border-color: #F1F5F8;
+    background-color: #033941;
+    border-color: #033941;
+    color: white;
 }
 
 .avatar-with-subtitle {

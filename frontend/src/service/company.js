@@ -25,3 +25,26 @@ export async function searchCompany(pageIndex, pageSize, companyName) {
 
     return response;
 }
+
+export async function getCompanyById(id) {
+    const url= `${PREFIX}/candidate_view/Company/${id}`;
+    let result;
+    let response;
+    try {
+        result = await getJson(url, "candidate");
+        response = {
+            posts: result["posts"],
+            company: result["company"],
+            departments: result["departments"]
+        };
+    } catch (e) {
+        console.log(e);
+        response = {
+            posts: null,
+            company: null,
+            departments: null
+        };
+    }
+
+    return response;
+}

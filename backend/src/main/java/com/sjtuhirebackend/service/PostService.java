@@ -1,9 +1,11 @@
 package com.sjtuhirebackend.service;
 
 import com.sjtuhirebackend.entity.Post;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 public interface PostService {
@@ -41,4 +43,5 @@ public interface PostService {
     // 删除已有岗位
     void deletePost(int postId);
     List<String> getDistinctPostCities();
+    Map<String, Object> getPostDetailById(int postId);
 }

@@ -1,15 +1,21 @@
 package com.sjtuhirebackend.serviceimpl;
 
+import com.sjtuhirebackend.dao.CompanyDao;
+import com.sjtuhirebackend.dao.DepartmentDao;
 import com.sjtuhirebackend.dao.PostDao;
+import com.sjtuhirebackend.entity.Company;
 import com.sjtuhirebackend.entity.Post;
 import com.sjtuhirebackend.service.PostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -17,6 +23,10 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
     @Autowired
     private PostDao postDao;
+    @Autowired
+    private CompanyDao companyDao;
+    @Autowired
+    private DepartmentDao departmentDao;
 
     public Post getPostById(int postId) { return postDao.getPostById(postId); }
     // 获取岗位信息
@@ -57,4 +67,17 @@ public class PostServiceImpl implements PostService {
     public void deletePost(int postId) { postDao.deletePost(postId); }
 
     public List<String> getDistinctPostCities() { return postDao.getDistinctPostCities(); }
+
+    public Map<String, Object> getPostDetailById(int postId) {
+        Post post = postDao.getPostById(postId);
+        Company company = companyDao.getCompany(post.getCompanyId());
+        String department = departmentDao.getByCompanyIdAndDepartmentId(post.getCompanyId(), post.getDepartmentId()).getDepartmentName();
+
+        Map<String, Object> ans = new HashMap<>();
+        ans.put("post", post);
+        ans.put("company", company);
+        ans.put("department", department);
+
+        return ans;
+    }
 }

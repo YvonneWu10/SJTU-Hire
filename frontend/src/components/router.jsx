@@ -13,6 +13,7 @@ import Statistics from '../page/admin_Statistics';
 import SearchCompanyPage from "../page/search_company";
 import DeliveryPage from "../page/delivery";
 import CandPersonalCenterPage from "../page/candPersonalCenter";
+import CompanyPage from "../page/company";
 
 export default function AppRouter() {
     return <BrowserRouter>
@@ -22,6 +23,7 @@ export default function AppRouter() {
             <Route path="/candidate_view/SearchPost" element={<SearchPostsPage />} />
             <Route path="/candidate_view/Post/:postId" element={<PostPage />} />
             <Route path="/candidate_view/SearchCompany" element={<SearchCompanyPage />} />
+            <Route path="/candidate_view/Company/:companyId" element={<CompanyPage />} />
             <Route path="/candidate_view/Delivery" element={<DeliveryPage />} />
             <Route path="/candidate_view/PersonalCenter" element={<CandPersonalCenterPage />} />
             <Route path="/hr_view" element={<CandPostPage />} />

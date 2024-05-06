@@ -7,10 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,5 +44,20 @@ public class CompanyController {
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @RequestMapping("/candidate_view/Company/{companyId}")
+    public ResponseEntity<Map<String, Object>> getCompanyDetailById(@RequestHeader Map<String, Object> header,
+                                                                    @PathVariable Integer companyId) {
+        String id = authService.getCandIdByHeader(header);
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        if (companyId == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(companyService.getCompanyDetailById(companyId), HttpStatus.OK);
     }
 }

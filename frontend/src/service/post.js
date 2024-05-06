@@ -28,17 +28,25 @@ export async function searchPosts(pageIndex, pageSize, postName, city, workType,
 
 export async function getPostById(id) {
     const url = `${PREFIX}/candidate_view/Post/${id}`;
-    let post;
+    let result;
+    let response;
     try {
-        // console.log(url);
-        post = await getJson(url, "candidate");
-        // console.log(post);
+        result = await getJson(url, "candidate");
+        response = {
+            post: result["post"],
+            company: result["company"],
+            department: result["department"]
+        };
     } catch (e) {
         console.log(e);
-        post = null;
+        response = {
+            post: null,
+            company: null,
+            department: null
+        };
     }
 
-    return post;
+    return response;
 }
 
 export async function retPostCities() {

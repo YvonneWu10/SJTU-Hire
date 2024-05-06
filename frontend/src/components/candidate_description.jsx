@@ -1,13 +1,6 @@
 import '../css/global.css'
 
 import {Col, Descriptions} from "antd"
-// import ProjectDescription from "./project_description";
-import {DescriptionsProps} from "antd";
-
-
-const ResumeItem = ({ title, content }) => (
-    <Descriptions.Item label={title}>{content}</Descriptions.Item>
-);
 
 export default function CandidateDescription({ candidate, projectList }) {
     // console.log(`candidate in CandidateDescription: ${JSON.stringify(candidate, null, 2)}`);
