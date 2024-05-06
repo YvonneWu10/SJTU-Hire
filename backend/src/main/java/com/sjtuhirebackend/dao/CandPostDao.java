@@ -17,4 +17,7 @@ public interface CandPostDao {
     List<CandPost> getCandPostBySubmissionDateAfter(Date submissionDate);
     List<CandPost> getCandPostBySubmissionDateBetween(Date lb, Date ub);
     List<CandPost> getCandPostBySubmissionStage(String submissionStage);
+    List<CandPost> getCandPostByCandIdInAndPostId(List<String> candIds, Integer postId);
+    List<CandPost> getCandPostByCandIdIn(List<String> candIds);
+    void updateSubmissionStageByBiIdCandIdAndBiIdPostId(String submissionStage, String candId, Integer PostId);
 }

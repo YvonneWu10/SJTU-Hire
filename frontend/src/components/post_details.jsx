@@ -59,11 +59,7 @@ export default function PostDetails({ post, department }) {
                         <EnvironmentOutlined style={{marginRight: '4px'}}/> {post.city}
                         <TagOutlined style={{marginLeft: '20px', marginRight: '4px'}}/> {post.onSiteDayReq}天/周
                         <BookOutlined style={{marginLeft: '20px', marginRight: '4px'}}/> {post.degreeReq}
-                        { department &&
-                            <div>
-                                <TeamOutlined style={{marginLeft: '20px'}}/> {department}
-                            </div>
-                        }
+                        <TeamOutlined style={{marginLeft: '20px'}}/> {department}
                     </span>
                 </Row>
             </div>

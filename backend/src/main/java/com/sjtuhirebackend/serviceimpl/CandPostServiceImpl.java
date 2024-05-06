@@ -133,4 +133,28 @@ public class CandPostServiceImpl implements CandPostService {
 
         return ans;
     }
+
+    public List<CandPost> getCandPostByCandIdIn(List<String> candIds){
+        return candPostDao.getCandPostByCandIdIn(candIds);
+    }
+
+    public List<CandPost> getCandPostByPostIdIn(List<Integer> postIds){
+        return candPostDao.getCandPostByPostIdIn(postIds);
+    }
+
+    public void forwardSubmissionStageByCandIdAndPostId(String candId, Integer postId){
+        CandPost candPost = candPostDao.getCandPostByCandIdAndPostId(candId, postId);
+        Map<String, String> map = new HashMap<>();
+        map.put("简历", "笔试");
+        map.put("笔试", "一面");
+        map.put("一面", "二面");
+        map.put("二面", "hr面");
+        map.put("hr面", "offer评估");
+        map.put("offer评估", "录取");
+        candPostDao.updateSubmissionStageByBiIdCandIdAndBiIdPostId(map.get(candPost.getSubmissionStage()), candId, postId);
+    }
+
+    public void terminateSubmissionStageByCandIdAndPostId(String candId, Integer postId){
+        candPostDao.updateSubmissionStageByBiIdCandIdAndBiIdPostId("淘汰", candId, postId);
+    }
 }

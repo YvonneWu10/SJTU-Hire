@@ -36,24 +36,24 @@ export default function CompanyPage() {
     const [departments, setDepartments] = useState(null);
     const [user, setUser] = useState("");
     const [curMenu, setCurMenu] = useState(null);
-    const [curDepartment, setCurDepartment] = useState(null);
+    const [curDepartment, setCurDepartment] = useState((0).toString());
     const [departmentItems, setDepartmentItems] = useState([]);
     const [displayPosts, setDisplayPosts] = useState([]);
     const navigate = useNavigate();
 
     const [searchParams, setSearchParams] = useSearchParams();
     const pageIndex = searchParams.get("pageIndex") != null ? Number.parseInt(searchParams.get("pageIndex")) : 1;
-    const pageSize = searchParams.get("pageSize") != null ? Number.parseInt(searchParams.get("pageSize")) : 5;
+    const pageSize = searchParams.get("pageSize") != null ? Number.parseInt(searchParams.get("pageSize")) : 8;
 
     let { companyId } = useParams();
 
     const getUserName = async () => {
-        // console.log(`Entering getUserName`);
         let resUser = await searchCandidateUsername();
         setUser(resUser);
     };
 
     const getCompany = async () => {
+        // console.log(`inital curDepartment in getCompany: ${curDepartment} ${typeof curDepartment}`);
         let resCompanyInfo = await getCompanyById(companyId);
         let resPosts = resCompanyInfo.posts;
         let resCompany = resCompanyInfo.company;
@@ -61,14 +61,10 @@ export default function CompanyPage() {
         setPosts(resPosts);
         setCompany(resCompany);
         setDepartments(resDepartments);
-        if (departments) {
-            setCurDepartment(0);
-            setDisplayPosts(posts[0]);
-            setTotalPage(Math.ceil(posts[0].length / pageSize));
-        }
     }
 
     useEffect(() => {
+        // console.log(`Entering useEffect in CompanyPage with companyId: ${companyId}`);
         getUserName();
         getCompany();
     }, []);
@@ -81,6 +77,11 @@ export default function CompanyPage() {
              };
         }) : [];
         setDepartmentItems(resDepartmentItems);
+        if (departments) {
+            setCurDepartment(0);
+            setDisplayPosts(posts[0]);
+            setTotalPage(Math.ceil(posts[0].length / pageSize));
+        }
     }, [departments]);
 
     const menuOnClick: MenuProps['onClick'] = (event) => {
@@ -88,6 +89,7 @@ export default function CompanyPage() {
     };
 
     const departmentMenuOnClick: MenuProps['onClick'] = (event) => {
+        console.log(`departmentMenuOnClick: ${event.key} ${typeof event.key}`);
         setCurDepartment(event.key);
         setDisplayPosts(posts[event.key]);
         setTotalPage(Math.ceil(posts[event.key].length / pageSize));
@@ -119,11 +121,11 @@ export default function CompanyPage() {
                     <Space direction="vertical" style={{ width: "100%" }}>
                         { company && <CompanyDetails company={ company } /> }
                         { departments &&
-                            <div>
-                                <Menu onClick={departmentMenuOnClick} selectedKeys={[curDepartment]} mode="horizontal" style={{marginTop: 30, marginBottom: 30}}
-                                      items={departmentItems}/>
-                                <PostList posts={displayPosts} pageSize={pageSize} total={totalPage * pageSize} current={pageIndex}
-                                                               onPageChange={handlePageChange} />
+                            <div style={{ width: 1000, marginLeft: 300 }}>
+                                <Menu onClick={departmentMenuOnClick} selectedKeys={[curDepartment]} mode="horizontal"
+                                      style={{marginTop: 30, marginBottom: 30}} items={departmentItems}/>
+                                <PostList posts={displayPosts} pageSize={pageSize} total={totalPage * pageSize}
+                                          current={pageIndex} column={ 4 } onPageChange={handlePageChange} />
                             </div>
                         }
                     </Space>

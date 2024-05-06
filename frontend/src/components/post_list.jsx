@@ -1,11 +1,11 @@
 import { List, Pagination, Space } from "antd"
 import PostCard from "./post_card";
 
-export default function PostList({ posts, pageSize, current, total, onPageChange }) {
+export default function PostList({ posts, pageSize, current, total, column = 5, onPageChange }) {
     return <Space direction="vertical" style={{ width: "100%" }}>
         <List
             grid={{
-                gutter: 16, column: 5
+                gutter: 16, column: column
             }}
             dataSource={posts.slice((current-1) * pageSize, current * pageSize).map(p => ({
                 ...p,

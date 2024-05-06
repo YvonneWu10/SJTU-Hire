@@ -20,4 +20,8 @@ public interface CandPostService {
     List<CandPost> getCandPostBySubmissionStage(String submissionStage);
     Map<String,Object> getCandPostByHRId(int hrId);
     Map<String, Object> getCandPostDetailByCandId(String candidateId);
+    List<CandPost> getCandPostByCandIdIn(List<String> candIds);
+    List<CandPost> getCandPostByPostIdIn(List<Integer> postIds);
+    void forwardSubmissionStageByCandIdAndPostId(String candId, Integer postId);
+    void terminateSubmissionStageByCandIdAndPostId(String candId, Integer postId);
 }
