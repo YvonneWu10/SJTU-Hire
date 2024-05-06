@@ -9,10 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.ArrayList;
+import java.util.*;
 
 @RestController
 @Slf4j
@@ -153,5 +150,21 @@ public class PostController {
         }
 
         return new ResponseEntity<>(postService.getPostById(postId), HttpStatus.OK);
+    }
+
+    @RequestMapping("/hr_view/retResponsiblePosts")
+    public ResponseEntity<List<String>> retResponsiblePosts(@RequestHeader Map<String, Object> header) {
+        Integer id = authService.getHRIdByHeader(header);
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+        List<Post> posts = postService.getPostByHRId(id);
+        List<String> postNameList = new ArrayList<>();
+        for (Post post : posts){
+            String str = post.getPostId() + " "+ post.getPostName();
+            postNameList.add(str);
+        }
+
+        return new ResponseEntity<>(postNameList, HttpStatus.OK);
     }
 }

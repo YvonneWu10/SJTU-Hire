@@ -3,16 +3,20 @@ package com.sjtuhirebackend.serviceimpl;
 import com.sjtuhirebackend.dao.CandPostDao;
 import com.sjtuhirebackend.dao.CandidateDao;
 import com.sjtuhirebackend.dao.PostDao;
+import com.sjtuhirebackend.dao.ProjectDao;
 import com.sjtuhirebackend.entity.CandPost;
 import com.sjtuhirebackend.entity.CandPostPK;
 import com.sjtuhirebackend.entity.Candidate;
+import com.sjtuhirebackend.entity.Project;
 import com.sjtuhirebackend.service.CandidateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -24,6 +28,8 @@ public class CandidateServiceImpl implements CandidateService {
     private PostDao postDao;
     @Autowired
     private CandPostDao candPostDao;
+    @Autowired
+    private ProjectDao projectDao;
 
     public String getCandNameByCandId(String id) {
         Candidate res = candidateDao.getCandidateByCandId(id);
@@ -91,4 +97,20 @@ public class CandidateServiceImpl implements CandidateService {
         List<String> candIdList = (responsibleRecords.stream().map(CandPost::getBiId).toList()).stream().map(CandPostPK::getCandId).toList();
         return candidateDao.getCandidateByCandIdNotIn(candIdList);
     }
+
+    public Map<String, Object> getCandInfoByCandId(String id) {
+        Candidate candidate = candidateDao.getCandidateByCandId(id);
+        List<Project> projects = projectDao.getProjectByCandId(id);
+
+        Map<String, Object> ans = new HashMap<>();
+        ans.put("candidate", candidate);
+        ans.put("projects", projects);
+
+        return ans;
+    }
+
+    public List<String> getCandIdByCandName(String candName){
+        return candidateDao.getCandIdByCandName(candName);
+    }
+
 }

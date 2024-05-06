@@ -1,8 +1,12 @@
 import '../css/global.css'
 
-import {Card, Menu, Space} from "antd";
-import { useEffect, useState } from "react";
-import { getCandPostById } from "../service/candPost";
+import {Button, Card, Menu, Space} from "antd";
+import React, { useEffect, useState } from "react";
+import {
+    forwardSubmissionStageByCandPostId,
+    getCandPostById,
+    terminateSubmissionStageByCandPostId
+} from "../service/candPost";
 
 import { useParams } from "react-router-dom";
 import {BasicLayout, PrivateLayout} from "../components/layout";
@@ -10,37 +14,14 @@ import CandPostDetails from "../components/candPost_detail";
 import type {MenuProps} from "antd";
 import HRMenu from "../components/hr_menu";
 
-const menuItems: MenuProps['items'] = [
-    {
-        label: '首页',
-        key: 'homepage',
-    },
-    {
-        label: '职位管理',
-        key: 'postManagement',
-    },
-    {
-        label: '找人',
-        key: 'hire',
-    },
-];
-
-const rightMenuItems: MenuProps['items'] = [
-    {
-        label: '个人中心',
-        key: 'center'
-    }
-];
-
 export default function CandPostDetailPage() {
     const [post, setPost] = useState(null);
     const [cand, setCand] = useState(null);
     const [candPost, setCandPost] = useState(null);
-    const [current, setCurrent] = useState('homepage');
+    const [projectList, setProjectList] = useState([]);
 
     let { postId } = useParams();
     let { candId } = useParams();
-    console.log(postId);
 
     const getCandPost = async () => {
         let resCandPost = await getCandPostById(candId, postId);
@@ -48,16 +29,31 @@ export default function CandPostDetailPage() {
         setPost(resCandPost['postInfo']);
         setCand(resCandPost['candInfo']);
         setCandPost(resCandPost['candPost']);
+        setProjectList(resCandPost['projectInfo']);
     }
 
     useEffect(() => {
         getCandPost();
     }, []);
 
-    const onClick: MenuProps['onClick'] = (e) => {
-        console.log('click ', e);
-        setCurrent(e.key);
-    };
+    const forwardStage = async() => {
+        await forwardSubmissionStageByCandPostId(candId, postId);
+        getCandPost();
+    }
+
+    const terminateStage = async() => {
+        await terminateSubmissionStageByCandPostId(candId, postId);
+        getCandPost();
+    }
+
+    const isDisabled = (submissionStage) => {
+        if (submissionStage === "录取"){
+            return true;
+        } else if (submissionStage === "淘汰"){
+            return true;
+        }
+        return false;
+    }
 
     return PrivateLayout("HR", {
         header: (
@@ -67,9 +63,13 @@ export default function CandPostDetailPage() {
         children: (
             <div>
                 <Card className="card-container">
-                    <Space direction="vertical" style={{width: "100%"}}>
-                        {cand && candPost && post && <CandPostDetails cand={cand} post={post} candPost={candPost}/>}
-                    </Space>
+                    {cand && candPost && post && <Space direction="vertical" style={{width: "100%"}}>
+                        {cand && candPost && post && <CandPostDetails candidate={cand} post={post} candPost={candPost} projectList={projectList}/>}
+                        <div style={{display: "flex", justifyContent: 'center', alignItems: 'center'}}>
+                            <Button disabled={isDisabled(candPost.submissionStage)} type="primary" onClick={forwardStage} style={{ right: 0 , marginBottom: 10}}>进入下一环节</Button>
+                            <Button disabled={isDisabled(candPost.submissionStage)} type="primary" onClick={terminateStage} style={{ right: 0,  marginLeft: 20, marginBottom: 10}}>淘汰</Button>
+                        </div>
+                    </Space>}
                 </Card>
             </div>
         )

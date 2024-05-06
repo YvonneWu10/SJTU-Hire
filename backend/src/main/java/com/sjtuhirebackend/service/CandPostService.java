@@ -18,5 +18,11 @@ public interface CandPostService {
     List<CandPost> getCandPostBySubmissionDateAfter(Date submissionDate);
     List<CandPost> getCandPostBySubmissionDateBetween(Date lb, Date ub);
     List<CandPost> getCandPostBySubmissionStage(String submissionStage);
-    Map<String,Object> getCandPostByHRId(int hrId);
+    Map<String,Object> getCandPostInfoByHRId(int hrId);
+    List<CandPost> getCandPostByCandIdInAndPostId(List<String> candIds, Integer postId);
+    List<CandPost> getCandPostByHRId(int hrId);
+    List<CandPost> getCandPostByCandIdIn(List<String> candIds);
+    List<CandPost> getCandPostByPostIdIn(List<Integer> postIds);
+    void forwardSubmissionStageByCandIdAndPostId(String candId, Integer postId);
+    void terminateSubmissionStageByCandIdAndPostId(String candId, Integer postId);
 }

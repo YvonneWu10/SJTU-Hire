@@ -26,4 +26,5 @@ public interface CandidateDao {
     List<Candidate> getCandidatesByCandExpectedSalary(int candExpectedSalary);
     List<Candidate> getCandidatesByCandExpectedSalaryBetween(int lb, int ub);
     List<Candidate> getCandidateByCandIdNotIn(List<String> candIds);
+    List<String> getCandIdByCandName(String candName);
 }

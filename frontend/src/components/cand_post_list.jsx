@@ -5,7 +5,7 @@ export default function CandPostList({ cands, posts, candPosts, pageSize, curren
     const combinedData = cands.map((cand, index) => ({
         cand: cand,
         post: posts[index],
-        candPost: candPosts[index]
+        candPost: candPosts[index],
     }));
     console.log(combinedData);
     return <Space direction="vertical" style={{ width: "100%" }}>

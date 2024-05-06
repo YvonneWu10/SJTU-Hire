@@ -44,4 +44,5 @@ public interface PostDao {
     void deletePost(int postId);
 
     List<String> getDistinctPostCities();
+    List<Integer> getPostIdByPostNameAndHRId(String postName, Integer HRId);
 }

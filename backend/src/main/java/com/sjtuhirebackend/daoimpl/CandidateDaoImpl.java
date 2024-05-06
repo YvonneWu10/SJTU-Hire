@@ -78,4 +78,9 @@ public class CandidateDaoImpl implements CandidateDao {
     public List<Candidate> getCandidateByCandIdNotIn(List<String> candIds){
         return candidateRepository.findByCandIdNotIn(candIds);
     }
+    public List<String> getCandIdByCandName(String candName){
+        return candidateRepository.findCandIdByCandName(candName);
+    }
+
+
 }

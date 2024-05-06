@@ -41,4 +41,5 @@ public interface PostService {
     // 删除已有岗位
     void deletePost(int postId);
     List<String> getDistinctPostCities();
+    List<Integer> getPostIdByPostNameAndHRId(String postName, Integer HRId);
 }

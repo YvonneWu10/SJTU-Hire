@@ -4,6 +4,7 @@ import com.sjtuhirebackend.entity.Candidate;
 import com.sjtuhirebackend.entity.Company;
 import jakarta.persistence.Column;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -27,4 +28,6 @@ public interface CandidateRepository extends JpaRepository<Candidate, String> {
     List<Candidate> findByCandWorkYearGreaterThanEqual(int candWorkYear);
     List<Candidate> findByCandExpectedSalary(int candExpectedSalary);
     List<Candidate> findByCandExpectedSalaryBetween(int lb, int ub);
+    @Query(value = "SELECT u.candId FROM Candidate u WHERE u.candName = ?1", nativeQuery = true)
+    List<String> findCandIdByCandName(String candName);
 }

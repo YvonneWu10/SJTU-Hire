@@ -47,4 +47,8 @@ public class Post {
     private String workType;
     @Column(name = "HRId")
     private int HRId;
+    @Column(name= "description")
+    private String description;
+    @Column(name = "responsibility")
+    private String responsibility;
 }
