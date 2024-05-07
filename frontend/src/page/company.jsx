@@ -1,14 +1,14 @@
 import '../css/global.css'
 
-import {Avatar, Button, Card, Menu, Space} from "antd";
+import { Avatar, Button, Card, Menu, Space } from "antd";
 import { useEffect, useState } from "react";
 
-import {Link, useNavigate, useParams, useSearchParams} from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { PrivateLayout } from "../components/layout";
-import {UserOutlined} from "@ant-design/icons";
-import type {MenuProps} from "antd";
-import {searchCandidateUsername} from "../service/candidate";
-import {getCompanyById} from "../service/company";
+import { UserOutlined } from "@ant-design/icons";
+import type { MenuProps } from "antd";
+import { searchCandidateUsername } from "../service/candidate";
+import { getCompanyById } from "../service/company";
 import CompanyDetails from "../components/company_details";
 import PostList from "../components/post_list";
 

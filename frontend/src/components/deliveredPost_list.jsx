@@ -15,19 +15,26 @@ export default function DeliveredPostList({ posts, companies, candPosts, pageSiz
     // console.log(`combinedData in DeliveredPostList: ${JSON.stringify(combinedData, null, 2)}`);
     // console.log(`combinedData candPost in DeliveredPostList: ${JSON.stringify(combinedData[0]["candPost"], null, 2)}`);
 
-    return <Space direction="vertical" style={{ width: "100%" }}>
+    return <Space direction="vertical" style={{position: 'absolute', left: '15%', width: "70%"}}>
+        <div style={{ marginTop: 30 }}>
         <List
             grid={{
-                gutter: 16, column: 1
+                gutter: 16, column: 2
             }}
-            dataSource={combinedData.slice((current-1) * pageSize, current * pageSize)}
+            dataSource={combinedData.slice((current - 1) * pageSize, current * pageSize)}
             renderItem={(data, _) => (
                 <List.Item>
-                    <DeliveredPostCard post={data["post"]} companyName={data["companyName"]} candPost={data["candPost"]} />
+                    <div style={{display: "flex", justifyContent: "center", width: '100%', padding: 5}}>
+                        <DeliveredPostCard post={data["post"]} companyName={data["companyName"]}
+                                           candPost={data["candPost"]}/>
+                    </div>
                 </List.Item>
             )}
         />
-        <Pagination current={current} pageSize={pageSize}
-                    onChange={onPageChange} total={total} hideOnSinglePage={true}/>
+        </div>
+        <div style={{display: "flex", justifyContent: "center", padding: 30 }}>
+            <Pagination current={current} pageSize={pageSize}
+                        onChange={onPageChange} total={total} hideOnSinglePage={true}/>
+        </div>
     </Space>
 }

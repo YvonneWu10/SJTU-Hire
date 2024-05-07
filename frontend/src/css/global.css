@@ -26,14 +26,31 @@ svg {
     display: flex;
     justify-content: center; /* 水平居中 */
     align-items: center; /* 垂直居中，可选 */
+    position: absolute;
+    bottom: 15px;
+    width: 1670px;
+    height: 40px;
+}
+
+.scroll-footer {
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中，可选 */
     height: 80px;
 }
 
 .basic-layout {
-    min-height: 100vh !important;
+    min-height: 98.3vh !important;
 }
 
 .card-container {
+    position: absolute;
+    top: 120px;
+    width: 1630px;
+    height: 750px;
+}
+
+.scroll-card-container {
     margin: 20px;
 }
 
@@ -49,9 +66,10 @@ svg {
 }
 
 /* Card组件的圆角 */
-.post-card, .company-card  {
+.post-card, .company-card, .delivered-post-card  {
     border-radius: 20px; /* 设置你想要的圆角大小 */
     background-color: #F1F5F8;
+    display: flex;
 }
 
 .ant-input-search-button {

@@ -11,14 +11,17 @@ export default function DeliveredPostCard({ post, companyName, candPost }) {
     const endPorcessOnClick = () => {
     }
 
-    return <Card hoverable bordered={false} className="post-card">
+    return <Card hoverable
+                 bordered={false}
+                 className="delivered-post-card"
+                 style={{ height: 150, width: 500 }} >
         <Link to={`/candidate_view/Post/${post.postId}`}>
             <Meta title={post.postName} description={companyName}/>
         </Link>
         <p style={{marginBottom: -10}}>应聘于 {candPost.submissionDate}</p>
         <p style={{marginBottom: -10}}>目前状态 - {candPost.submissionStage}</p>
-        <div style={{display: "flex"}}>
-            <Button onClick={endPorcessOnClick} style={{ marginLeft: 'auto', marginBottom: -10}}>结束流程</Button>
+        <div style={{display: "flex", marginLeft: 350, marginTop: -30}}>
+            <Button onClick={endPorcessOnClick} >结束流程</Button>
         </div>
     </Card>
 

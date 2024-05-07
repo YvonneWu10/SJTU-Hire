@@ -43,7 +43,7 @@ export default function DeliveryPage() {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const pageIndex = searchParams.get("pageIndex") != null ? Number.parseInt(searchParams.get("pageIndex")) : 1;
-    const pageSize = searchParams.get("pageSize") != null ? Number.parseInt(searchParams.get("pageSize")) : 25;
+    const pageSize = searchParams.get("pageSize") != null ? Number.parseInt(searchParams.get("pageSize")) : 6;
     // const postName = searchParams.get("postName") || "";
     // const city = searchParams.get("city") || "";
     // const workType = searchParams.get("workType") || "";

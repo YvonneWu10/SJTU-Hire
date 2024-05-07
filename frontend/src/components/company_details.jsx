@@ -1,7 +1,7 @@
 import {Col, Descriptions, Row, Space} from "antd";
 import { Divider, Typography } from 'antd';
 import React from "react";
-import { EnvironmentOutlined, TagOutlined, BookOutlined, TeamOutlined } from "@ant-design/icons";
+import { TeamOutlined, RiseOutlined, BankOutlined, CompassOutlined } from "@ant-design/icons";
 
 const { Title, Text } = Typography;
 
@@ -24,9 +24,9 @@ export default function CompanyDetails({ company }) {
                      style={{fontSize: '16px', marginTop: '30px', color: 'gray'}}>
                     <span>
                         <TeamOutlined style={{marginRight: '4px'}}/> {company.companyScale}
-                        <TagOutlined style={{marginLeft: '20px', marginRight: '4px'}}/> {company.financingStage}
-                        <BookOutlined style={{marginLeft: '20px', marginRight: '4px'}}/> {company.companyType}
-                        <TeamOutlined style={{marginLeft: '20px'}}/> {company.companyField}
+                        <RiseOutlined style={{marginLeft: '20px', marginRight: '4px'}}/> {company.financingStage}
+                        <BankOutlined style={{marginLeft: '20px', marginRight: '4px'}}/> {company.companyType}
+                        <CompassOutlined style={{marginLeft: '20px'}}/> {company.companyField}
                     </span>
                 </Row>
             </div>

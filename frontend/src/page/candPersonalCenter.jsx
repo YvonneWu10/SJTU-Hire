@@ -75,11 +75,12 @@ export default function CandPersonalCenterPage() {
         }, {
             children: (
                 <div className="flex">
-                    <Card className="card-container">
+                    <Card className="scroll-card-container">
                         { candidateInfo && <CandidateDescription candidate={candidateInfo} projectList={projects}/> }
                     </Card>
                 </div>
             )
-        }
+        },
+        "scroll-footer"
     );
 }
