@@ -104,7 +104,7 @@ export default function CandPostPage() {
         }, {
         children: (
             <div>
-                <Card className="card-container">
+                <Card className="scroll-card-container">
                     <Space direction="vertical" size="large" style={{width: "100%"}}>
                         <div className="input-select-container">
                             <Search placeholder="输入应聘者姓名" onSearch={handleCandSearch} enterButton size="middle"
@@ -119,7 +119,7 @@ export default function CandPostPage() {
                 </Card>
             </div>
         )
-    }
+    }, "scroll-footer"
     );
 
 }

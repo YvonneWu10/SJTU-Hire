@@ -60,4 +60,13 @@ public class PostServiceImpl implements PostService {
     public List<Integer> getPostIdByPostNameAndHRId(String postName, Integer HRId){
         return postDao.getPostIdByPostNameAndHRId(postName, HRId);
     }
+    public void editPost(Integer postId, String postName, String degreeReq, Integer workYearReq,
+                              Integer onSiteDayReq, String city, Date openDate, Date endDate,
+                              Integer recruitNum, Integer salary, String workStyle, String workType,
+                              String description, String responsibility){
+        postDao.editPost(postId, postName, degreeReq, workYearReq,
+                onSiteDayReq, city, openDate, endDate,
+                recruitNum, salary, workStyle, workType,
+                description, responsibility);
+    }
 }

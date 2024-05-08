@@ -16,7 +16,7 @@ import {getAllCandidatesAvailable} from "../service/hr_candidate_view";
 import {Header} from "antd/es/layout/layout";
 import HRCandList from "../components/hr_cand_list";
 import HRMenu from "../components/hr_menu";
-import {retResponsiblePosts} from "../service/candPost";
+import {retOpenPosts, retResponsiblePosts} from "../service/candPost";
 
 const { Search } = Input;
 
@@ -113,7 +113,7 @@ export default function SearchAvailableCandidatesPage() {
     }, []);
 
     const getResponsiblePostName = async () => {
-        let res = await retResponsiblePosts();
+        let res = await retOpenPosts();
         setPostNames(res);
     };
 

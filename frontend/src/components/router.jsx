@@ -15,6 +15,8 @@ import HRCandDetailPage from "../page/hr_cand_detail";
 import HRPostPage from "../page/hr_manage_post";
 import HRPostDetailPage from "../page/hr_post_detail";
 import HRUserPage from "../page/hr_user";
+import HREditPostDetails from "./hr_edit_post_detail";
+import HREditPostDetailPage from "../page/hr_edit_post_detail_page";
 
 export default function AppRouter() {
     return <BrowserRouter>
@@ -36,6 +38,7 @@ export default function AppRouter() {
             <Route path="/hr_view/managePosts" element={<HRPostPage />} />
             <Route path="/hr_view/managePosts/postDetail/:postId" element={<HRPostDetailPage />} />
             <Route path="/hr_view/user" element={<HRUserPage />} />
+            <Route path="/hr_view/managePosts/editPostDetail/:postId" element={<HREditPostDetailPage />} />
         </Routes>
     </BrowserRouter>
 }

@@ -3,12 +3,15 @@ package com.sjtuhirebackend.controller;
 import com.sjtuhirebackend.entity.Post;
 import com.sjtuhirebackend.service.AuthService;
 import com.sjtuhirebackend.service.PostService;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -152,6 +155,25 @@ public class PostController {
         return new ResponseEntity<>(postService.getPostById(postId), HttpStatus.OK);
     }
 
+    @RequestMapping("/hr_view/retOpenPosts")
+    public ResponseEntity<List<String>> retOpenPosts(@RequestHeader Map<String, Object> header) {
+        Integer id = authService.getHRIdByHeader(header);
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+        List<Post> posts = postService.getPostByHRId(id);
+        List<String> postNameList = new ArrayList<>();
+        Date current = new Date();
+        for (Post post : posts){
+            if (post.getOpenDate().after(current) || post.getEndDate().before(current)){
+            } else {
+                String str = post.getPostId() + " " + post.getPostName();
+                postNameList.add(str);
+            }
+        }
+        return new ResponseEntity<>(postNameList, HttpStatus.OK);
+    }
+
     @RequestMapping("/hr_view/retResponsiblePosts")
     public ResponseEntity<List<String>> retResponsiblePosts(@RequestHeader Map<String, Object> header) {
         Integer id = authService.getHRIdByHeader(header);
@@ -161,10 +183,50 @@ public class PostController {
         List<Post> posts = postService.getPostByHRId(id);
         List<String> postNameList = new ArrayList<>();
         for (Post post : posts){
-            String str = post.getPostId() + " "+ post.getPostName();
+            String str = post.getPostId() + " " + post.getPostName();
             postNameList.add(str);
         }
-
         return new ResponseEntity<>(postNameList, HttpStatus.OK);
+    }
+
+    @RequestMapping("/hr_view/PostCities")
+    public ResponseEntity<List<String>> getHRPostCities(@RequestHeader Map<String, Object> header) {
+        Integer id = authService.getHRIdByHeader(header);
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<>(postService.getDistinctPostCities(), HttpStatus.OK);
+    }
+
+    @RequestMapping("/hr_view/editPostDetail/")
+    public ResponseEntity<String> editPostDetail(@RequestHeader Map<String, Object> header,
+                                                 @RequestBody Map<String, Object> map) throws ParseException {
+        Integer postId = (Integer) map.get("postId");
+        String postName = (String) map.get("postName");
+        String degreeReq = (String) map.get("degreeReq");
+        Integer workYearReq = (Integer) map.get("workYearReq");
+        Integer onSiteDayReq = (Integer) map.get("onSiteDayReq");
+        String city = (String) map.get("city");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date openDate = sdf.parse((String) map.get("openDate"));
+        Date endDate = sdf.parse((String) map.get("endDate"));
+        Integer recruitNum = (Integer) map.get("recruitNum");
+        Integer salary = (Integer) map.get("salary");
+        String workStyle = (String) map.get("workStyle");
+        String workType = (String) map.get("workType");
+        String description = (String) map.get("description");
+        String responsibility = (String) map.get("responsibility");
+
+        Integer id = authService.getHRIdByHeader(header);
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+        postService.editPost(postId, postName, degreeReq, workYearReq,
+                            onSiteDayReq, city, openDate, endDate,
+                            recruitNum, salary, workStyle, workType,
+                            description, responsibility);
+
+        return new ResponseEntity<>("", HttpStatus.OK);
     }
 }

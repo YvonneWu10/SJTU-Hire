@@ -69,4 +69,24 @@ public class PostDaoImpl implements PostDao {
     public List<Integer> getPostIdByPostNameAndHRId(String postName, Integer HRId){
         return postRepository.findPostIdByPostNameAndHRId(postName, HRId);
     }
+    public void editPost(Integer postId, String postName, String degreeReq, Integer workYearReq,
+                         Integer onSiteDayReq, String city, Date openDate, Date endDate,
+                         Integer recruitNum, Integer salary, String workStyle, String workType,
+                         String description, String responsibility){
+        Post post = postRepository.findByPostId(postId);
+        post.setPostName(postName);
+        post.setDegreeReq(degreeReq);
+        post.setWorkYearReq(workYearReq);
+        post.setOnSiteDayReq(onSiteDayReq);
+        post.setCity(city);
+        post.setOpenDate(openDate);
+        post.setEndDate(endDate);
+        post.setRecruitNum(recruitNum);
+        post.setSalary(salary);
+        post.setWorkStyle(workStyle);
+        post.setWorkType(workType);
+        post.setDescription(description);
+        post.setResponsibility(responsibility);
+        postRepository.save(post);
+    }
 }

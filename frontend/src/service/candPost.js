@@ -69,6 +69,20 @@ export async function terminateSubmissionStageByCandPostId(candId, postId) {
     return ret;
 }
 
+export async function retOpenPosts(){
+    const url = `${PREFIX}/hr_view/retOpenPosts`;
+    let postNames;
+    try {
+        postNames = await getJson(url, "HR");
+        console.log(postNames);
+    } catch (e) {
+        console.log(e);
+        postNames = null;
+    }
+
+    return postNames;
+}
+
 export async function retResponsiblePosts() {
     const url = `${PREFIX}/hr_view/retResponsiblePosts`;
     let postNames;

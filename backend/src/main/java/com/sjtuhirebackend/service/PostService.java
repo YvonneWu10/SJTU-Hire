@@ -42,4 +42,8 @@ public interface PostService {
     void deletePost(int postId);
     List<String> getDistinctPostCities();
     List<Integer> getPostIdByPostNameAndHRId(String postName, Integer HRId);
+    void editPost(Integer postId, String postName, String degreeReq, Integer workYearReq,
+                  Integer onSiteDayReq, String city, Date openDate, Date endDate,
+                  Integer recruitNum, Integer salary, String workStyle, String workType,
+                  String description, String responsibility);
 }

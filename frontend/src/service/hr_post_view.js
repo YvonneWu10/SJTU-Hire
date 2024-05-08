@@ -1,29 +1,4 @@
-import {getJson, PREFIX} from "./common";
-
-export async function getAllCandidatesAvailable(pageIndex, pageSize) {
-    const url = `${PREFIX}/hr_view/allCandidates?pageIndex=${pageIndex}&pageSize=${pageSize}`;
-    let candidates;
-    let response;
-    try {
-        candidates = await getJson(url, "HR");
-        if (Array.isArray(candidates)) {
-            response = {
-                total: Math.ceil(candidates.length / pageSize),
-                items: candidates
-            }
-        } else {
-            throw new Error('Received post data is not an array!');
-        }
-    } catch (e) {
-        console.log(e);
-        response = {
-            total: 0,
-            items: []
-        };
-    }
-
-    return response;
-}
+import {getJson, post, PREFIX} from "./common";
 
 export async function getHRPosts(pageIndex, pageSize, postName) {
     const url = `${PREFIX}/hr_view/managePosts?pageIndex=${pageIndex}&pageSize=${pageSize}&postName=${postName}`;
@@ -59,4 +34,32 @@ export async function getHRPostById(postId) {
         posts = null;
     }
     return posts;
+}
+
+export async function retHRPostCities() {
+    const url = `${PREFIX}/hr_view/PostCities`;
+    let cities;
+    try {
+        cities = await getJson(url, "HR");
+        if (!Array.isArray(cities)) {
+            throw new Error('Received post data is not an array!');
+        }
+    } catch (e) {
+        console.log(e);
+        cities = [];
+    }
+
+    return cities;
+}
+
+export async function hrEditPost(values) {
+    const url = `${PREFIX}/hr_view/editPostDetail/`;
+
+    console.log(values);
+    try {
+        let res = await post(url, "HR", values);
+        console.log(res);
+    } catch (e) {
+        console.log(e);
+    }
 }
