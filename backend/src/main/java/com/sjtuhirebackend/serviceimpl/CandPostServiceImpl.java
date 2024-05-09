@@ -111,8 +111,31 @@ public class CandPostServiceImpl implements CandPostService {
         return ans;
     }
 
-    public Map<String, Object> getCandPostDetailByCandId(String candidateId) {
-        List<CandPost> candPostList = candPostDao.getCandPostByCandId(candidateId);
+    public Map<String, Object> getDeliveredCandPostDetailByCandId(String candidateId) {
+        List<CandPost> candPostList = candPostDao.getDeliveredCandPostByCandId(candidateId);
+
+        List<Integer> postIdList = (candPostList.stream().map(CandPost::getBiId).toList()).stream().map(CandPostPK::getPostId).toList();
+        List<Post> postList = new ArrayList<>();
+        for (int postId: postIdList){
+            postList.add(postDao.getPostByPostId(postId));
+        }
+
+        List<Integer> companyIdList = (postList.stream().map(Post::getCompanyId).toList());
+        List<String> companyNameList = new ArrayList<>();
+        for (int companyId: companyIdList){
+            companyNameList.add(companyDao.getCompany(companyId).getCompanyName());
+        }
+
+        Map<String, Object> ans = new HashMap<>();
+        ans.put("candPosts", candPostList);
+        ans.put("posts", postList);
+        ans.put("companies", companyNameList);
+
+        return ans;
+    }
+
+    public Map<String, Object> getCandPostByCandIdAndSubmissionStage(String candId, String stage) {
+        List<CandPost> candPostList = candPostDao.getCandPostByCandIdAndSubmissionStage(candId, stage);
 
         List<Integer> postIdList = (candPostList.stream().map(CandPost::getBiId).toList()).stream().map(CandPostPK::getPostId).toList();
         List<Post> postList = new ArrayList<>();
@@ -155,6 +178,26 @@ public class CandPostServiceImpl implements CandPostService {
     }
 
     public void terminateSubmissionStageByCandIdAndPostId(String candId, Integer postId){
-        candPostDao.updateSubmissionStageByBiIdCandIdAndBiIdPostId("淘汰", candId, postId);
+        candPostDao.updateSubmissionStageByBiIdCandIdAndBiIdPostId("流程终止", candId, postId);
+    }
+
+    public void insertCandPostByDelivery(String candId, Integer postId) {
+        CandPost candPost = new CandPost();
+        CandPostPK candPostPK = new CandPostPK();
+        candPostPK.setCandId(candId);
+        candPostPK.setPostId(postId);
+        candPost.setBiId(candPostPK);
+        candPost.setSubmissionDate(new Date());
+        candPost.setSubmissionStage("简历");
+        candPostDao.save(candPost);
+    }
+
+    public void acceptInvitationByCandIdAndPostId(String candId, Integer postId) {
+        Date current = new Date();
+        candPostDao.updateSubmissionStageAndSubmissionDateByBiIdCandIdAndBiIdPostId("简历", current, candId, postId);
+    }
+
+    public void refuseInvitationByCandIdAndPostId(String candId, Integer postId) {
+        candPostDao.deleteCandPostByCandIdAndPostId(candId, postId);
     }
 }

@@ -102,7 +102,7 @@ public class PostController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(postService.getPostDetailById(postId), HttpStatus.OK);
+        return new ResponseEntity<>(postService.getPostDetailById(id, postId), HttpStatus.OK);
     }
 
     @RequestMapping("/candidate_view/PostCities")

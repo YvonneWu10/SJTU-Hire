@@ -1,8 +1,10 @@
 package com.sjtuhirebackend.serviceimpl;
 
+import com.sjtuhirebackend.dao.CandPostDao;
 import com.sjtuhirebackend.dao.CompanyDao;
 import com.sjtuhirebackend.dao.DepartmentDao;
 import com.sjtuhirebackend.dao.PostDao;
+import com.sjtuhirebackend.entity.CandPost;
 import com.sjtuhirebackend.entity.Company;
 import com.sjtuhirebackend.entity.Post;
 import com.sjtuhirebackend.service.PostService;
@@ -27,6 +29,8 @@ public class PostServiceImpl implements PostService {
     private CompanyDao companyDao;
     @Autowired
     private DepartmentDao departmentDao;
+    @Autowired
+    private CandPostDao candPostDao;
 
     public Post getPostById(int postId) { return postDao.getPostById(postId); }
     // 获取岗位信息
@@ -68,15 +72,26 @@ public class PostServiceImpl implements PostService {
 
     public List<String> getDistinctPostCities() { return postDao.getDistinctPostCities(); }
 
-    public Map<String, Object> getPostDetailById(int postId) {
+    public Map<String, Object> getPostDetailById(String candId, int postId) {
         Post post = postDao.getPostById(postId);
         Company company = companyDao.getCompany(post.getCompanyId());
         String department = departmentDao.getByCompanyIdAndDepartmentId(post.getCompanyId(), post.getDepartmentId()).getDepartmentName();
+        CandPost record = candPostDao.getCandPostByCandIdAndPostId(candId, postId);
+
+        Date current = new Date();
+        boolean timeout = post.getOpenDate().after(current) || post.getEndDate().before(current);
+        boolean delivered = (record != null && !record.getSubmissionStage().equals("邀请"));
+        boolean ended = (record != null && record.getSubmissionStage().equals("流程终止"));
+        boolean invited = (record != null && record.getSubmissionStage().equals("邀请"));
 
         Map<String, Object> ans = new HashMap<>();
         ans.put("post", post);
         ans.put("company", company);
         ans.put("department", department);
+        ans.put("timeout", timeout);
+        ans.put("delivered", delivered);
+        ans.put("ended", ended);
+        ans.put("invited", invited);
 
         return ans;
     }

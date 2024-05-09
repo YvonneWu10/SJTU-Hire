@@ -24,8 +24,8 @@ public class CompanyController {
     private AuthService authService;
 
     @RequestMapping("/candidate_view/SearchCompany")
-    public ResponseEntity<List<Company>> searchPosts(@RequestHeader Map<String, Object> header,
-                                                     @RequestParam(defaultValue = "") String companyName) {
+    public ResponseEntity<List<Company>> searchCompany(@RequestHeader Map<String, Object> header,
+                                                       @RequestParam(defaultValue = "") String companyName) {
         String id = authService.getCandIdByHeader(header);
         if (id == null) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);

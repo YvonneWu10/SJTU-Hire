@@ -10,6 +10,7 @@ import {UserOutlined} from "@ant-design/icons";
 import { searchCandidateUsername } from "../service/candidate";
 import CompanyList from "../components/company_list";
 import {searchCompany} from "../service/company";
+import CandidateHeader from "../components/candidate_header";
 
 
 const { Search } = Input;
@@ -33,9 +34,6 @@ const candidateMenuItems: MenuProps['items'] = [
 export default function SearchCompanyPage() {
     const [company, setCompany] = useState([]);
     const [totalPage, setTotalPage] = useState(0);
-    const [user, setUser] = useState("");
-    const [curMenu, setCurMenu] = useState('companySearch');
-    const navigate = useNavigate();
 
     const [searchParams, setSearchParams] = useSearchParams();
     const pageIndex = searchParams.get("pageIndex") != null ? Number.parseInt(searchParams.get("pageIndex")) : 1;
@@ -49,16 +47,6 @@ export default function SearchCompanyPage() {
         setCompany(companies);
         setTotalPage(totalPage);
     };
-
-    const getUserName = async () => {
-        console.log(`Entering getUserName`);
-        let resUser = await searchCandidateUsername();
-        setUser(resUser);
-    };
-
-    useEffect(() => {
-        getUserName();
-    }, []);
 
     // 用来调试，监听searchParams
     useEffect(() => {
@@ -83,24 +71,10 @@ export default function SearchCompanyPage() {
         setSearchParams(currentParams);
     };
 
-    const menuOnClick: MenuProps['onClick'] = (event) => {
-        setCurMenu(event.key);
-    };
-
-    const personalCenterOnClick = () => {
-        navigate("/candidate_view/PersonalCenter");
-    };
-
     return PrivateLayout("candidate", {
-            header: (
-                <div>
-                    <Menu onClick={menuOnClick} selectedKeys={[curMenu]} mode="horizontal" style={{position: 'absolute', top: 15, left: 30}}
-                          items={candidateMenuItems}/>
-                    <Avatar size="large" icon={<UserOutlined/>} style={{position: 'absolute', top: 25, right: 170}}/>
-                    { user && <span className="avatar-subtitle" style={{position: 'absolute', top: 65, right: 160}}>您好，{user}</span> }
-                    <Button className={"ant-button-primary"} style={{position: 'absolute', top: 40, right: 50}} onClick={personalCenterOnClick}>个人中心</Button>
-                </div>
-            )
+        header: (
+            <CandidateHeader initialMenu={'companySearch'} />
+        )
         }, {
             children: (
                 <div className="center-container">

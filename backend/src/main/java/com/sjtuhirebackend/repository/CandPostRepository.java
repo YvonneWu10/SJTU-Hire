@@ -24,8 +24,21 @@ public interface CandPostRepository extends JpaRepository<CandPost, CandPostPK> 
     List<CandPost> findBySubmissionStage(String submissionStage);
     List<CandPost> findByBiIdCandIdInAndBiIdPostId(List<String> candIds, Integer postId);
     List<CandPost> findByBiIdCandIdIn(List<String> candIds);
+    List<CandPost> findByBiIdCandIdAndSubmissionStage(String candId, String stage);
+
     @Transactional
     @Modifying
     @Query(value = "UPDATE cand_post cp SET cp.submissionStage = ?1 WHERE cp.candId = ?2 AND cp.postId = ?3", nativeQuery = true)
     void updateSubmissionStageByBiIdCandIdAndBiIdPostId(String submissionStage, String candId, Integer postId);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE cand_post cp SET cp.submissionStage = ?1, cp.submissionDate = ?2 WHERE cp.candId = ?3 AND cp.postId = ?4", nativeQuery = true)
+    void updateSubmissionStageAndSubmissionDateByBiIdCandIdAndBiIdPostId(String submissionStage, Date date, String candId, Integer postId);
+
+    @Query(value = "SELECT * FROM cand_post cp WHERE cp.candId = ?1 AND cp.submissionStage <> ?2 AND cp.submissionStage <> ?3", nativeQuery = true)
+    List<CandPost> findByCandIdAndExcludeTwoSubmissionStages(String candId, String stage1, String stage2);
+
+    @Transactional
+    void deleteByBiIdCandIdAndBiIdPostId(String candId, Integer postId);
 }

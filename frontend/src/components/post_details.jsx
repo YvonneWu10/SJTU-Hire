@@ -1,11 +1,17 @@
-import {Col, Descriptions, Row, Space} from "antd";
+import { Button, Col, Descriptions, Row } from "antd";
 import { Divider, Typography } from 'antd';
 import React from "react";
 import { EnvironmentOutlined, TagOutlined, BookOutlined, TeamOutlined } from "@ant-design/icons";
-
+import {
+    acceptInvitationByPostId,
+    deliverByPostId,
+    endProcessByPostId,
+    refuseInvitationByPostId
+} from "../service/candPost";
+import { refreshPage } from "../utils/refresh";
 const { Title, Text } = Typography;
 
-export default function PostDetails({ post, department }) {
+export default function PostDetails({ post, department, timeout, delivered, ended, invited }) {
     const basicItems = [
         {
             key: '1',
@@ -49,6 +55,26 @@ export default function PostDetails({ post, department }) {
 
     ];
 
+    const endPorcessOnClick = () => {
+        endProcessByPostId(post.postId);
+        refreshPage();
+    }
+
+    const deliverOnClick = () => {
+        deliverByPostId(post.postId);
+        refreshPage();
+    }
+
+    const acceptOnClick = () => {
+        acceptInvitationByPostId(post.postId);
+        refreshPage();
+    }
+
+    const refuseOnClick = () => {
+        refuseInvitationByPostId(post.postId);
+        refreshPage();
+    }
+
     return <div>
         <Row>
             <div style={{marginLeft: '650px'}}>
@@ -69,6 +95,19 @@ export default function PostDetails({ post, department }) {
                 fontSize: '24px',
                 color: 'darkslategray'
             }}>{post.salary}k</Text>
+            <div style={{position: 'absolute', right: 180, top: 70}}>
+                { (delivered && !ended) ? <Button onClick={ endPorcessOnClick } className={"ant-button-primary"} style={{ width: 100, height: 50, fontSize: 16, letterSpacing: 2 }} >结束流程</Button> :
+                                          ( ended ? <Button disabled className={"ant-button-primary"} style={{ width: 100, height: 50, fontSize: 13, letterSpacing: 1 }}>已结束流程</Button> :
+                                                    (timeout ? <Button disabled className={"ant-button-primary"} style={{ width: 100, height: 50, fontSize: 18, letterSpacing: 4 }}>未开放</Button> :
+                                                               ( invited ? (<div>
+                                                                                <Button onClick={ acceptOnClick } className={"ant-button-primary"} style={{ width: 100, height: 50, fontSize: 18, letterSpacing: 4 }}>接受邀请</Button>
+                                                                                <Button onClick={ refuseOnClick } className={"ant-button-primary"} style={{ width: 100, height: 50, fontSize: 18, letterSpacing: 4 }}>接受邀请</Button>
+                                                                            </div>) :
+                                                                           <Button onClick={ deliverOnClick } className={"ant-button-primary"} style={{ width: 100, height: 50, fontSize: 18, letterSpacing: 4 }}>投递</Button>)
+                                                    )
+                                          )
+                }
+            </div>
         </Row>
 
         <Divider/>
@@ -78,13 +117,12 @@ export default function PostDetails({ post, department }) {
             justifyContent: 'center',
             alignItems: 'center',
             textAlign: 'center',
-            marginTop: '10px'
         }}>
             <Col span={10}>
                 <Descriptions column={1}
                               items={basicItems}
-                              labelStyle={{fontSize: '16px', marginTop: '20px'}}
-                              contentStyle={{fontSize: '16px', marginTop: '20px', marginLeft: '5px'}}/>
+                              labelStyle={{fontSize: '16px', marginTop: '15px'}}
+                              contentStyle={{fontSize: '16px', marginTop: '15px', marginLeft: '5px'}}/>
             </Col>
         </div>
     </div>

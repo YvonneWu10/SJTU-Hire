@@ -10,33 +10,15 @@ import {PrivateLayout} from "../components/layout";
 import PostList from "../components/post_list";
 import {UserOutlined} from "@ant-design/icons";
 import { searchCandidateUsername } from "../service/candidate";
+import CandidateHeader from "../components/candidate_header";
 
 const { Search } = Input;
-
-
-const candidateMenuItems: MenuProps['items'] = [
-    {
-        label: (<Link to="/candidate_view/SearchPost">岗位查找</Link>),
-        key: 'postSearch',
-    },
-    {
-        label: (<Link to="/candidate_view/SearchCompany">公司查找</Link>),
-        key: 'companySearch',
-    },
-    {
-        label: (<Link to="/candidate_view/Delivery">投递列表</Link>),
-        key: 'deliveryList',
-    },
-];
 
 
 export default function SearchPostsPage() {
     const [posts, setPosts] = useState([]);
     const [totalPage, setTotalPage] = useState(0);
     const [cities, setCities] = useState([]);
-    const [user, setUser] = useState("");
-    const [curMenu, setCurMenu] = useState('postSearch');
-    const navigate = useNavigate();
 
     const [searchParams, setSearchParams] = useSearchParams();
     const pageIndex = searchParams.get("pageIndex") != null ? Number.parseInt(searchParams.get("pageIndex")) : 1;
@@ -59,15 +41,8 @@ export default function SearchPostsPage() {
         setCities(resCities);
     };
 
-    const getUserName = async () => {
-        console.log(`Entering getUserName`);
-        let resUser = await searchCandidateUsername();
-        setUser(resUser);
-    };
-
     useEffect(() => {
         getPostCities();
-        getUserName();
     }, []);
 
     // 用来调试，监听searchParams
@@ -113,7 +88,6 @@ export default function SearchPostsPage() {
         if (city === undefined) {
             city = "";
         }
-        // console.log(city)
         const currentParams = new URLSearchParams(searchParams);
         currentParams.set("pageIndex", 1);
         currentParams.set("pageSize", 25);
@@ -125,7 +99,6 @@ export default function SearchPostsPage() {
         if (workType === undefined) {
             workType = "";
         }
-        // console.log(workType)
         const currentParams = new URLSearchParams(searchParams);
         currentParams.set("pageIndex", 1);
         currentParams.set("pageSize", 25);
@@ -137,7 +110,6 @@ export default function SearchPostsPage() {
         if (workStyle === undefined) {
             workStyle = "";
         }
-        // console.log(workStyle)
         const currentParams = new URLSearchParams(searchParams);
         currentParams.set("pageIndex", 1);
         currentParams.set("pageSize", 25);
@@ -145,25 +117,11 @@ export default function SearchPostsPage() {
         setSearchParams(currentParams);
     };
 
-    const menuOnClick: MenuProps['onClick'] = (event) => {
-        setCurMenu(event.key);
-    };
-
-    const personalCenterOnClick = () => {
-        navigate("/candidate_view/PersonalCenter");
-    };
-
     return PrivateLayout("candidate", {
             header: (
-                <div>
-                    <Menu onClick={menuOnClick} selectedKeys={[curMenu]} mode="horizontal" style={{position: 'absolute', top: 15, left: 30}}
-                          items={candidateMenuItems}/>
-                    <Avatar size="large" icon={<UserOutlined/>} style={{position: 'absolute', top: 25, right: 170}}/>
-                    { user && <span className="avatar-subtitle" style={{position: 'absolute', top: 65, right: 160}}>您好，{user}</span> }
-                    <Button className={"ant-button-primary"} style={{position: 'absolute', top: 40, right: 50}} onClick={personalCenterOnClick}>个人中心</Button>
-                </div>
-)
-}, {
+                <CandidateHeader initialMenu={'postSearch'} />
+            )
+        }, {
             children: (
                 <div className="center-container">
                     <Card className="card-container">

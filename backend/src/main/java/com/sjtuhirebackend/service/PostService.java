@@ -43,5 +43,5 @@ public interface PostService {
     // 删除已有岗位
     void deletePost(int postId);
     List<String> getDistinctPostCities();
-    Map<String, Object> getPostDetailById(int postId);
+    Map<String, Object> getPostDetailById(String candId, int postId);
 }

@@ -1,5 +1,6 @@
 package com.sjtuhirebackend.dao;
 
+import com.sjtuhirebackend.entity.CandPost;
 import com.sjtuhirebackend.entity.Company;
 
 import java.util.List;

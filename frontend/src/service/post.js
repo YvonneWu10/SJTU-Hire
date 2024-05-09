@@ -35,14 +35,22 @@ export async function getPostById(id) {
         response = {
             post: result["post"],
             company: result["company"],
-            department: result["department"]
+            department: result["department"],
+            timeout: result["timeout"],
+            delivered: result["delivered"],
+            ended: result["ended"],
+            invited: result["invited"]
         };
     } catch (e) {
         console.log(e);
         response = {
             post: null,
             company: null,
-            department: null
+            department: null,
+            timeout: null,
+            delivered: null,
+            ended: null,
+            invited: null
         };
     }
 

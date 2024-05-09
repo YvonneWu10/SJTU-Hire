@@ -11,9 +11,11 @@ import ResumeManagement from '../page/admin_ResumeManagement';
 import UserManagement from '../page/admin_UserManagement';
 import Statistics from '../page/admin_Statistics';
 import SearchCompanyPage from "../page/search_company";
-import DeliveryPage from "../page/delivery";
 import CandPersonalCenterPage from "../page/candPersonalCenter";
 import CompanyPage from "../page/company";
+import CandidateDeliveredPage from "../page/candidate_delivered";
+import CandidateInvitedPage from "../page/candidate_invited";
+import CandidateEndedPage from "../page/candidate_ended";
 
 export default function AppRouter() {
     return <BrowserRouter>
@@ -24,7 +26,9 @@ export default function AppRouter() {
             <Route path="/candidate_view/Post/:postId" element={<PostPage />} />
             <Route path="/candidate_view/SearchCompany" element={<SearchCompanyPage />} />
             <Route path="/candidate_view/Company/:companyId" element={<CompanyPage />} />
-            <Route path="/candidate_view/Delivery" element={<DeliveryPage />} />
+            <Route path="/candidate_view/Delivered" element={<CandidateDeliveredPage />} />
+            <Route path="/candidate_view/Invited" element={<CandidateInvitedPage />} />
+            <Route path="/candidate_view/Ended" element={<CandidateEndedPage />} />
             <Route path="/candidate_view/PersonalCenter" element={<CandPersonalCenterPage />} />
             <Route path="/hr_view" element={<CandPostPage />} />
             <Route path="/hr_view/candPostDetail/:candId/:postId" element={<CandPostDetailPage />} />
