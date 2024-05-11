@@ -82,4 +82,8 @@ public class CandidateServiceImpl implements CandidateService {
     public List<String> getDistinctCandUniversities(){
         return candidateDao.getDistinctUniversities();
     }
+
+    public void deleteCandidate(String candId) {
+        candidateDao.deleteCandidate(candId);
+    }
 }

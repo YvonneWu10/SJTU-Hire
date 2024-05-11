@@ -1,9 +1,9 @@
 // CompanyManagement.js
 import React, { useState, useEffect } from 'react';
-import {Button, Table, Space, Select, Input} from 'antd';
+import {Button, Table, Space, Select, Input, Modal} from 'antd';
 import SidebarLayout from './admin_SidebarLayout';
 import {useSearchParams} from "react-router-dom";
-import {AdminsearchCompanies} from "../service/company"; // 确保路径正确
+import {adminDeleteCompany, AdminsearchCompanies} from "../service/company"; // 确保路径正确
 const { Search } = Input;
 
 const CompanyManagement = () => {
@@ -85,14 +85,31 @@ const CompanyManagement = () => {
         setSearchParams(currentParams);
     };
 
+    // Delete Logic
+    const handleDelete = (companyId) => {
+        Modal.confirm({
+            title: '确定要删除这个公司吗？',
+            content: '删除后，您将无法恢复此公司。',
+            okText: '确认',
+            okType: 'danger',
+            cancelText: '取消',
+            onOk() {
+                // console.log('删除公司', companyId);
+                adminDeleteCompany(companyId).then(() => {
+                    // 刷新公司列表
+                    getCompanies();
+                });
+            }
+        });
+    };
 
     // Define the columns for the companies table
     const columns = [
-        { title: '公司名称', dataIndex: 'companyName', key: 'companyId', width: '20%' },
-        { title: '公司类型', dataIndex: 'companyType', key: 'companyId', width: '15%' },
-        { title: '公司领域', dataIndex: 'companyField', key: 'companyId', width: '15%' },
-        { title: '公司规模', dataIndex: 'companyScale', key: 'companyId', width: '15%' },
-        { title: '融资阶段', dataIndex: 'financingStage', key: 'companyId', width: '10%' },
+        { title: '公司名称', dataIndex: 'companyName', key: 'companyName', width: '20%' },
+        { title: '公司类型', dataIndex: 'companyType', key: 'companyType', width: '15%' },
+        { title: '公司领域', dataIndex: 'companyField', key: 'companyField', width: '15%' },
+        { title: '公司规模', dataIndex: 'companyScale', key: 'companyScale', width: '15%' },
+        { title: '融资阶段', dataIndex: 'financingStage', key: 'financingStage', width: '10%' },
 
         // Add more columns as needed
         {
@@ -102,13 +119,11 @@ const CompanyManagement = () => {
                 <Space size="middle">
                     <Button type="default">查看</Button>
                     <Button type="default">编辑</Button>
-                    <Button danger>删除</Button>
+                    <Button danger onClick={() => handleDelete(record.companyId)}>删除</Button>
                 </Space>
             ),
         },
     ];
-
-    // TODO: Implement CRUD functions for company operations
 
     return (
         <SidebarLayout>

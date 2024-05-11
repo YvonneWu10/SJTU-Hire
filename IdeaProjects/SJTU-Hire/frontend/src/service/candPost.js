@@ -36,7 +36,7 @@ export async function AdminsearchCandPost(pageIndex, pageSize, candName, postNam
 
     try {
         candPostInfo = await getJson(url, "admin");
-        console.log("Searched resumes: ", candPostInfo); //调试
+        // console.log("Searched resumes: ", candPostInfo); //调试
 
         if (Array.isArray(candPostInfo["data"])) {
             // 遍历数据并整合信息
@@ -84,4 +84,30 @@ export async function getCandPostById(candId, postId) {
     }
 
     return candPostInfo;
+}
+
+// 删除投递信息
+export async function adminDeleteResume(candID, postID) {
+    const url = `${PREFIX}/deleteCandPost/candID=${candID}&postID=${postID}`; // 假设这是删除岗位的API端点
+    try {
+        const response = await fetch(url, {
+            method: 'DELETE', // 使用 HTTP DELETE 方法
+            headers: {
+                'Content-Type': 'application/json',
+                // 添加其他需要的头部，如认证信息等
+                'token': `${localStorage.getItem("adminToken")}`,
+                'user-type': `admin`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to delete the candPost. Status: ' + response.status);
+        }
+
+        //不期待任何响应内容，直接返回成功状态
+        return { success: true };
+    } catch (e) {
+        console.error('Error deleting candPost:', e);
+        throw e; // 重新抛出异常，以便调用者可以处理
+    }
 }

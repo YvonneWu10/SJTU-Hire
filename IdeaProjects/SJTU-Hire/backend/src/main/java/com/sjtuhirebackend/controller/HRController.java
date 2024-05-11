@@ -199,4 +199,75 @@ public class HRController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @DeleteMapping(value = "/deleteHR/{HRId}")
+    public ResponseEntity<String> deleteCandidateById(@RequestHeader Map<String, Object> header,
+                                                      @PathVariable Integer HRId) {
+        // 检查管理员权限
+        String userType = (String) header.get("user-type");
+        String id = null;
+        if ("HR".equals(userType)) {
+            id = authService.getHRIdByHeader(header).toString();
+        }
+        if ("admin".equals(userType)) {
+            id = authService.getAdminIdByHeader(header);
+        }
+
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        // 检查是否提供了有效的candId
+        if (HRId == null || HRId <= 0) {
+            System.out.println("Invalid id: " + id);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+        // 检查是否存在对应cand
+        if (hrService.getHR(HRId) == null) {
+            System.out.println("No HR id: " + id);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        // 调用服务层删除
+        hrService.deleteHRById(HRId);
+        // 删除成功
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/deleteCandPost/candID={candID}&postID={postID}")
+    public ResponseEntity<String> deleteCandidateById(@RequestHeader Map<String, Object> header,
+                                                      @PathVariable String candID,
+                                                      @PathVariable Integer postID) {
+        // 检查管理员权限
+        String userType = (String) header.get("user-type");
+        String id = null;
+        if ("HR".equals(userType)) {
+            id = authService.getHRIdByHeader(header).toString();
+        }
+        if ("admin".equals(userType)) {
+            id = authService.getAdminIdByHeader(header);
+        }
+
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        // 检查是否提供了有效的candID 和 postID
+        if (candID == null  || postID == null || postID <= 0) {
+            System.out.println("Invalid id, candID: " + candID + "postID: " + postID);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+        // 检查是否存在对应candPost
+        if (candPostService.getCandPostByCandIdAndPostId(candID, postID) == null) {
+            System.out.println("No candPost, candID: " + candID + "postID: " + postID);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        // 调用服务层删除
+        candPostService.deleteCandPost(candID, postID);
+        // 删除成功
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
 }

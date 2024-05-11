@@ -4,7 +4,7 @@ import {Button, Table, Space, Modal, Form, Input, Select} from 'antd';
 import SidebarLayout from './admin_SidebarLayout';
 import {useSearchParams} from "react-router-dom";
 import type {SelectProps} from "antd";
-import {AdminsearchHRs} from "../service/HR";
+import {adminDeleteHR, AdminsearchHRs} from "../service/HR";
 import {getAllCompany} from "../service/company"; // 确保路径正确
 
 const { Search } = Input;
@@ -65,13 +65,31 @@ const HRManagement = () => {
         setSearchParams(currentParams);
     };
 
+    // Delete Logic
+    const handleDelete = (HRId) => {
+        Modal.confirm({
+            title: '确定要删除这个HR吗？',
+            content: '删除后，您将无法恢复此HR。',
+            okText: '确认',
+            okType: 'danger',
+            cancelText: '取消',
+            onOk() {
+                console.log('删除HR', HRId);
+                adminDeleteHR(HRId).then(() => {
+                    // 刷新HR列表
+                    getHRs();
+                });
+            }
+        });
+    };
+
 
     // Define the columns for the users table
     const columns = [
-        { title: '用户名', dataIndex: 'hrname', key: 'hrid', width: '20%' },
-        { title: '公司名', dataIndex: 'companyName', key: 'hrid', width: '25%' },
-        { title: '部门名', dataIndex: 'departmentId', key: 'hrid', width: '15%' },
-        { title: '密码', dataIndex: 'hrpassword', key: 'hrid', render: text => '******', width: '15%' },
+        { title: '用户名', dataIndex: 'hrname', key: 'hrname', width: '20%' },
+        { title: '公司名', dataIndex: 'companyName', key: 'companyName', width: '25%' },
+        { title: '部门名', dataIndex: 'departmentId', key: 'departmentId', width: '15%' },
+        { title: '密码', dataIndex: 'hrpassword', key: 'hrpassword', render: text => '******', width: '15%' },
         {
             title: '操作',
             key: 'action',
@@ -81,7 +99,7 @@ const HRManagement = () => {
                     {/*<Button danger onClick={() => deleteUser(record.id)}>删除</Button>*/}
                     <Button type="default">查看</Button>
                     <Button type="default">编辑</Button>
-                    <Button danger>删除</Button>
+                    <Button danger onClick={()=>handleDelete(record.hrid)}>删除</Button>
                 </Space>
             ),
         },

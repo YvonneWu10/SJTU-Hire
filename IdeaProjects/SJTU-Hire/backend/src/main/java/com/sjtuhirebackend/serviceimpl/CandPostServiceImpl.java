@@ -124,4 +124,8 @@ public class CandPostServiceImpl implements CandPostService {
         // 计算总页数
         return (int) Math.ceil((double) totalItems / pageSize);
     }
+
+    public void deleteCandPost(String candId, int postId) {
+        candPostDao.deleteCandPost(candId, postId);
+    }
 }

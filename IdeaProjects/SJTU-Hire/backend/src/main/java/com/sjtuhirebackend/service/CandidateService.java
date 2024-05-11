@@ -44,4 +44,6 @@ public interface CandidateService {
     List<String> getDistinctCandMajors();
 
     List<String> getDistinctCandUniversities();
+
+    void deleteCandidate(String candId);
 }

@@ -28,4 +28,5 @@ public interface CandidateDao {
     List<Candidate> getCandidatesByCandExpectedSalaryBetween(int lb, int ub);
     List<String> getDistinctCandMajors();
     List<String> getDistinctUniversities();
+    void  deleteCandidate(String candId);
 }

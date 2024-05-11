@@ -19,4 +19,5 @@ public interface CandPostDao {
     List<CandPost> getCandPostBySubmissionStage(String submissionStage);
     List<CandPost> getPagedCandPosts(int pageIndex,int pageSize);
     long count();
+    void deleteCandPost(String candId, int postId);
 }

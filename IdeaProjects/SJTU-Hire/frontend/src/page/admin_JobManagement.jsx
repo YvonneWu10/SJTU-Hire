@@ -1,10 +1,10 @@
 // JobManagement.js
 import React, { useState, useEffect } from 'react';
-import {Button, Table, Space, Input, Select, Drawer, Form, AutoComplete, InputNumber, DatePicker} from 'antd';
+import {Button, Table, Space, Input, Select, Modal} from 'antd';
 import SidebarLayout from './admin_SidebarLayout';
-import {AdminsearchPosts, retAdminPostCities} from "../service/post"; // 确保路径正确, createPost
+import {AdminsearchPosts, retAdminPostCities, AdmindeletePost} from "../service/post"; // 确保路径正确, createPost
 import { useSearchParams } from 'react-router-dom';
-import {getAllCompany} from "../service/company";
+import { getAllCompany} from "../service/company";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -51,7 +51,7 @@ const JobManagement = () => {
         let totalPage = resPosts.total;
         setPosts(posts);
         setTotalPage(totalPage);
-        console.log("API Response:", resPosts);
+        // console.log("API Response:", resPosts);
     };
 
     const getPostCities = async () => {
@@ -138,14 +138,31 @@ const JobManagement = () => {
         setSearchParams(currentParams);
     };
 
+    const handleDelete =  (postId) => {
+        Modal.confirm({
+            title: '确定要删除这个岗位吗？',
+            content: '删除后，您将无法恢复此岗位。',
+            okText: '确认',
+            okType: 'danger',
+            cancelText: '取消',
+            onOk() {
+                // console.log('删除岗位', postId);
+                AdmindeletePost(postId).then(() => {
+                    // 刷新岗位列表
+                    getPosts();
+                });
+            }
+        });
+    };
+
 
     const columns = [
         // Define table columns for job data
-        { title: '岗位名称', dataIndex: 'postName', key: 'postId', width: '20%'},
-        { title: '公司名称', dataIndex: 'companyName', key: 'postId', width: '25%' },
-        { title: '地点', dataIndex: 'city', key: 'postId', width: '10%' },
-        { title: '类型', dataIndex: 'workType', key: 'postId', width: '10%' },
-        { title: '方式', dataIndex: 'workStyle', key: 'postId', width: '10%' },
+        { title: '岗位名称', dataIndex: 'postName', key: 'postName', width: '20%'},
+        { title: '公司名称', dataIndex: 'companyName', key: 'companyName', width: '25%' },
+        { title: '地点', dataIndex: 'city', key: 'city', width: '10%' },
+        { title: '类型', dataIndex: 'workType', key: 'workType', width: '10%' },
+        { title: '方式', dataIndex: 'workStyle', key: 'workStyle', width: '10%' },
         // Add more columns as needed
         {
             title: '操作',
@@ -154,7 +171,7 @@ const JobManagement = () => {
                 <Space size="middle">
                     <Button type="default" onClick={() => window.location.href = `/candidate_view/Post/${record.postId}`}>查看</Button>
                     <Button type="default">编辑</Button>
-                    <Button danger>删除</Button>
+                    <Button danger onClick={() => handleDelete(record.postId)}>删除</Button>
                 </Space>
             ),
         },

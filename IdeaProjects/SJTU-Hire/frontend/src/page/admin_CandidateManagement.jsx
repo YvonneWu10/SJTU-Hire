@@ -3,7 +3,7 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {Button, Table, Space, Modal, Form, Input, Select} from 'antd';
 import SidebarLayout from './admin_SidebarLayout';
 import {useSearchParams} from "react-router-dom";
-import {AdminsearchCandidates, retCandMajors, retCandUniversities} from "../service/candidate";
+import {adminDeleteCandidate, AdminsearchCandidates, retCandMajors, retCandUniversities} from "../service/candidate";
 import type {SelectProps} from "antd"; // 确保路径正确
 
 const { Search } = Input;
@@ -127,15 +127,32 @@ const CandidateManagement = () => {
         setSearchParams(currentParams);
     };
 
+    const handleDelete = (candId) => {
+        Modal.confirm({
+            title: '确定要删除这个招聘者吗？',
+            content: '删除后，您将无法恢复此招聘者。',
+            okText: '确认',
+            okType: 'danger',
+            cancelText: '取消',
+            onOk() {
+                console.log('删除招聘者', candId);
+                adminDeleteCandidate(candId).then(() => {
+                    // 刷新招聘者列表
+                    getCandidates();
+                });
+            }
+        });
+    };
+
     // Define the columns for the users table
     const columns = [
-        { title: '用户名', dataIndex: 'candName', key: 'candId', width: '10%' },
-        { title: '性别', dataIndex: 'candGender', key: 'candId', width: '6%' },
-        { title: '年龄', dataIndex: 'candAge', key: 'candId', width: '6%' },
-        { title: '学校', dataIndex: 'candUniversity', key: 'candId', width: '18%' },
-        { title: '专业', dataIndex: 'candMajor', key: 'candId', width: '15%' },
-        { title: '学历', dataIndex: 'candDegree', key: 'candId', width: '10%' },
-        { title: '密码', dataIndex: 'candPassword', key: 'candId', width: '10%', render: text => '******' }, //
+        { title: '用户名', dataIndex: 'candName', key: 'candName', width: '10%' },
+        { title: '性别', dataIndex: 'candGender', key: 'candGender', width: '6%' },
+        { title: '年龄', dataIndex: 'candAge', key: 'candAge', width: '6%' },
+        { title: '学校', dataIndex: 'candUniversity', key: 'candUniversity', width: '18%' },
+        { title: '专业', dataIndex: 'candMajor', key: 'candMajor', width: '15%' },
+        { title: '学历', dataIndex: 'candDegree', key: 'candDegree', width: '10%' },
+        { title: '密码', dataIndex: 'candPassword', key: 'candPassword', width: '10%', render: text => '******' }, //
         {
             title: '操作',
             key: 'action',
@@ -145,30 +162,12 @@ const CandidateManagement = () => {
                     {/*<Button danger onClick={() => deleteUser(record.id)}>删除</Button>*/}
                     <Button type="default">查看</Button>
                     <Button type="default">编辑</Button>
-                    <Button danger>删除</Button>
+                    <Button danger onClick={() => handleDelete(record.candId)}>删除</Button>
                 </Space>
             ),
         },
     ];
 
-    // const showModal = (user) => {
-    //     setEditingUser(user);
-    //     setIsModalVisible(true);
-    // };
-
-    // const handleOk = () => {
-    //     setIsModalVisible(false);
-    //     // TODO: Submit the changes to the backend
-    // };
-    //
-    // const handleCancel = () => {
-    //     setIsModalVisible(false);
-    // };
-    //
-    // const deleteUser = (id) => {
-    //     // TODO: Implement delete logic
-    //     // Typically involves sending a DELETE request to the backend
-    // };
 
     return (
         <SidebarLayout>

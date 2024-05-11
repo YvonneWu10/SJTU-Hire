@@ -96,4 +96,40 @@ public class PostController {
 
         return new ResponseEntity<>(postService.getDistinctPostCities(), HttpStatus.OK);
     }
+
+    @DeleteMapping(value = "/deletePost/{postId}")
+    public ResponseEntity<String> deletePostById(@RequestHeader Map<String, Object> header,
+                                                 @PathVariable Integer postId) {
+        // 检查管理员权限
+        String userType = (String) header.get("user-type");
+        String id = null;
+        if ("HR".equals(userType)) {
+            id = authService.getHRIdByHeader(header).toString();
+        }
+        if ("admin".equals(userType)) {
+            id = authService.getAdminIdByHeader(header);
+        }
+
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        // 检查是否提供了有效的postId
+        if (postId == null || postId <= 0) {
+            System.out.println("Invalid id: " + id);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+        // 检查是否存在对应post
+        if (postService.getPostById(postId) == null) {
+            System.out.println("No post id: " + id);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        // 调用服务层删除
+        postService.deletePost(postId);
+
+        // 删除成功
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
 }

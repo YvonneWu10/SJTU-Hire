@@ -1,9 +1,9 @@
 // ResumeManagement.js
 import React, { useState, useEffect } from 'react';
-import {Button, Table, Space, Input, Select, Pagination} from 'antd';
+import {Button, Table, Space, Input, Select, Pagination, Modal} from 'antd';
 import SidebarLayout from './admin_SidebarLayout';
 import {useSearchParams, useNavigate} from "react-router-dom";
-import {AdminsearchCandPost} from "../service/candPost"; // 确保路径正确
+import {adminDeleteResume, AdminsearchCandPost} from "../service/candPost"; // 确保路径正确
 
 const { Search } = Input;
 
@@ -25,6 +25,7 @@ const ResumeManagement = () => {
         let totalPage = resResumes.total;
         setResumes(resumes);
         setTotalPage(totalPage);
+        // console.log("resumes:", resResumes);
         // console.log("totalPage:", totalPage);
     }
 
@@ -61,42 +62,43 @@ const ResumeManagement = () => {
         setSearchParams(currentParams);
     };
 
+    // Delete Logic
+    const handleDelete = (candID, postID) => {
+        Modal.confirm({
+            title: '确定要删除这个投递信息吗？',
+            content: '删除后，您将无法恢复此投递信息。',
+            okText: '确认',
+            okType: 'danger',
+            cancelText: '取消',
+            onOk() {
+                console.log('删除投递信息', candID, postID);
+                adminDeleteResume(candID, postID).then(() => {
+                    // 刷新公司列表
+                    getResumes();
+                });
+            }
+        });
+    };
 
     // Define the columns for the resumes table
     const columns = [
-        { title: '姓名', dataIndex: 'candName', key: 'name', width: '15%' },
-        { title: '应聘岗位', dataIndex: 'postName', key: 'position', width: '20%' },
-        { title: '投递状态', dataIndex: 'submissionStage', key: 'position', width: '20%' },
-        { title: '投递日期', dataIndex: 'submissionDate', key: 'position', width: '20%' },
+        { title: '姓名', dataIndex: 'candName', key: 'candName', width: '15%' },
+        { title: '应聘岗位', dataIndex: 'postName', key: 'postName', width: '20%' },
+        { title: '投递状态', dataIndex: 'submissionStage', key: 'submissionStage', width: '20%' },
+        { title: '投递日期', dataIndex: 'submissionDate', key: 'submissionDate', width: '20%' },
         // Add more columns as needed
         {
             title: '操作',
             key: 'action',
             render: (_, record) => (
                 <Space size="middle">
-                    {/*<Button onClick={() => viewResume(record.id)}>查看</Button>*/}
-                    {/*<Button type="primary" onClick={() => editResume(record.id)}>编辑</Button>*/}
-                    {/*<Button danger onClick={() => deleteResume(record.id)}>删除</Button>*/}
                     <Button type="default">查看</Button>
                     <Button type="default">编辑</Button>
-                    <Button danger>删除</Button>
+                    <Button danger onClick={()=>handleDelete(record.candID, record.postID)}>删除</Button>
                 </Space>
             ),
         },
     ];
-
-    // // TODO: Implement functions for viewing, editing, and deleting resumes
-    // const viewResume = (id) => {
-    //     // Logic to view resume details
-    // };
-    //
-    // const editResume = (id) => {
-    //     // Logic to edit resume
-    // };
-    //
-    // const deleteResume = (id) => {
-    //     // Logic to delete resume
-    // };
 
     return (
         <SidebarLayout>
@@ -111,7 +113,7 @@ const ResumeManagement = () => {
                 <Table
                     columns={columns}
                     dataSource={resumes}
-                    rowKey="id"
+                    rowKey={record => `${record.candID}_${record.postID}`}
                     pagination={{ current: pageIndex, pageSize: pageSize, total: totalPage * pageSize }}
                     onChange={handleTableChange}
                 />

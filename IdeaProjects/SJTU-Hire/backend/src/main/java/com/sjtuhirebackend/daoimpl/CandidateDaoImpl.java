@@ -84,4 +84,8 @@ public class CandidateDaoImpl implements CandidateDao {
     public List<String> getDistinctUniversities(){
         return candidateRepository.findDistinctUniversity();
     }
+
+    public void deleteCandidate(String candId) {
+        candidateRepository.deleteById(candId);
+    }
 }

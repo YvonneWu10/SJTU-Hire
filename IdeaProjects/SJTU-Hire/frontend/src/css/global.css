@@ -130,3 +130,7 @@ svg {
     font-size: 12px;
     color: #888;
 }
+
+html {
+    overflow-y: scroll;
+}

@@ -128,4 +128,40 @@ public class CandidateController {
 
         return new ResponseEntity<>(candidateService.getDistinctCandUniversities(), HttpStatus.OK);
     }
+
+    @DeleteMapping(value = "/deleteCandidate/{candId}")
+    public ResponseEntity<String> deleteCandidateById(@RequestHeader Map<String, Object> header,
+                                                 @PathVariable String candId) {
+        // 检查管理员权限
+        String userType = (String) header.get("user-type");
+        String id = null;
+        if ("HR".equals(userType)) {
+            id = authService.getHRIdByHeader(header).toString();
+        }
+        if ("admin".equals(userType)) {
+            id = authService.getAdminIdByHeader(header);
+        }
+
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        // 检查是否提供了有效的candId
+        if (candId == null) {
+            System.out.println("Invalid id: " + id);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+        // 检查是否存在对应cand
+        if (candidateService.getCandidatesByCandId(candId) == null) {
+            System.out.println("No company id: " + id);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        System.out.println("NO problem before!!!!! ");
+        // 调用服务层删除
+        candidateService.deleteCandidate(candId);
+        // 删除成功
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
 }

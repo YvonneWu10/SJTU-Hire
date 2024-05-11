@@ -8,10 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +76,41 @@ public class CompanyController {
 
 
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/deleteCompany/{companyId}")
+    public ResponseEntity<String> deleteCompanyById(@RequestHeader Map<String, Object> header,
+                                                 @PathVariable Integer companyId) {
+        // 检查管理员权限
+        String userType = (String) header.get("user-type");
+        String id = null;
+        if ("HR".equals(userType)) {
+            id = authService.getHRIdByHeader(header).toString();
+        }
+        if ("admin".equals(userType)) {
+            id = authService.getAdminIdByHeader(header);
+        }
+
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        // 检查是否提供了有效的postId
+        if (companyId == null || companyId <= 0) {
+            System.out.println("Invalid id: " + id);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+        // 检查是否存在对应post
+        if (companyService.getCompany(companyId) == null) {
+            System.out.println("No company id: " + id);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        // 调用服务层删除
+        companyService.deleteCompany(companyId);
+        // 删除成功
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
 }
