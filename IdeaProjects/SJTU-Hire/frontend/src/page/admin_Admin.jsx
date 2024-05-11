@@ -53,10 +53,10 @@ const AdminPage = () => {
 
     return (
         <SidebarLayout>
-            <Card className="card-container">
+            <Card className="card-container" style={{ maxWidth: "1170px", width: "100%" }}>
                 <Space direction="vertical" size="large" style={{ width: "100%" }}>
                     <Search placeholder="输入岗位名" onSearch={handleSearch} enterButton size="large" />
-                    <PostList posts={posts} pageSize={pageSize} total={totalPage * pageSize} current={pageIndex} onPageChange={handlePageChange} />
+                    <PostList posts={posts} pageSize={pageSize} total={totalPage * pageSize} current={pageIndex} onPageChange={handlePageChange} columns ={5} gutter ={16} />
                 </Space>
             </Card>
         </SidebarLayout>
