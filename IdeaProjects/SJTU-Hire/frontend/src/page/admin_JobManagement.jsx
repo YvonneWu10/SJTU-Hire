@@ -1,12 +1,13 @@
 // JobManagement.js
 import React, { useState, useEffect } from 'react';
-import {Button, Table, Space, Input, Select} from 'antd';
+import {Button, Table, Space, Input, Select, Drawer, Form, AutoComplete, InputNumber, DatePicker} from 'antd';
 import SidebarLayout from './admin_SidebarLayout';
-import {AdminsearchPosts, retAdminPostCities} from "../service/post"; // 确保路径正确
+import {AdminsearchPosts, retAdminPostCities} from "../service/post"; // 确保路径正确, createPost
 import { useSearchParams } from 'react-router-dom';
 import {getAllCompany} from "../service/company";
 
 const { Search } = Input;
+const { Option } = Select;
 
 const JobManagement = () => {
     const [posts, setPosts] = useState([]);
@@ -20,6 +21,9 @@ const JobManagement = () => {
     const city = searchParams.get("city") || "";
     const workType = searchParams.get("workType") || "";
     const workStyle = searchParams.get("workStyle") || "";
+    // const [drawerVisible, setDrawerVisible] = useState(false);
+    // const [form] = Form.useForm();
+    const degreeOptions = ['大专', '本科', '硕士', '博士'];
 
     const getPosts = async () => {
         console.log("In search Posts");
@@ -156,21 +160,41 @@ const JobManagement = () => {
         },
     ];
 
+    // const showDrawer = () => {
+    //     setDrawerVisible(true);
+    // };
+    //
+    // const closeDrawer = () => {
+    //     setDrawerVisible(false);
+    //     form.resetFields();
+    // };
 
+    // const handleFormSubmit = async () => {
+    //     try {
+    //         const values = await form.validateFields();
+    //         const response = await createPost(values, 'admin');
+    //         console.log('岗位创建成功:', response);
+    //         closeDrawer();
+    //         getPosts(); // 刷新岗位列表
+    //     } catch (error) {
+    //         console.log('Error submitting form:', error);
+    //     }
+    // };
 
     return (
         <SidebarLayout>
             <div>
                 <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: 16}}>
                     <div style={{display: 'flex', gap: '8px'}}>
-                        <Search placeholder="输入岗位名" onSearch={handleSearch} enterButton size="large" />
                         <Select allowClear placeholder="请选择城市" onChange={handleCityOption} options={cityOptions} style={{ height: '40px' }} />
                         <Select allowClear placeholder="请选择实习/正式" onChange={handleWorkTypeOption}
                                 options={workTypeOptions} style={{ height: '40px' }}/>
                         <Select allowClear placeholder="请选择线下/远程" onChange={handleWorkStyleOption}
                                 options={workStyleOptions} style={{ height: '40px' }}/>
+
                     </div>
-                    <Button type="primary" style={{ height: '40px' }}>添加岗位</Button>
+                    <Search placeholder="输入岗位名" onSearch={handleSearch} enterButton size="large" style={{ marginLeft: 'auto', maxWidth: '300px', width: '100%'}} />
+                    {/*<Button type="primary" onClick={showDrawer} style={{ height: '40px' }}>添加岗位</Button>*/}
                 </div>
                 <Table columns={columns} dataSource={posts} rowKey="postId" pagination={{
                     current: pageIndex,
@@ -179,6 +203,74 @@ const JobManagement = () => {
                     onChange: handlePageChange,
                     hideOnSinglePage: true
                 }}/>
+                {/*<Drawer*/}
+                {/*    title="添加新岗位"*/}
+                {/*    width={720}*/}
+                {/*    onClose={closeDrawer}*/}
+                {/*    visible={drawerVisible}*/}
+                {/*    bodyStyle={{ paddingBottom: 80 }}*/}
+                {/*    footer={*/}
+                {/*        <div style={{ textAlign: 'right' }}>*/}
+                {/*            <Button onClick={closeDrawer} style={{ marginRight: 8 }}>取消</Button>*/}
+                {/*            <Button onClick={handleFormSubmit} type="primary">提交</Button>*/}
+                {/*        </div>*/}
+                {/*    }*/}
+                {/*>*/}
+                {/*    <Form form={form} layout="vertical" hideRequiredMark>*/}
+                {/*        <Form.Item name="postName" label="岗位名称" rules={[{ required: true, message: '请输入岗位名称' }]}>*/}
+                {/*            <Input placeholder="请输入岗位名称" />*/}
+                {/*        </Form.Item>*/}
+                {/*        <Form.Item name="companyName" label="公司名称" rules={[{ required: true, message: '请输入公司名称' }]}>*/}
+                {/*            <Input placeholder="请输入公司名称" />*/}
+                {/*        </Form.Item>*/}
+                {/*        <Form.Item name="city" label="城市" rules={[{ required: true, message: '请选择城市' }]}>*/}
+                {/*            <Select placeholder="请选择城市" options={cityOptions}></Select>*/}
+                {/*        </Form.Item>*/}
+                {/*        <Form.Item name="workType" label="工作类型" rules={[{ required: true, message: '请选择工作类型' }]}>*/}
+                {/*            <Select placeholder="请选择工作类型" options={workTypeOptions}></Select>*/}
+                {/*        </Form.Item>*/}
+                {/*        <Form.Item name="workStyle" label="工作方式" rules={[{ required: true, message: '请选择工作方式' }]}>*/}
+                {/*            <Select placeholder="请选择工作方式" options={workStyleOptions}></Select>*/}
+                {/*        </Form.Item>*/}
+                {/*        <Form.Item name="degreeReq" label="学历要求" rules={[{ required: true, message: '请选择学历要求' }]}>*/}
+                {/*            <Select placeholder="请选择学历要求">*/}
+                {/*                {degreeOptions.map(degree => (*/}
+                {/*                    <Option key={degree} value={degree}>{degree}</Option>*/}
+                {/*                ))}*/}
+                {/*            </Select>*/}
+                {/*        </Form.Item>*/}
+                {/*        <Form.Item name="workYearReq" label="工作经验年数要求" rules={[{required: true, message: '请输入工作经验年数要求'}, {type: 'number', min: 0, message: '格式不符合要求（请输入非负整数）'}]}>*/}
+                {/*            <InputNumber placeholder="请输入工作经验年数要求" style={{ width: '100%' }} />*/}
+                {/*        </Form.Item>*/}
+                {/*        <Form.Item name="onSiteDayReq" label="一周到岗天数要求" rules={[{ required: true, message: '请输入一周到岗天数要求' }, {type: 'number', min: 0, max:7, message: '格式不符合要求（请输入1-7的整数）'}]}>*/}
+                {/*            <InputNumber placeholder="请输入一周到岗天数要求" style={{ width: '100%' }} />*/}
+                {/*        </Form.Item>*/}
+                {/*        <Form.Item name="openDate" label="开放日期" rules={[{ required: true, message: '请选择开放日期' }]}>*/}
+                {/*            <DatePicker placeholder="请选择开放日期" style={{ width: '100%' }} />*/}
+                {/*        </Form.Item>*/}
+                {/*        <Form.Item name="endDate" label="关闭日期" rules={[{ required: true, message: '请选择关闭日期' }]}>*/}
+                {/*            <DatePicker placeholder="请选择关闭日期" style={{ width: '100%' }} />*/}
+                {/*        </Form.Item>*/}
+                {/*        <Form.Item name="recruitNum" label="招募人数" rules={[{ required: true, message: '请输入招募人数' }, {type: 'number', min: 0, message: '格式不符合要求（请输入非负整数）'}]}>*/}
+                {/*            <InputNumber placeholder="请输入招募人数" style={{ width: '100%' }} />*/}
+                {/*        </Form.Item>*/}
+                {/*        <Form.Item name="salary" label="年薪" rules={[{ required: true, message: '请输入年薪(k)' }, {type: 'number', min: 0, message: '格式不符合要求（请输入非负整数）'}]}>*/}
+                {/*            <InputNumber placeholder="请输入年薪(k)" style={{ width: '100%' }} />*/}
+                {/*        </Form.Item>*/}
+                {/*        <Form.Item name="departmentId" label="部门名" rules={[{ required: true, message: '请输入负责部门' }]}>*/}
+                {/*            <Input placeholder="请输入负责部门" />*/}
+                {/*        </Form.Item>*/}
+                {/*        <Form.Item name="HRId" label="对应HR名" rules={[{ required: true, message: '请输入对应HR名' }]}>*/}
+                {/*            <Input placeholder="请输入对应HR名" />*/}
+                {/*        </Form.Item>*/}
+                {/*        <Form.Item name="description" label="岗位描述" rules={[{ required: true, message: '请输入岗位描述' }]}>*/}
+                {/*            <Input placeholder="请输入岗位描述" />*/}
+                {/*        </Form.Item>*/}
+                {/*        <Form.Item name="responsibility" label="岗位需求" rules={[{ required: true, message: '请输入岗位需求' }]}>*/}
+                {/*            <Input placeholder="请输入岗位需求" />*/}
+                {/*        </Form.Item>*/}
+                {/*    </Form>*/}
+                {/*</Drawer>*/}
             </div>
         </SidebarLayout>
     );

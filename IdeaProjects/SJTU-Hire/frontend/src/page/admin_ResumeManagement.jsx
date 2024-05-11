@@ -59,7 +59,6 @@ const ResumeManagement = () => {
         currentParams.set("pageIndex", pagination.current);
         currentParams.set("pageSize", pagination.pageSize);
         setSearchParams(currentParams);
-        // navigate(`/resume-management?pageIndex=${pagination.current}&pageSize=${pagination.pageSize}&candName=${candName}&postName=${postName}`);
     };
 
 
@@ -107,7 +106,7 @@ const ResumeManagement = () => {
                         <Search placeholder="输入用户名" onSearch={handleCandSearch} enterButton size="large" />
                         <Search placeholder="输入岗位名" onSearch={handlePostSearch} enterButton size="large" />
                     </div>
-                    <Button type="primary" style={{ height: '40px' }}>添加投递信息</Button>
+                    {/*<Button type="primary" style={{ height: '40px' }}>添加投递信息</Button>*/}
                 </div>
                 <Table
                     columns={columns}

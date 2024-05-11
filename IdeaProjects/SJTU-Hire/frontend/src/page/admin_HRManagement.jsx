@@ -94,7 +94,7 @@ const HRManagement = () => {
                     <div style={{display: 'flex', gap: '8px'}}>
                         <Search placeholder="输入用户名" onSearch={handleSearch} enterButton size="large"/>
                     </div>
-                    <Button type="primary" style={{height: '40px'}}>添加用户</Button>
+                    {/*<Button type="primary" style={{height: '40px'}}>添加用户</Button>*/}
                 </div>
                 <Table columns={columns} dataSource={HRs} rowKey="hrid"/>
             </div>

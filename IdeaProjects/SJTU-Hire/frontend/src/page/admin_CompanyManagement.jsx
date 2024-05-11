@@ -115,13 +115,13 @@ const CompanyManagement = () => {
             <div>
                 <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: 16}}>
                     <div style={{display: 'flex', gap: '8px'}}>
-                        <Search placeholder="输入公司名" onSearch={handleSearch} enterButton size="large"/>
                         <Select allowClear placeholder="请选择类型" onChange={handleCompanyTypeOption}
                                 options={companyTypeOptions} style={{ height: '40px'}}/>
                         <Select allowClear placeholder="请选择规模" onChange={handleCompanyScaleOption}
                                 options={companyScaleOptions} style={{ height: '40px'}}/>
                     </div>
-                    <Button type="primary" style={{height: '40px'}}>添加公司</Button>
+                    <Search placeholder="输入公司名" onSearch={handleSearch} enterButton size="large" style={{ marginLeft: 'auto', maxWidth: '300px', width: '100%'}}/>
+                    {/*<Button type="primary" style={{height: '40px'}}>添加公司</Button>*/}
                 </div>
                 <Table columns={columns} dataSource={companies} rowKey="companyId" pagination={{
                     current: pageIndex,

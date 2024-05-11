@@ -175,7 +175,6 @@ const CandidateManagement = () => {
             <div>
                 <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: 16}}>
                     <div style={{display: 'flex', gap: '8px'}}>
-                        <Search placeholder="输入用户名" onSearch={handleSearch} enterButton size="large"/>
                         <Select allowClear placeholder="请选择性别" onChange={handleCandGenderOption}
                                 options={candGenderOptions} style={{height: '40px'}}/>
                         <Select allowClear placeholder="请选择学校" onChange={handleUniversityOption}
@@ -183,11 +182,9 @@ const CandidateManagement = () => {
                         <Select allowClear placeholder="请选择专业" onChange={handleMajorOption}
                                 options={majorOptions} style={{height: '40px'}}/>
                     </div>
-                    <Button type="primary" style={{height: '40px'}}>添加用户</Button>
+                    <Search placeholder="输入用户名" onSearch={handleSearch} enterButton size="large" style={{ marginLeft: 'auto', maxWidth: '300px', width: '100%'}}/>
+                    {/*<Button type="primary" style={{height: '40px'}}>添加用户</Button>*/}
                 </div>
-                {/*<Button type="primary" style={{ marginBottom: 16 }} onClick={() => showModal(null)}>*/}
-                {/*    添加用户*/}
-                {/*</Button>*/}
                 <Table columns={columns} dataSource={candidates} rowKey="candId"/>
                 {/*<Modal title="编辑用户" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>*/}
                 {/*    <Form*/}
