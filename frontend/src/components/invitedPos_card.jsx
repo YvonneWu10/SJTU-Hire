@@ -4,10 +4,11 @@ import { Button, Card } from "antd"
 import { Link } from "react-router-dom";
 import { acceptInvitationByPostId, refuseInvitationByPostId } from "../service/candPost";
 import { refreshPage } from "../utils/refresh";
+import React from "react";
 
 const { Meta } = Card;
 
-export default function InvitedPostCard({ post, companyName, candPost }) {
+export default function InvitedPostCard({ post, companyName, candPost, timeout }) {
     const acceptOnClick = () => {
         acceptInvitationByPostId(post.postId);
         refreshPage();
@@ -27,14 +28,18 @@ export default function InvitedPostCard({ post, companyName, candPost }) {
         </Link>
         <p style={{marginBottom: -10}}>应聘于 {candPost.submissionDate}</p>
         <p style={{marginBottom: -10}}>目前状态 - {candPost.submissionStage}</p>
-        <div style={{display: "flex", marginTop: -30}}>
-            <div style={{ marginLeft: 250 }}>
-                <Button onClick={acceptOnClick}>接受邀请</Button>
-            </div>
-            <div style={{ marginLeft: 10 }}>
-                <Button onClick={refuseOnClick}>拒绝邀请</Button>
-            </div>
-        </div>
+        {timeout ? (<div style={{display: "flex", marginTop: -30, marginLeft: 360}}>
+                <Button disabled>未开放</Button>
+        </div>) :
+                  (<div style={{display: "flex", marginTop: -30}}>
+                       <div style={{ marginLeft: 250 }}>
+                           <Button onClick={acceptOnClick}>接受邀请</Button>
+                       </div>
+                       <div style={{ marginLeft: 10 }}>
+                           <Button onClick={refuseOnClick}>拒绝邀请</Button>
+                       </div>
+                  </div>)
+        }
     </Card>
 
 }

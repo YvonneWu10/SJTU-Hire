@@ -16,6 +16,7 @@ import CompanyPage from "../page/company";
 import CandidateDeliveredPage from "../page/candidate_delivered";
 import CandidateInvitedPage from "../page/candidate_invited";
 import CandidateEndedPage from "../page/candidate_ended";
+import CandEditPersonalCenterPage from "../page/candEditPersonalCenter";
 
 export default function AppRouter() {
     return <BrowserRouter>
@@ -30,6 +31,7 @@ export default function AppRouter() {
             <Route path="/candidate_view/Invited" element={<CandidateInvitedPage />} />
             <Route path="/candidate_view/Ended" element={<CandidateEndedPage />} />
             <Route path="/candidate_view/PersonalCenter" element={<CandPersonalCenterPage />} />
+            <Route path="/candidate_view/PersonalCenterEdit" element={<CandEditPersonalCenterPage />} />
             <Route path="/hr_view" element={<CandPostPage />} />
             <Route path="/hr_view/candPostDetail/:candId/:postId" element={<CandPostDetailPage />} />
             <Route path="/administer_view" element={<AdminPage />} />

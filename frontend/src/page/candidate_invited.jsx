@@ -5,16 +5,16 @@ import {useEffect, useState} from "react";
 
 import { useSearchParams } from "react-router-dom";
 import { PrivateLayout } from "../components/layout";
-import DeliveredPostList from "../components/deliveredEndedInvitedPost_list";
-import { searchDeliveredEndedInvitedPosts } from "../service/candPost";
+import { searchInvitedPosts } from "../service/candPost";
 import CandidateHeader from "../components/candidate_header";
-import DeliveredEndedInvitedPostList from "../components/deliveredEndedInvitedPost_list";
+import InvitedPostList from "../components/invitedPost_list";
 
 
 export default function CandidateInvitedPage() {
     const [posts, setPosts] = useState([]);
     const [companies, setCompanies] = useState([]);
     const [candPosts, setCandPosts] = useState([]);
+    const [timeout, setTimeout] = useState([]);
     const [totalPage, setTotalPage] = useState(0);
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -22,14 +22,16 @@ export default function CandidateInvitedPage() {
     const pageSize = searchParams.get("pageSize") != null ? Number.parseInt(searchParams.get("pageSize")) : 6;
 
     const getDeliveredPosts = async () => {
-        let resDeliveredPosts = await searchDeliveredEndedInvitedPosts(pageIndex, pageSize, "InvitedPost");
-        let resPosts = resDeliveredPosts.posts;
-        let resCompanies = resDeliveredPosts.companies;
-        let resCandPosts = resDeliveredPosts.candPosts;
-        let totalPage = resDeliveredPosts.total;
+        let resInvitedPosts = await searchInvitedPosts(pageIndex, pageSize);
+        let resPosts = resInvitedPosts.posts;
+        let resCompanies = resInvitedPosts.companies;
+        let resCandPosts = resInvitedPosts.candPosts;
+        let resTimeout = resInvitedPosts.timeout;
+        let totalPage = resInvitedPosts.total;
         setPosts(resPosts);
         setCompanies(resCompanies);
         setCandPosts(resCandPosts);
+        setTimeout(resTimeout);
         setTotalPage(totalPage);
     };
 
@@ -57,8 +59,8 @@ export default function CandidateInvitedPage() {
                 <div className="center-container">
                     <Card className="card-container">
                         <Space direction="vertical" size="large" style={{width: "100%"}}>
-                            <DeliveredEndedInvitedPostList posts={posts} companies={companies} candPosts={candPosts}
-                                                           pageSize={pageSize} total={totalPage * pageSize}
+                            <InvitedPostList posts={posts} companies={companies} candPosts={candPosts}
+                                                           timeout={timeout} pageSize={pageSize} total={totalPage * pageSize}
                                                            current={pageIndex} onPageChange={handlePageChange}
                                                            cardType={"InvitedPostCard"} />
                         </Space>

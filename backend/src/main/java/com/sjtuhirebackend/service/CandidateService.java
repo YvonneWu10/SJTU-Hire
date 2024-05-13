@@ -41,5 +41,8 @@ public interface CandidateService {
     List<Candidate> getCandidatesByCandExpectedSalary(int candExpectedSalary);
 
     List<Candidate> getCandidatesByCandExpectedSalaryBetween(int lb, int ub);
+
     Map<String, Object> getCandInfoByCandId(String id);
+
+    void editCandidateInfo(String id, Map<String, Object> values, List<Integer> deletedProjects);
 }

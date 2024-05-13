@@ -1,15 +1,14 @@
 import { List, Pagination, Space } from "antd"
 import DeliveredPostCard from "./deliveredPost_card";
 import EndedPostCard from "./endedPost_card";
-import InvitedPostCard from "./invitedPos_card";
 
 const CardComponentMap = {
     'DeliveredPostCard': DeliveredPostCard,
     'EndedPostCard': EndedPostCard,
-    'InvitedPostCard': InvitedPostCard
 };
 
-export default function DeliveredEndedInvitedPostList({ posts, companies, candPosts, pageSize, current, total, onPageChange, cardType }) {
+export default function DeliveredEndedPostList({ posts, companies, candPosts, pageSize, current, total,
+                                                        onPageChange, cardType }) {
     const combinedData = candPosts.map((candPost, index) => ({
         post: posts[index],
         companyName: companies[index],
@@ -29,7 +28,7 @@ export default function DeliveredEndedInvitedPostList({ posts, companies, candPo
                 <List.Item>
                     <div style={{display: "flex", justifyContent: "center", width: '100%', padding: 5}}>
                         <CardToRender post={data["post"]} companyName={data["companyName"]}
-                                      candPost={data["candPost"]}/>
+                                      candPost={data["candPost"]} />
                     </div>
                 </List.Item>
             )}

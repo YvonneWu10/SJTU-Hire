@@ -25,4 +25,6 @@ public interface CandidateDao {
     List<Candidate> getCandidatesByCandWorkYearAfter(int candWorkYear);
     List<Candidate> getCandidatesByCandExpectedSalary(int candExpectedSalary);
     List<Candidate> getCandidatesByCandExpectedSalaryBetween(int lb, int ub);
+
+    void saveCandidate(Candidate candidate);
 }

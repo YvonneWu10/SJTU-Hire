@@ -40,7 +40,7 @@ export async function getCandPostById(candId, postId) {
     return candPostInfo;
 }
 
-export async function searchDeliveredEndedInvitedPosts(pageIndex, pageSize, status) {
+export async function searchDeliveredEndedPosts(pageIndex, pageSize, status) {
     const url = `${PREFIX}/candidate_view/${status}`;
     let result;
     let response;
@@ -59,6 +59,33 @@ export async function searchDeliveredEndedInvitedPosts(pageIndex, pageSize, stat
             posts: [],
             companies: [],
             candPosts: []
+        };
+    }
+
+    return response;
+}
+
+export async function searchInvitedPosts(pageIndex, pageSize) {
+    const url = `${PREFIX}/candidate_view/InvitedPost`;
+    let result;
+    let response;
+    try {
+        result = await getJson(url, "candidate");
+        response = {
+            total: Math.ceil(result["candPosts"].length / pageSize),
+            posts: result["posts"],
+            companies: result["companies"],
+            candPosts: result["candPosts"],
+            timeout: result["timeout"]
+        };
+    } catch (e) {
+        console.log(e);
+        response = {
+            total: 0,
+            posts: [],
+            companies: [],
+            candPosts: [],
+            timeout: []
         };
     }
 

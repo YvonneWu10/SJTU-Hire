@@ -10,9 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
 
 @Service
 @Slf4j
@@ -92,5 +96,73 @@ public class CandidateServiceImpl implements CandidateService {
         ans.put("projects", projects);
 
         return ans;
+    }
+
+    public void editCandidateInfo(String id, Map<String, Object> values, List<Integer> deletedProjects) {
+        for (int projectId : deletedProjects) {
+            projectDao.deleteProject(projectId);
+        }
+
+        Candidate candidate = candidateDao.getCandidateByCandId(id);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        for (Map.Entry<String, Object> entry : values.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            if (key.matches("^[1-9]\\d*$")) {
+                Project project = new Project();
+                Map<String, Object> value_map = (Map<String, Object>) value;
+
+                int projectId = Integer.parseInt(key);
+                if (projectId <= 5000) {
+                    project.setProjectId(projectId);
+                }
+
+                project.setProjectName((String) value_map.get("projectName"));
+                project.setRole((String) value_map.get("projectRole"));
+                project.setProjectAchievement((Integer) value_map.get("projectAchievement"));
+                project.setDescription((String) value_map.get("projectDescription"));
+                project.setParticipant(id);
+
+                if (value_map.get("projectStartDate") != null) {
+                    LocalDate startLocalDate = LocalDate.parse(value_map.get("projectStartDate").toString().substring(0, 10), formatter);
+                    java.util.Date startDate = Date.from(startLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                    project.setStartDate(startDate);
+                } else {
+                    project.setStartDate(null);
+                }
+                if (value_map.get("projectEndDate") != null) {
+                    LocalDate endLocalDate = LocalDate.parse(value_map.get("projectEndDate").toString().substring(0, 10), formatter);
+                    java.util.Date endDate = Date.from(endLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                    project.setEndDate(endDate);
+                } else {
+                    project.setEndDate(null);
+                }
+
+                projectDao.saveProject(project);
+            } else {
+                switch (key) {
+                    case "candidateName" -> candidate.setCandName((String) value);
+                    case "candidateId" -> candidate.setCandId((String) value);
+                    case "candidateGender" -> candidate.setCandGender((String) value);
+                    case "candidateAge" -> candidate.setCandAge((Integer) value);
+                    case "candidatePhone" -> candidate.setCandPhone((String) value);
+                    case "candidateMail" -> candidate.setCandMail((String) value);
+                    case "candidateProvince" -> candidate.setCandProvince((String) value);
+                    case "candidateDegree" -> candidate.setCandDegree((String) value);
+                    case "candidateUniversity" -> candidate.setCandUniversity((String) value);
+                    case "candidateMajor" -> candidate.setCandMajor((String) value);
+                    case "candidateGPA" -> candidate.setCandGPA((Double) value);
+                    case "candidateMentor" -> candidate.setCandMentor((String) value);
+                    case "candidatePaperNum" -> candidate.setCandPaperNum((Integer) value);
+                    case "candidateWorkYear" -> candidate.setCandWorkYear((Integer) value);
+                    case "candidateExpectedSalary" -> candidate.setCandExpectedSalary((Integer) value);
+                    default -> System.out.println("editCandidateInfo unknown key:" + key);
+                }
+            }
+        }
+
+        candidateDao.saveCandidate(candidate);
     }
 }

@@ -5,10 +5,9 @@ import {useEffect, useState} from "react";
 
 import { useSearchParams } from "react-router-dom";
 import {PrivateLayout} from "../components/layout";
-import DeliveredPostList from "../components/deliveredEndedInvitedPost_list";
-import {searchDeliveredEndedInvitedPosts} from "../service/candPost";
+import {searchDeliveredEndedPosts} from "../service/candPost";
 import CandidateHeader from "../components/candidate_header";
-import DeliveredEndedInvitedPostList from "../components/deliveredEndedInvitedPost_list";
+import DeliveredEndedPostList from "../components/deliveredEndedPost_list";
 
 
 export default function CandidateDeliveredPage() {
@@ -22,7 +21,7 @@ export default function CandidateDeliveredPage() {
     const pageSize = searchParams.get("pageSize") != null ? Number.parseInt(searchParams.get("pageSize")) : 6;
 
     const getDeliveredPosts = async () => {
-        let resDeliveredPosts = await searchDeliveredEndedInvitedPosts(pageIndex, pageSize, "DeliveredPost");
+        let resDeliveredPosts = await searchDeliveredEndedPosts(pageIndex, pageSize, "DeliveredPost");
         let resPosts = resDeliveredPosts.posts;
         let resCompanies = resDeliveredPosts.companies;
         let resCandPosts = resDeliveredPosts.candPosts;
@@ -57,10 +56,10 @@ export default function CandidateDeliveredPage() {
                 <div className="center-container">
                     <Card className="card-container">
                         <Space direction="vertical" size="large" style={{width: "100%"}}>
-                            <DeliveredEndedInvitedPostList posts={posts} companies={companies} candPosts={candPosts}
-                                                           pageSize={pageSize} total={totalPage * pageSize}
-                                                           current={pageIndex} onPageChange={handlePageChange}
-                                                           cardType={"DeliveredPostCard"} />
+                            <DeliveredEndedPostList posts={ posts } companies={ companies } candPosts={ candPosts }
+                                                           pageSize={ pageSize } total={ totalPage * pageSize }
+                                                           current={ pageIndex } onPageChange={ handlePageChange }
+                                                           cardType={ "DeliveredPostCard" } />
                         </Space>
                     </Card>
                 </div>

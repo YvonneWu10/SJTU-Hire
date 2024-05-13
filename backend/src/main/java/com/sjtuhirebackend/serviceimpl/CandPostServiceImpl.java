@@ -4,17 +4,11 @@ import com.sjtuhirebackend.dao.*;
 
 import com.sjtuhirebackend.entity.CandPost;
 
-import com.sjtuhirebackend.entity.CandPost;
 import com.sjtuhirebackend.entity.CandPostPK;
 import com.sjtuhirebackend.entity.Candidate;
 import com.sjtuhirebackend.entity.Post;
 import com.sjtuhirebackend.dao.CandidateDao;
 import com.sjtuhirebackend.dao.PostDao;
-import com.sjtuhirebackend.entity.CandPost;
-import com.sjtuhirebackend.entity.CandPostPK;
-import com.sjtuhirebackend.entity.Candidate;
-import com.sjtuhirebackend.entity.Post;
-import com.sjtuhirebackend.entity.CandPost;
 
 import com.sjtuhirebackend.service.CandPostService;
 import lombok.extern.slf4j.Slf4j;
@@ -23,15 +17,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import java.util.Date;
 import java.util.List;
-
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 @Service
@@ -149,10 +137,17 @@ public class CandPostServiceImpl implements CandPostService {
             companyNameList.add(companyDao.getCompany(companyId).getCompanyName());
         }
 
+        List<Boolean> timeout = new ArrayList<>();
+        Date current = new Date();
+        for (Post post : postList) {
+            timeout.add(post.getOpenDate().after(current) || post.getEndDate().before(current));
+        }
+
         Map<String, Object> ans = new HashMap<>();
         ans.put("candPosts", candPostList);
         ans.put("posts", postList);
         ans.put("companies", companyNameList);
+        ans.put("timeout", timeout);
 
         return ans;
     }

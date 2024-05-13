@@ -75,4 +75,8 @@ public class CandidateDaoImpl implements CandidateDao {
     public List<Candidate> getCandidatesByCandExpectedSalaryBetween(int lb, int ub){
         return candidateRepository.findByCandExpectedSalaryBetween(lb, ub);
     }
+
+    public void saveCandidate(Candidate candidate) {
+        candidateRepository.save(candidate);
+    }
 }

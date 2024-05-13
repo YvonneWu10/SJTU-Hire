@@ -3,8 +3,6 @@ import '../css/global.css'
 import {Col, Descriptions} from "antd"
 
 export default function CandidateDescription({ candidate, projectList }) {
-    // console.log(`candidate in CandidateDescription: ${JSON.stringify(candidate, null, 2)}`);
-    // console.log(`projectList in CandidateDescription: ${JSON.stringify(projectList, null, 2)}`);
     const basicItems = [
         {
             key: '1',
@@ -69,29 +67,30 @@ export default function CandidateDescription({ candidate, projectList }) {
         {
             key: '13',
             label: '论文数量',
-            children: candidate.candPaperNum,
+            children: candidate.candPaperNum == null ? null : `${candidate.candPaperNum}篇`,
         },
         {
             key: '14',
             label: '工作经验',
-            children: `${candidate.candWorkYear}年`,
+            children: candidate.candWorkYear == null ? null : `${candidate.candWorkYear}年`,
         },
         {
             key: '15',
             label: '期望工资',
-            children: `${candidate.candExpectedSalary}k`,
+            children: candidate.candExpectedSalary == null ? null : `${candidate.candExpectedSalary}k`,
         },
     ];
 
     const projectDescriptions = projectList.map((project) => ({
-        key: project.id,
+        key: project.projectId,
         label: <span style={{fontSize: '16px'}}>项目 - {project.projectName}</span>,
         span: 3,
         children: (
-            <Descriptions layout="vertical" column={3}>
+            <Descriptions layout="vertical" column={4}>
                 <Descriptions.Item label="开始时间">{project.startDate}</Descriptions.Item>
                 <Descriptions.Item label="结束时间">{project.endDate}</Descriptions.Item>
-                <Descriptions.Item label="项目业绩">{project.projectAchievement}k</Descriptions.Item>
+                <Descriptions.Item label="角色">{project.role}</Descriptions.Item>
+                <Descriptions.Item label="项目业绩">{project.projectAchievement == null ? null : `${project.projectAchievement}k`}</Descriptions.Item>
                 <Descriptions.Item label="描述" >
                     <span style={{textIndent: '2em', textAlign: 'left'}}>{project.description}</span>
                 </Descriptions.Item>
@@ -107,5 +106,5 @@ export default function CandidateDescription({ candidate, projectList }) {
                     <Descriptions title={<span style={{fontSize: '22px'}}>个人简历</span>} layout="vertical" column={3} items={allItems}/>
                 </Col>
             </div>
-);
+    );
 }

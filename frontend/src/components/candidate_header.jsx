@@ -30,9 +30,7 @@ const candidateMenuItems: MenuProps['items'] = [
                 label: (<Link to="/candidate_view/Ended">流程终止</Link>),
                 key: 'ended'
             }
-
         ],
-
     },
 ];
 
