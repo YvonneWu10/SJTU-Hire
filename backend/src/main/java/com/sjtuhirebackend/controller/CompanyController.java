@@ -1,6 +1,7 @@
 package com.sjtuhirebackend.controller;
 
 import com.sjtuhirebackend.entity.Company;
+import com.sjtuhirebackend.entity.Post;
 import com.sjtuhirebackend.service.AuthService;
 import com.sjtuhirebackend.service.CompanyService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,13 +26,16 @@ public class CompanyController {
 
     @RequestMapping("/candidate_view/SearchCompany")
     public ResponseEntity<List<Company>> searchCompany(@RequestHeader Map<String, Object> header,
-                                                       @RequestParam(defaultValue = "") String companyName) {
+                                                       @RequestParam(defaultValue = "") String companyName,
+                                                       @RequestParam(defaultValue = "") String companyType,
+                                                       @RequestParam(defaultValue = "") String financingStage,
+                                                       @RequestParam(defaultValue = "") String companyScale) {
         String id = authService.getCandIdByHeader(header);
         if (id == null) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
 
-        if (Objects.equals(companyName, "")) {
+        if (Objects.equals(companyName, "") && Objects.equals(companyType, "") && Objects.equals(financingStage, "") && Objects.equals(companyScale, "")) {
             return new ResponseEntity<>(companyService.getCompanies(), HttpStatus.OK);
         }
 
@@ -41,6 +45,48 @@ public class CompanyController {
         if (!Objects.equals(companyName, "")) {
             flag = true;
             result = companyService.getCompanyByName(companyName);
+        }
+
+        if (!Objects.equals(companyType, "")) {
+            if (flag && result.isEmpty()) {
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            }
+
+            List<Company> typeRes = companyService.getCompanyByType(companyType);
+            if (!flag) {
+                flag = true;
+                result = typeRes;
+            } else {
+                result.retainAll(typeRes);
+            }
+        }
+
+        if (!Objects.equals(financingStage, "")) {
+            if (flag && result.isEmpty()) {
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            }
+
+            List<Company> stageRes = companyService.getCompanyByFinancingStage(financingStage);
+            if (!flag) {
+                flag = true;
+                result = stageRes;
+            } else {
+                result.retainAll(stageRes);
+            }
+        }
+
+        if (!Objects.equals(companyScale, "")) {
+            if (flag && result.isEmpty()) {
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            }
+
+            List<Company> scaleRes = companyService.getCompanyByScale(companyScale);
+            if (!flag) {
+                flag = true;
+                result = scaleRes;
+            } else {
+                result.retainAll(scaleRes);
+            }
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);

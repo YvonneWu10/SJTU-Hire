@@ -33,7 +33,7 @@ public class PostController {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
 
-        if (Objects.equals(postName, "") && Objects.equals(city, "")) {
+        if (Objects.equals(postName, "") && Objects.equals(city, "") && Objects.equals(workType, "") && Objects.equals(workStyle, "")) {
             return new ResponseEntity<>(postService.getPosts(), HttpStatus.OK);
         }
 

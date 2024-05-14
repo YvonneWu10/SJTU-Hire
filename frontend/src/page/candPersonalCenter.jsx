@@ -38,7 +38,7 @@ export default function CandPersonalCenterPage() {
         }, {
             children: (
                 <div className="flex">
-                    <Card className="scroll-card-container">
+                    <Card className="card-container">
                         <Button onClick={ editOnClick } className={"ant-button-primary"}
                                 style={{ position: 'absolute', right: 180, top: 70, width: 100, height: 50, fontSize: 18, letterSpacing: 4 }} >
                             编辑
@@ -47,7 +47,6 @@ export default function CandPersonalCenterPage() {
                     </Card>
                 </div>
             )
-        },
-        "scroll-footer"
+        }
     );
 }

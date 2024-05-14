@@ -26,31 +26,21 @@ svg {
     display: flex;
     justify-content: center; /* 水平居中 */
     align-items: center; /* 垂直居中，可选 */
-    position: absolute;
-    bottom: 15px;
     width: 1670px;
-    height: 40px;
-}
-
-.scroll-footer {
-    display: flex;
-    justify-content: center; /* 水平居中 */
-    align-items: center; /* 垂直居中，可选 */
     height: 80px;
+    bottom: 15px;
 }
 
 .basic-layout {
+    display: flex;
+    flex-direction: column;
     min-height: 98.3vh !important;
 }
 
 .card-container {
-    position: absolute;
-    top: 120px;
+    top: 10px;
     width: 1630px;
-    height: 750px;
-}
-
-.scroll-card-container {
+    min-height: 740px;
     margin: 20px;
 }
 

@@ -44,7 +44,7 @@ public class CompanyServiceImpl implements CompanyService {
         return companyDao.getCompanyByScale(searchScale);
     }
     // 根据公司融资阶段查找公司
-    public List<Company> getCompanyByFin(String searchFinanceStage){
+    public List<Company> getCompanyByFinancingStage(String searchFinanceStage){
         return companyDao.getCompanyByFin(searchFinanceStage);
     }
     // 根据公司所属行业查找公司

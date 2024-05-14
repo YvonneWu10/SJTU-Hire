@@ -26,7 +26,7 @@ export default function CompanyDetails({ company }) {
                         <TeamOutlined style={{marginRight: '4px'}}/> {company.companyScale}
                         <RiseOutlined style={{marginLeft: '20px', marginRight: '4px'}}/> {company.financingStage}
                         <BankOutlined style={{marginLeft: '20px', marginRight: '4px'}}/> {company.companyType}
-                        <CompassOutlined style={{marginLeft: '20px'}}/> {company.companyField}
+                        <CompassOutlined style={{marginLeft: '20px', marginRight: '4px'}}/> {company.companyField}
                     </span>
                 </Row>
             </div>

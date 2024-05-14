@@ -1,8 +1,8 @@
 import { PREFIX, getJson } from "./common";
 
-export async function searchCompany(pageIndex, pageSize, companyName) {
+export async function searchCompany(pageIndex, pageSize, companyName, companyType, financingStage, companyScale) {
     const url = `${PREFIX}/candidate_view/SearchCompany?pageIndex=${pageIndex}&pageSize=${pageSize}
-                 &companyName=${companyName}`;
+                 &companyName=${companyName}&companyType=${companyType}&financingStage=${financingStage}&companyScale=${companyScale}`;
     let company;
     let response;
     try {

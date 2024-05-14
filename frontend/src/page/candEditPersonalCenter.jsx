@@ -32,12 +32,11 @@ export default function CandEditPersonalCenterPage() {
         }, {
             children: (
                 <div className="flex">
-                    <Card className="scroll-card-container">
+                    <Card className="card-container">
                         { candidateInfo && <CandidateBasicInfoForm candidate={candidateInfo} projectList={projects}/> }
                     </Card>
                 </div>
             )
-        },
-        "scroll-footer"
+        }
     );
 }

@@ -68,16 +68,17 @@ export default function SearchPostsPage() {
         setSearchParams(currentParams);
     };
 
-    // const cities = ["北京", "成都", "重庆", "大连", "福州", "广州", "哈尔滨", "海口", "杭州", "齐齐哈尔", "上海", "深圳", "台北", "武汉"];
     const cityOptions: SelectProps['options'] = cities.map(city => ({
         label: city,
         value: city
     }));
+
     const workTypes = ["实习", "正式"];
     const workTypeOptions: SelectProps["options"] = workTypes.map(workType => ({
         label: workType,
         value: workType
     }));
+
     const workStyles = ["线下", "远程"];
     const workStyleOptions: SelectProps["options"] = workStyles.map(workStyle => ({
         label: workStyle,

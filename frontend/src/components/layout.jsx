@@ -19,7 +19,7 @@ export function BasicLayout({ children }) {
     )
 }
 
-export function PrivateLayout(type, { header }, { children }, footer_class="footer") {
+export function PrivateLayout(type, { header }, { children }) {
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
 
@@ -46,7 +46,7 @@ export function PrivateLayout(type, { header }, { children }, footer_class="foot
                 {/*页面鉴权后把用户的primary key存在了context中，但是一定要注意不要意外地暴露给不应该访问它的组件*/}
                 <UserContext.Provider value={user}>{user && children}</UserContext.Provider>
             </Content>
-            <Footer className={footer_class}>
+            <Footer className={"footer"}>
                 SJTU直聘 {new Date().getFullYear()}
             </Footer>
         </Layout>

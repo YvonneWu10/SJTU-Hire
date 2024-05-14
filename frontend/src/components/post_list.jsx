@@ -17,7 +17,7 @@ export default function PostList({ posts, pageSize, current, total, column = 5, 
                 </List.Item>
             )}
         />
-        <div style={{ display: "flex", justifyContent: "center", padding: 30 }}>
+        <div style={{ display: "flex", justifyContent: "center", padding: 20 }}>
             <Pagination current={current} pageSize={pageSize}
                         onChange={onPageChange} total={total} hideOnSinglePage={true}/>
         </div>

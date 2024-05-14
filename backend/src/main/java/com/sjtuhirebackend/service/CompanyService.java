@@ -14,7 +14,7 @@ public interface CompanyService {
     // 根据公司规模查找公司
     List<Company> getCompanyByScale(String searchScale);
     // 根据公司融资阶段查找公司
-    List<Company> getCompanyByFin(String searchFinanceStage);
+    List<Company> getCompanyByFinancingStage(String searchFinanceStage);
     List<Company> getCompanyByType(String searchType);
     // 根据公司所属行业查找公司
     List<Company> getCompanyByField(String searchField);

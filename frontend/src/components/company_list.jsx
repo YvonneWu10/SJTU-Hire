@@ -17,7 +17,7 @@ export default function CompanyList({ company, pageSize, current, total, onPageC
                 </List.Item>
             )}
         />
-        <div style={{ display: "flex", justifyContent: "center" }}>
+        <div style={{ display: "flex", justifyContent: "center", padding: 20 }}>
             <Pagination current={current} pageSize={pageSize}
                         onChange={onPageChange} total={total} hideOnSinglePage={true}/>
         </div>
