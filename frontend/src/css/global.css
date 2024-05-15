@@ -39,9 +39,9 @@ svg {
 
 .card-container {
     top: 10px;
-    width: 1630px;
+    width: 98%;
     min-height: 740px;
-    margin: 20px;
+    margin: 1%;
 }
 
 .input-select-container {

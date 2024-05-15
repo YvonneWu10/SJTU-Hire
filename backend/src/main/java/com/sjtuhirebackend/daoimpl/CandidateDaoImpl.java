@@ -79,4 +79,5 @@ public class CandidateDaoImpl implements CandidateDao {
     public void saveCandidate(Candidate candidate) {
         candidateRepository.save(candidate);
     }
+    public void deleteCandidateById(String candidateId) { candidateRepository.deleteByCandId(candidateId); }
 }

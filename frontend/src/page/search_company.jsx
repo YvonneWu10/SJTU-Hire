@@ -1,34 +1,16 @@
 import '../css/global.css'
 
-import type {SelectProps, MenuProps} from 'antd';
-import {Avatar, Button, Card, Input, Menu, Select, Space} from "antd";
+import type { SelectProps } from 'antd';
+import { Card, Input, Select, Space } from "antd";
 import {useEffect, useState} from "react";
 
-import {Link, useNavigate, useSearchParams} from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import {PrivateLayout} from "../components/layout";
-import {UserOutlined} from "@ant-design/icons";
-import { searchCandidateUsername } from "../service/candidate";
 import CompanyList from "../components/company_list";
 import {searchCompany} from "../service/company";
 import CandidateHeader from "../components/candidate_header";
 
-
 const { Search } = Input;
-
-const candidateMenuItems: MenuProps['items'] = [
-    {
-        label: (<Link to="/candidate_view/SearchPost">岗位查找</Link>),
-        key: 'postSearch',
-    },
-    {
-        label: (<Link to="/candidate_view/SearchCompany">公司查找</Link>),
-        key: 'companySearch',
-    },
-    {
-        label: (<Link to="/candidate_view/Delivery">投递列表</Link>),
-        key: 'deliveryList',
-    },
-];
 
 
 export default function SearchCompanyPage() {

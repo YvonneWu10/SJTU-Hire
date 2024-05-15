@@ -27,4 +27,5 @@ public interface CandidateDao {
     List<Candidate> getCandidatesByCandExpectedSalaryBetween(int lb, int ub);
 
     void saveCandidate(Candidate candidate);
+    void deleteCandidateById(String candidateId);
 }

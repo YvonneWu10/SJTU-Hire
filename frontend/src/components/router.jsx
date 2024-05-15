@@ -17,6 +17,8 @@ import CandidateDeliveredPage from "../page/candidate_delivered";
 import CandidateInvitedPage from "../page/candidate_invited";
 import CandidateEndedPage from "../page/candidate_ended";
 import CandEditPersonalCenterPage from "../page/candEditPersonalCenter";
+import CandidateChangePasswordPage from "../page/candidate_changePassword";
+import CandidateDeleteAccountPage from "../page/candidate_deleteAccount";
 
 export default function AppRouter() {
     return <BrowserRouter>
@@ -32,6 +34,8 @@ export default function AppRouter() {
             <Route path="/candidate_view/Ended" element={<CandidateEndedPage />} />
             <Route path="/candidate_view/PersonalCenter" element={<CandPersonalCenterPage />} />
             <Route path="/candidate_view/PersonalCenterEdit" element={<CandEditPersonalCenterPage />} />
+            <Route path="/candidate_view/ChangePassword" element={<CandidateChangePasswordPage />} />
+            <Route path="/candidate_view/DeleteAccount" element={<CandidateDeleteAccountPage />} />
             <Route path="/hr_view" element={<CandPostPage />} />
             <Route path="/hr_view/candPostDetail/:candId/:postId" element={<CandPostDetailPage />} />
             <Route path="/administer_view" element={<AdminPage />} />

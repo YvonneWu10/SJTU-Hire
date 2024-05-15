@@ -1,6 +1,7 @@
 package com.sjtuhirebackend.service;
 
 import com.sjtuhirebackend.entity.Candidate;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -45,4 +46,8 @@ public interface CandidateService {
     Map<String, Object> getCandInfoByCandId(String id);
 
     void editCandidateInfo(String id, Map<String, Object> values, List<Integer> deletedProjects);
+
+    Map<String, Object> changePassword(String id, String oldPassword, String newPassword);
+
+    Map<String, Object> deleteAccount(String id, String candidateId, String password);
 }

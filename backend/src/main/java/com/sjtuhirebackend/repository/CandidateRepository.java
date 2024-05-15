@@ -29,4 +29,7 @@ public interface CandidateRepository extends JpaRepository<Candidate, String> {
     List<Candidate> findByCandWorkYearAfter(int candWorkYear);
     List<Candidate> findByCandExpectedSalary(int candExpectedSalary);
     List<Candidate> findByCandExpectedSalaryBetween(int lb, int ub);
+
+    @Transactional
+    void deleteByCandId(String candId);
 }

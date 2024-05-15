@@ -1,9 +1,9 @@
-import {Avatar, Button, Menu} from "antd";
-import {UserOutlined} from "@ant-design/icons";
-import {useEffect, useState} from "react";
-import {searchCandidateUsername} from "../service/candidate";
-import type {MenuProps} from "antd";
-import {Link, useNavigate} from "react-router-dom";
+import { Avatar, Button, Dropdown, Menu } from "antd";
+import { UserOutlined } from "@ant-design/icons";
+import { useEffect, useState } from "react";
+import { searchCandidateUsername } from "../service/candidate";
+import type { MenuProps } from "antd";
+import { Link, useNavigate } from "react-router-dom";
 
 const candidateMenuItems: MenuProps['items'] = [
     {
@@ -53,19 +53,45 @@ export default function CandidateHeader(initialMenu) {
         navigate("/candidate_view/PersonalCenter");
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem("candidateToken");
+        navigate("/login");
+    };
+
     useEffect(() => {
         getUserName();
     }, []);
+
+    const items = [
+        {
+            label: '退出',
+            key: '退出',
+            onClick: () => handleLogout()
+        },
+        {
+            label:'修改密码',
+            key: '修改密码',
+            onClick: () => navigate("/candidate_view/ChangePassword")
+        },
+        {
+            label: '注销',
+            key: '注销',
+            onClick: () => navigate("/candidate_view/DeleteAccount")
+        }
+    ];
 
     return <div>
         <Menu className={ "candidate-menu-submenu-title" } onClick={menuOnClick} selectedKeys={[curMenu]} mode="horizontal"
               style={{position: 'absolute', top: 15, left: 30}}
               items={candidateMenuItems}/>
+
         <Avatar size="large" icon={<UserOutlined/>} style={{position: 'absolute', top: 25, right: 170}}/>
         {user && <span className="avatar-subtitle"
                        style={{position: 'absolute', top: 65, right: 160}}>您好，{user}</span>}
-        <Button className={"ant-button-primary"} style={{position: 'absolute', top: 40, right: 50}}
-                onClick={personalCenterOnClick}>个人中心</Button>
+        <Dropdown menu={{ items }} placement="bottomLeft">
+            <Button className={"ant-button-primary"} style={{position: 'absolute', top: 40, right: 50}}
+                    onClick={personalCenterOnClick}>个人中心</Button>
+        </Dropdown>
     </div>
 
 }

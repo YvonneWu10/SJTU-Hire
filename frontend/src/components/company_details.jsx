@@ -1,9 +1,9 @@
-import {Col, Descriptions, Row, Space} from "antd";
+import { Col, Descriptions, Row } from "antd";
 import { Divider, Typography } from 'antd';
 import React from "react";
 import { TeamOutlined, RiseOutlined, BankOutlined, CompassOutlined } from "@ant-design/icons";
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 export default function CompanyDetails({ company }) {
     const basicItems = [

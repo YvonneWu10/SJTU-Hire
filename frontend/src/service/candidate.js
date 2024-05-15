@@ -55,3 +55,35 @@ export async function candidateEdit(data) {
 
     return result;
 }
+
+export async function candidateChangePassword(data) {
+    const url = `${PREFIX}/candidate_view/ChangePassword`;
+    let result;
+    try {
+        result = await post(url, "candidate", data);
+    } catch (e) {
+        console.log(e);
+        result = {
+            ok: false,
+            message: "修改失败",
+        }
+    }
+
+    return result;
+}
+
+export async function candidateDeleteAccount(data) {
+    const url = `${PREFIX}/candidate_view/DeleteAccount`;
+    let result;
+    try {
+        result = await post(url, "candidate", data);
+    } catch (e) {
+        console.log(e);
+        result = {
+            ok: false,
+            message: "注销失败",
+        }
+    }
+
+    return result;
+}

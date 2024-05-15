@@ -74,8 +74,6 @@ public class CandidateController {
 
         Map<String, Object> values = (Map<String, Object>) body.get("values");
         List<Integer> deletedProjects = (List<Integer>) body.get("deletedProjects");
-//        System.out.println(values);
-//        System.out.println(deletedProjects);
 
         if (values == null || deletedProjects == null) {
             System.out.println("editCandidateInfo: 缺少参数");
@@ -86,5 +84,43 @@ public class CandidateController {
         Map<String, Object> ans = new HashMap<>();
         ans.put("status", "success");
         return new ResponseEntity<>(ans, HttpStatus.OK);
+    }
+
+    @RequestMapping("/candidate_view/ChangePassword")
+    public ResponseEntity<Map<String, Object>> changeCandidatePassword(@RequestHeader Map<String, Object> header,
+                                                                       @RequestBody Map<String, Object> body) {
+        String id = authService.getCandIdByHeader(header);
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        String oldPassword = (String) body.get("oldPassword");
+        String newPassword = (String) body.get("newPassword");
+
+        if (oldPassword == null || newPassword == null) {
+            System.out.println("changeCandidatePassword: 缺少参数");
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(candidateService.changePassword(id, oldPassword, newPassword), HttpStatus.OK);
+    }
+
+    @RequestMapping("/candidate_view/DeleteAccount")
+    public ResponseEntity<Map<String, Object>> deleteCandidateAccount(@RequestHeader Map<String, Object> header,
+                                                                      @RequestBody Map<String, Object> body) {
+        String id = authService.getCandIdByHeader(header);
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        String candidateId = (String) body.get("candidateId");
+        String password = (String) body.get("password");
+
+        if (candidateId == null || password == null) {
+            System.out.println("changeCandidatePassword: 缺少参数");
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(candidateService.deleteAccount(id, candidateId, password), HttpStatus.OK);
     }
 }

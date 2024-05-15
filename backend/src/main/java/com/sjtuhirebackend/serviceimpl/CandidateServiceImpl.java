@@ -165,4 +165,46 @@ public class CandidateServiceImpl implements CandidateService {
 
         candidateDao.saveCandidate(candidate);
     }
+
+    public Map<String, Object> changePassword(String id, String oldPassword, String newPassword) {
+        Candidate candidate = candidateDao.getCandidateByCandId(id);
+        if (!candidate.getCandPassword().equals(oldPassword)) {
+            Map<String, Object> ans = new HashMap<>();
+            ans.put("ok", false);
+            ans.put("message", "原密码错误");
+            return ans;
+        }
+
+        candidate.setCandPassword(newPassword);
+        candidateDao.saveCandidate(candidate);
+
+        Map<String, Object> ans = new HashMap<>();
+        ans.put("ok", true);
+        ans.put("message", "修改成功");
+        return ans;
+    }
+
+   public Map<String, Object> deleteAccount(String id, String candidateId, String password) {
+        if (!id.equals(candidateId)) {
+            Map<String, Object> ans = new HashMap<>();
+            ans.put("ok", false);
+            ans.put("message", "身份验证失败");
+            return ans;
+        }
+
+       Candidate candidate = candidateDao.getCandidateByCandId(id);
+       if (!candidate.getCandPassword().equals(password)) {
+           Map<String, Object> ans = new HashMap<>();
+           ans.put("ok", false);
+           ans.put("message", "身份验证失败");
+           return ans;
+       }
+
+       candidateDao.deleteCandidateById(id);
+
+       Map<String, Object> ans = new HashMap<>();
+       ans.put("ok", true);
+       ans.put("message", "注销成功");
+       return ans;
+   }
 }

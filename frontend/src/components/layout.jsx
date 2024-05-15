@@ -1,6 +1,6 @@
-import { Layout, Space } from "antd";
+import { Layout } from "antd";
 import { Content, Footer, Header } from "antd/es/layout/layout";
-import {Link, useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import { getMe } from "../service/user";
 import { UserContext } from "../utils/context";
