@@ -40,7 +40,7 @@ export default function CandidateChangePasswordForm() {
             <Form
                 {...formItemLayout}
                 form={form}
-                name="editCandidate"
+                name="candidateChangePassword"
                 onFinish={changePasswordOnFinish}
                 onFinishFailed={onFinishFailed}
                 scrollToFirstError

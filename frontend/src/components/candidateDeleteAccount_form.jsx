@@ -39,7 +39,7 @@ export default function CandidateDeleteAccountForm() {
             <Form
                 {...formItemLayout}
                 form={form}
-                name="editCandidate"
+                name="candidateDeleteAccount"
                 onFinish={changePasswordOnFinish}
                 onFinishFailed={onFinishFailed}
                 scrollToFirstError

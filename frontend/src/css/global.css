@@ -109,6 +109,23 @@ svg {
     color: white;
 }
 
+.ant-radio-button-checked,
+.ant-radio-button-inner,
+.ant-radio-button-inner,
+.ant-radio-button-wrapper-checked,
+.ant-radio-button-input:focus,
+.ant-radio-button-inner {
+    border-color: #033941 !important;
+    /*color: #ff4d4f !important;*/
+    background-color: #033941;
+}
+
+.ant-radio:hover,
+.ant-radio-button-wrapper:hover {
+    color: #033941;
+    border-color: #033941 !important;
+}
+
 .avatar-with-subtitle {
     display: flex;
     flex-direction: column;

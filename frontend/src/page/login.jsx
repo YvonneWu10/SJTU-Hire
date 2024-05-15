@@ -4,22 +4,25 @@ import {
     LockOutlined,
     UserOutlined,
 } from '@ant-design/icons';
-import {Card, Radio, Space} from 'antd';
-import { LoginForm, ProFormText } from '@ant-design/pro-components';
+import {Button, Card, Form, Input, Radio, Space} from 'antd';
 import useMessage from "antd/es/message/useMessage";
 import { useNavigate } from "react-router-dom";
 import { BasicLayout } from "../components/layout";
 import { login } from "../service/login";
 import { handleBaseApiResponse } from "../utils/message";
+import { Typography } from 'antd';
+const { Title, Text, Paragraph } = Typography;
 
-const LoginPage = () => {
+
+export default function LoginPage() {
+    const [form] = Form.useForm();
     const [messageApi, contextHolder] = useMessage();
     const navigate = useNavigate();
 
     const [type, setType] = useState("candidate");
     console.log(type);
 
-    const onSubmit = async (values) => {
+    const onLogin = async (values) => {
         let username = values['username'];
         let password = values['password'];
 
@@ -39,6 +42,10 @@ const LoginPage = () => {
         }
     };
 
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+    };
+
     const handleLoginType = (event) => {
         console.log(`Selected Radio value is: ${event.target.value}`);
         setType(event.target.value);
@@ -49,58 +56,52 @@ const LoginPage = () => {
             <div className="center-container">
                 <Card className="card-container">
                     {contextHolder}
-                    <LoginForm
-                        // backgroundImageUrl={process.env.PUBLIC_URL + 'login.png'}
-                        // logo={process.env.PUBLIC_URL + '/logo.webp'}
-                        title="SJTU 直聘"
-                        subTitle="2024"
-                        onFinish={onSubmit}
-                    >
-                        <ProFormText
-                            name="username"
-                            fieldProps={{
-                                size: 'large',
-                                prefix: <UserOutlined className={'prefixIcon'}/>,
-                            }}
-                            placeholder={'请输入用户名'}
-                            rules={[
-                                {
-                                    required: true,
-                                    message: '请输入用户名',
-                                },
-                            ]}
-                        />
-                        <ProFormText.Password
-                            name="password"
-                            fieldProps={{
-                                size: 'large',
-                                prefix: <LockOutlined className={'prefixIcon'}/>,
-                            }}
-                            placeholder={'密码'}
-                            rules={[
-                                {
-                                    required: true,
-                                    message: '请输入密码',
-                                },
-                            ]}
-                        />
-                        <div style={{display: 'flex', justifyContent: 'center'}}>
-                            <Radio.Group defaultValue="candidate" buttonStyle="solid" onChange={handleLoginType}>
-                                <Radio.Button value="candidate">应聘者</Radio.Button>
-                                <Radio.Button value="HR">招聘者</Radio.Button>
-                                <Radio.Button value="admin">管理员</Radio.Button>
-                            </Radio.Group>
-                        </div>
-                        <div
-                            style={{
-                                marginBlockEnd: 24,
-                            }}
-                        >
-                        </div>
-                    </LoginForm>
+                    <div style={{alignItems: "center", justifyContent: "center", marginTop: '5%', marginLeft: '39%', marginRight: '39%'}}>
+                        <Title style={{textAlign: 'center'}}>SJTU 直聘</Title>
+                        <Paragraph style={{textAlign: 'center', color: '#B0B0B0'}}>2024</Paragraph>
+                        <Form
+                            form={form}
+                            name="login"
+                            onFinish={onLogin}
+                            onFinishFailed={onFinishFailed}
+                            scrollToFirstError
+                            requiredMark={false}>
+                            <></>
+                            <Form.Item name="username" rules={[{required: true, message: "请输入用户名"}]}>
+                                <Input allowClear style={{width: '100%'}} prefix={<UserOutlined/>}></Input>
+                            </Form.Item>
+
+                            <Form.Item name="password" rules={[{required: true, message: "请输入密码"}]}>
+                                <Input.Password style={{width: '100%'}} prefix={<LockOutlined/>}></Input.Password>
+                            </Form.Item>
+
+                            <div style={{display: 'flex', justifyContent: 'center'}}>
+                                <Form.Item>
+                                    <Radio.Group defaultValue="candidate" className={"ant-radio"} buttonStyle="solid" onChange={handleLoginType}>
+                                        <Radio.Button value="candidate">应聘者</Radio.Button>
+                                        <Radio.Button value="HR">招聘者</Radio.Button>
+                                        <Radio.Button value="admin">管理员</Radio.Button>
+                                    </Radio.Group>
+                                </Form.Item>
+                            </div>
+
+                            <Form.Item>
+                                <Button className="ant-button-primary" type="primary" htmlType="submit"
+                                        style={{width: '100%', height: 40, fontSize: 15}}>
+                                    登录
+                                </Button>
+                            </Form.Item>
+
+                            <Form.Item>
+                                <Button className="ant-button-primary"
+                                        style={{width: '100%', height: 40, fontSize: 15}}>
+                                    注册
+                                </Button>
+                            </Form.Item>
+                        </Form>
+                    </div>
                 </Card>
             </div>
         </BasicLayout>
-);
+    );
 };
-export default LoginPage;
