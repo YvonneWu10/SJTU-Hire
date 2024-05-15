@@ -50,4 +50,6 @@ public interface CandidateService {
     Map<String, Object> changePassword(String id, String oldPassword, String newPassword);
 
     Map<String, Object> deleteAccount(String id, String candidateId, String password);
+
+    Map<String, Object> register(String name, String id, String password);
 }

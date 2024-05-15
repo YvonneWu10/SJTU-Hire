@@ -32,4 +32,8 @@ public interface CandidateRepository extends JpaRepository<Candidate, String> {
 
     @Transactional
     void deleteByCandId(String candId);
+
+    // 返回所有token
+    @Query("SELECT c.candToken FROM Candidate c")
+    List<String> findAllToken();
 }

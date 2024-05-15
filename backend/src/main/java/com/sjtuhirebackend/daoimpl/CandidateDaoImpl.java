@@ -80,4 +80,9 @@ public class CandidateDaoImpl implements CandidateDao {
         candidateRepository.save(candidate);
     }
     public void deleteCandidateById(String candidateId) { candidateRepository.deleteByCandId(candidateId); }
+
+    public boolean existToken(String token) {
+        List<String> tokens = candidateRepository.findAllToken();
+        return tokens.contains(token);
+    }
 }

@@ -5,6 +5,7 @@ import com.sjtuhirebackend.dao.ProjectDao;
 import com.sjtuhirebackend.entity.Candidate;
 import com.sjtuhirebackend.entity.Project;
 import com.sjtuhirebackend.service.CandidateService;
+import com.sjtuhirebackend.utils.TokenGenerator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -206,5 +207,31 @@ public class CandidateServiceImpl implements CandidateService {
        ans.put("ok", true);
        ans.put("message", "注销成功");
        return ans;
+   }
+
+   public Map<String, Object> register(String name, String id, String password) {
+        if (candidateDao.getCandidateByCandId(id) != null) {
+            Map<String, Object> ans = new HashMap<>();
+            ans.put("ok", false);
+            ans.put("message", "用户已存在");
+            return ans;
+        }
+
+        String token = TokenGenerator.generateToken(12);
+        while (candidateDao.existToken(token)) {
+            token = TokenGenerator.generateToken(12);
+        }
+
+        Candidate candidate = new Candidate();
+        candidate.setCandId(id);
+        candidate.setCandName(name);
+        candidate.setCandPassword(password);
+        candidate.setCandToken(token);
+        candidateDao.saveCandidate(candidate);
+
+        Map<String, Object> ans = new HashMap<>();
+        ans.put("ok", true);
+        ans.put("message", "注册成功");
+        return ans;
    }
 }

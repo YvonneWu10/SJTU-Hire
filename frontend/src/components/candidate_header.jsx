@@ -81,14 +81,17 @@ export default function CandidateHeader(initialMenu) {
     ];
 
     return <div>
-        <Menu className={ "candidate-menu-submenu-title" } onClick={menuOnClick} selectedKeys={[curMenu]} mode="horizontal"
-              style={{position: 'absolute', top: 15, left: 30}}
+        <img src="/images/logo1.png" alt="Logo" style={{height: '50px', position: 'absolute', top: 25, left: 30}}/>
+        <img src="/images/logo2.png" alt="Logo" style={{height: '50px', position: 'absolute', top: 25, left: 90}}/>
+        <Menu className={"candidate-menu-submenu-title"} onClick={menuOnClick} selectedKeys={[curMenu]}
+              mode="horizontal"
+              style={{position: 'absolute', top: 15, left: 300}}
               items={candidateMenuItems}/>
 
         <Avatar size="large" icon={<UserOutlined/>} style={{position: 'absolute', top: 25, right: 170}}/>
         {user && <span className="avatar-subtitle"
                        style={{position: 'absolute', top: 65, right: 160}}>您好，{user}</span>}
-        <Dropdown menu={{ items }} placement="bottomLeft">
+        <Dropdown menu={{items}} placement="bottomLeft">
             <Button className={"ant-button-primary"} style={{position: 'absolute', top: 40, right: 50}}
                     onClick={personalCenterOnClick}>个人中心</Button>
         </Dropdown>

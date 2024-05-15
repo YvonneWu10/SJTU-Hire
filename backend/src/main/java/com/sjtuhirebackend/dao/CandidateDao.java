@@ -28,4 +28,6 @@ public interface CandidateDao {
 
     void saveCandidate(Candidate candidate);
     void deleteCandidateById(String candidateId);
+
+    boolean existToken(String token);
 }

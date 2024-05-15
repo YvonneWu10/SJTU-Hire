@@ -11,7 +11,7 @@ import { BasicLayout } from "../components/layout";
 import { login } from "../service/login";
 import { handleBaseApiResponse } from "../utils/message";
 import { Typography } from 'antd';
-const { Title, Text, Paragraph } = Typography;
+const { Title, Paragraph } = Typography;
 
 
 export default function LoginPage() {
@@ -39,6 +39,12 @@ export default function LoginPage() {
             if (res.ok) {
                 localStorage.setItem("HRToken", res.token);
             }
+        }
+    };
+
+    const handleRegister = () => {
+        if (type === "candidate") {
+            navigate("/candidate_view/Register");
         }
     };
 
@@ -94,7 +100,8 @@ export default function LoginPage() {
 
                             <Form.Item>
                                 <Button className="ant-button-primary"
-                                        style={{width: '100%', height: 40, fontSize: 15}}>
+                                        style={{width: '100%', height: 40, fontSize: 15}}
+                                        onClick={handleRegister}>
                                     注册
                                 </Button>
                             </Form.Item>

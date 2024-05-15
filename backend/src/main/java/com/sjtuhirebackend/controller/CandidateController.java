@@ -123,4 +123,18 @@ public class CandidateController {
 
         return new ResponseEntity<>(candidateService.deleteAccount(id, candidateId, password), HttpStatus.OK);
     }
+
+    @RequestMapping("/candidate_view/Register")
+    public ResponseEntity<Map<String, Object>> candidateRegister(@RequestBody Map<String, Object> body) {
+        String candidateName = (String) body.get("candidateName");
+        String candidateId = (String) body.get("candidateId");
+        String password = (String) body.get("password");
+
+        if (candidateName == null ||candidateId == null || password == null) {
+            System.out.println("changeCandidatePassword: 缺少参数");
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(candidateService.register(candidateName, candidateId, password), HttpStatus.OK);
+    }
 }

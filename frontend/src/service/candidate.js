@@ -87,3 +87,19 @@ export async function candidateDeleteAccount(data) {
 
     return result;
 }
+
+export async function candidateRegister(data) {
+    const url = `${PREFIX}/candidate_view/Register`;
+    let result;
+    try {
+        result = await post(url, "register", data);
+    } catch (e) {
+        console.log(e);
+        result = {
+            ok: false,
+            message: "注册失败",
+        }
+    }
+
+    return result;
+}

@@ -8,7 +8,12 @@ import { UserContext } from "../utils/context";
 export function BasicLayout({ children }) {
     return (
         <Layout className="basic-layout">
-            <Header className="header"></Header>
+            <Header className="header">
+                <img src="/images/logo1.png" alt="Logo"
+                     style={{height: '50px', position: 'absolute', top: 25, left: 30}}/>
+                <img src="/images/logo2.png" alt="Logo"
+                     style={{height: '50px', position: 'absolute', top: 25, left: 90}}/>
+            </Header>
             <Content>
                 {children}
             </Content>
