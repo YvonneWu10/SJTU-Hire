@@ -46,6 +46,8 @@ public class CandPostServiceImpl implements CandPostService {
     private CandidateDao candidateDao;
     @Autowired
     private ProjectDao projectDao;
+    @Autowired
+    private CompanyDao companyDao;
 
     public List<CandPost> getAllCandPosts(){
         return candPostDao.getAllCandPosts();
@@ -151,5 +153,77 @@ public class CandPostServiceImpl implements CandPostService {
 
     public void insertCandPostByInvitation(String candId, Integer postId) {
         candPostDao.insertCandPost(candId, postId, Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()), "邀请");
+    }
+
+    public void insertCandPostByDelivery(String candId, Integer postId) {
+        CandPost candPost = new CandPost();
+        CandPostPK candPostPK = new CandPostPK();
+        candPostPK.setCandId(candId);
+        candPostPK.setPostId(postId);
+        candPost.setBiId(candPostPK);
+        candPost.setSubmissionDate(new Date());
+        candPost.setSubmissionStage("简历");
+        candPostDao.save(candPost);
+    }
+
+    public Map<String, Object> getCandPostByCandIdAndSubmissionStage(String candId, String stage) {
+        List<CandPost> candPostList = candPostDao.getCandPostByCandIdAndSubmissionStage(candId, stage);
+
+        List<Integer> postIdList = (candPostList.stream().map(CandPost::getBiId).toList()).stream().map(CandPostPK::getPostId).toList();
+        List<Post> postList = new ArrayList<>();
+        for (int postId: postIdList){
+            postList.add(postDao.getPostByPostId(postId));
+        }
+
+        List<Integer> companyIdList = (postList.stream().map(Post::getCompanyId).toList());
+        List<String> companyNameList = new ArrayList<>();
+        for (int companyId: companyIdList){
+            companyNameList.add(companyDao.getCompany(companyId).getCompanyName());
+        }
+
+        List<Boolean> timeout = new ArrayList<>();
+        Date current = new Date();
+        for (Post post : postList) {
+            timeout.add(post.getOpenDate().after(current) || post.getEndDate().before(current));
+        }
+
+        Map<String, Object> ans = new HashMap<>();
+        ans.put("candPosts", candPostList);
+        ans.put("posts", postList);
+        ans.put("companies", companyNameList);
+        ans.put("timeout", timeout);
+
+        return ans;
+    }
+
+    public void acceptInvitationByCandIdAndPostId(String candId, Integer postId) {
+        Date current = new Date();
+        candPostDao.updateSubmissionStageAndSubmissionDateByBiIdCandIdAndBiIdPostId("简历", current, candId, postId);
+    }
+
+    public void refuseInvitationByCandIdAndPostId(String candId, Integer postId) {
+        candPostDao.deleteCandPostByCandIdAndPostId(candId, postId);
+    }
+    public Map<String, Object> getDeliveredCandPostDetailByCandId(String candidateId) {
+        List<CandPost> candPostList = candPostDao.getDeliveredCandPostByCandId(candidateId);
+
+        List<Integer> postIdList = (candPostList.stream().map(CandPost::getBiId).toList()).stream().map(CandPostPK::getPostId).toList();
+        List<Post> postList = new ArrayList<>();
+        for (int postId: postIdList){
+            postList.add(postDao.getPostByPostId(postId));
+        }
+
+        List<Integer> companyIdList = (postList.stream().map(Post::getCompanyId).toList());
+        List<String> companyNameList = new ArrayList<>();
+        for (int companyId: companyIdList){
+            companyNameList.add(companyDao.getCompany(companyId).getCompanyName());
+        }
+
+        Map<String, Object> ans = new HashMap<>();
+        ans.put("candPosts", candPostList);
+        ans.put("posts", postList);
+        ans.put("companies", companyNameList);
+
+        return ans;
     }
 }

@@ -86,4 +86,38 @@ public class CandidateController {
 
         return new ResponseEntity<>(candidateService.getCandidatesByCandId(candId), HttpStatus.OK);
     }
+
+    @RequestMapping("/candidate_view/PersonalCenter")
+    public ResponseEntity<Map<String, Object>> getCandInfoByCandToken(@RequestHeader Map<String, Object> header) {
+        String id = authService.getCandIdByHeader(header);
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<>(candidateService.getCandInfoByCandId(id), HttpStatus.OK);
+    }
+
+    @RequestMapping("/candidate_view/CandidateEdit")
+    public ResponseEntity<Map<String, Object>> editCandidateInfo(@RequestHeader Map<String, Object> header,
+                                                                 @RequestBody Map<String, Object> body) {
+        String id = authService.getCandIdByHeader(header);
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        Map<String, Object> values = (Map<String, Object>) body.get("values");
+        List<Integer> deletedProjects = (List<Integer>) body.get("deletedProjects");
+//        System.out.println(values);
+//        System.out.println(deletedProjects);
+
+        if (values == null || deletedProjects == null) {
+            System.out.println("editCandidateInfo: 缺少参数");
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+        candidateService.editCandidateInfo(id, values, deletedProjects);
+        Map<String, Object> ans = new HashMap<>();
+        ans.put("status", "success");
+        return new ResponseEntity<>(ans, HttpStatus.OK);
+    }
 }

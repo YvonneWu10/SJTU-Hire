@@ -82,5 +82,7 @@ public class CandidateDaoImpl implements CandidateDao {
         return candidateRepository.findCandIdByCandName(candName);
     }
 
-
+    public void saveCandidate(Candidate candidate) {
+        candidateRepository.save(candidate);
+    }
 }

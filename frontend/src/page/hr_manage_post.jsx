@@ -1,10 +1,10 @@
 import '../css/global.css'
 
-import {Card, Menu, Select, Space} from "antd";
+import {Button, Card, Menu, Select, Space} from "antd";
 import { useEffect, useState } from "react";
 import { getCandPostById } from "../service/candPost";
 
-import {useParams, useSearchParams} from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {BasicLayout, PrivateLayout} from "../components/layout";
 import CandPostDetails from "../components/candPost_detail";
 import type {MenuProps} from "antd";
@@ -15,28 +15,6 @@ import {getHRPosts, getPosts} from "../service/hr_post_view";
 import PostList from "../components/post_list";
 import Search from "antd/es/input/Search";
 import HRPostList from "../components/hr_post_list";
-
-const menuItems: MenuProps['items'] = [
-    {
-        label: '首页',
-        key: 'homepage',
-    },
-    {
-        label: '职位管理',
-        key: 'postManagement',
-    },
-    {
-        label: '找人',
-        key: 'hire',
-    },
-];
-
-const rightMenuItems: MenuProps['items'] = [
-    {
-        label: '个人中心',
-        key: 'center'
-    }
-];
 
 export default function HRPostPage() {
     const [posts, setPosts] = useState([]);
@@ -78,6 +56,12 @@ export default function HRPostPage() {
         setSearchParams(currentParams);
     };
 
+    let navigate = useNavigate();
+    const create = () => {
+        let url = `/hr_view/managePosts/createPost`
+        navigate(url);
+    }
+
     return PrivateLayout("HR", {
         header: (
             <HRMenu></HRMenu>
@@ -87,10 +71,13 @@ export default function HRPostPage() {
                 <div>
                     <Card className="card-container">
                         <Space direction="vertical" size="large" style={{width: "100%"}}>
+                            <div className="input-select-container">
                             <Search placeholder="输入岗位名" onSearch={handleSearch} enterButton size="middle"
-                                    style={{width: '100%'}} />
+                                    style={{width: '60%'}} />
+                            <Button type="primary" onClick={create}> 增加岗位 </Button>
+                            </div>
                             <HRPostList posts={posts} pageSize={pageSize} total={totalPage * pageSize} current={pageIndex}
-                                      onPageChange={handlePageChange}/>
+                                        onPageChange={handlePageChange}/>
                         </Space>
                     </Card>
                 </div>

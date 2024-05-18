@@ -1,14 +1,14 @@
 import React from 'react';
-import { Layout, Menu, Avatar, Typography } from 'antd';
+import {Layout, Menu, Avatar, Typography, Dropdown, Button, Space} from 'antd';
 import {
     InboxOutlined,
     ShopOutlined,
     ProfileOutlined,
     UserSwitchOutlined,
     BarChartOutlined,
-    HomeOutlined
+    HomeOutlined, DownOutlined
 } from '@ant-design/icons';
-import { Link, useLocation } from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import type {MenuProps} from "antd";
 import {Header} from "antd/es/layout/layout";
 
@@ -34,6 +34,25 @@ const HRMenu = ({}) => {
         return "0";  // Default to "1" if path is not found
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem("HRToken");
+        navigate("/login");
+    };
+
+    const items: MenuProps['items'] = [
+        {
+            key: '1',
+            label: '登出',
+            danger: true,
+            onClick: handleLogout,
+        },
+    ]
+
+    const navigate = useNavigate();
+    const personalCenterOnClick = () => {
+        navigate("/hr_view/user");
+    };
+
     return (
         <div>
             <Header style={{background: '#fff', padding: 0, display: 'flex', alignItems: 'center'}}>
@@ -50,11 +69,25 @@ const HRMenu = ({}) => {
                         <Link to="/hr_view/findCandidates">找人</Link>
                     </Menu.Item>
                 </Menu>
-                <Menu selectedKeys={[getKeyFromPath(location.pathname)]} mode='horizontal' style={{position: 'absolute', top: 10, right: 10}}>
-                    <Menu.Item key="3" >
-                        <Link to="/hr_view/user">个人中心</Link>
-                    </Menu.Item>
-                </Menu>
+                <Dropdown menu={{items}} placement="bottomLeft">
+                    {/*<a onClick={(e) => e.preventDefault()}>*/}
+                    {/*    <Space style={{position: 'absolute', top: "2%", right: 50}}>*/}
+                    {/*        个人中心*/}
+                    {/*        <DownOutlined />*/}
+                    {/*    </Space>*/}
+                    {/*</a>*/}
+                    <Button onClick={personalCenterOnClick} className={"ant-button-primary"} style={{position: 'absolute', top: "6%", right: 50}}>
+                        <Space>
+                            个人中心
+                            <DownOutlined />
+                        </Space>
+                    </Button>
+                </Dropdown>
+                {/*<Menu selectedKeys={[getKeyFromPath(location.pathname)]} mode='horizontal' style={{position: 'absolute', top: 10, right: 10}}>*/}
+                {/*    <Menu.Item key="3" >*/}
+                {/*        <Link to="/hr_view/user">个人中心</Link>*/}
+                {/*    </Menu.Item>*/}
+                {/*</Menu>*/}
             </Header>
         </div>
     );

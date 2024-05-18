@@ -119,7 +119,7 @@ export default function CandPostPage() {
                 </Card>
             </div>
         )
-    }, "scroll-footer"
+    }
     );
 
 }

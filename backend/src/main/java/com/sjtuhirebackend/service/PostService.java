@@ -37,7 +37,6 @@ public interface PostService {
     List<Post> getPostByHRId(int hrId);
     List<Integer> getPostIdByHRId(int hrId);
     // 添加新岗位
-    void createPost(Post post);
     // 删除已有岗位
     void deletePost(int postId);
     List<String> getDistinctPostCities();
@@ -46,4 +45,10 @@ public interface PostService {
                   Integer onSiteDayReq, String city, Date openDate, Date endDate,
                   Integer recruitNum, Integer salary, String workStyle, String workType,
                   String description, String responsibility);
+
+    void createPost(String postName, String degreeReq, Integer workYearReq,
+                  Integer onSiteDayReq, String city, Date openDate, Date endDate,
+                  Integer recruitNum, Integer salary, String workStyle, String workType,
+                  String description, String responsibility, Integer departmetnId, Integer companyId,
+                    Integer hrId);
 }

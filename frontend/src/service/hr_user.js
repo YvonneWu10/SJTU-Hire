@@ -12,14 +12,82 @@ export async function getHRInfo(){
     return res;
 }
 
-export async function changeHRPassword(request) {
-    const url = `${PREFIX}/hr_view/user/me/password`;
-    let res;
+export async function HRChangePassword(data) {
+    const url = `${PREFIX}/hr_view/ChangePassword`;
+    let result;
     try {
-        res = await put(url, request);
-    } catch(e) {
+        result = await post(url, "HR", data);
+    } catch (e) {
         console.log(e);
-        res = DUMMY_RESPONSE;
+        result = {
+            ok: false,
+            message: "修改失败",
+        }
     }
-    return res;
+
+    return result;
+}
+
+export async function HR_EditCompany(data) {
+    const url = `${PREFIX}/hr_view/editCompany/`;
+    let result;
+    try {
+        result = await post(url, "HR", data);
+    } catch (e) {
+        console.log(e);
+        result = {
+            ok: false,
+            message: "修改失败",
+        }
+    }
+
+    return result;
+}
+
+export async function HRDeleteAccount() {
+    const url = `${PREFIX}/hr_view/DeleteAccount`;
+    let result;
+    try {
+        result = await getJson(url, "HR");
+    } catch (e) {
+        console.log(e);
+        result = {
+            ok: false,
+            message: "注销失败",
+        }
+    }
+
+    return result;
+}
+
+export async function HR_EditPersonalInfo(data) {
+    const url = `${PREFIX}/hr_view/editPersonalInfo`;
+    let result;
+    try {
+        result = await post(url, "HR", data);
+    } catch (e) {
+        console.log(e);
+        result = {
+            ok: false,
+            message: "修改失败",
+        }
+    }
+
+    return result;
+}
+
+export async function HRRegister(data) {
+    const url = `${PREFIX}/hr_view/register`;
+    let result;
+    try {
+        result = await post(url, "register", data);
+    } catch (e) {
+        console.log(e);
+        result = {
+            ok: false,
+            message: "注册失败",
+        }
+    }
+
+    return result;
 }

@@ -2,6 +2,7 @@ package com.sjtuhirebackend.daoimpl;
 
 import com.sjtuhirebackend.dao.DepartmentDao;
 import com.sjtuhirebackend.entity.Department;
+import com.sjtuhirebackend.entity.DepartmentPK;
 import com.sjtuhirebackend.repository.DepartmentRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,4 +30,12 @@ public class DepartmentDaoImpl implements DepartmentDao {
     public List<Department> getByDepartmentName(String departmentName){
         return departmentRepository.findByDepartmentName(departmentName);
     }
+    public void saveDepartment(Department department){
+        departmentRepository.save(department);
+    }
+
+    public List<Department> getByCompanyIdAscDepartmentId(int companyId){
+        return departmentRepository.findByBiIdCompanyIdOrderByBiIdDepartmentIdAsc(companyId);
+    }
+
 }

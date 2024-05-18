@@ -9,4 +9,7 @@ public interface AuthService {
 
     Integer getHRIdByHeader(Map<String, Object> header);
     String getHRToken(String username, String password);
+
+    String getAdminIdByHeader(Map<String, Object> header);
+    String getAdminToken(String username, String password);
 }

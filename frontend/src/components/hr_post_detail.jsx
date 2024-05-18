@@ -1,8 +1,10 @@
-import {Button, Col, Descriptions, Row, Space} from "antd";
+import {Button, Col, Descriptions, message, Row, Space} from "antd";
 import { Divider, Typography } from 'antd';
 import React from "react";
 import { EnvironmentOutlined, TagOutlined, BookOutlined, TeamOutlined } from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
+import {HRdeletePost} from "../service/post";
+import {retHRPostCities} from "../service/hr_post_view";
 
 const { Title, Text } = Typography;
 
@@ -55,6 +57,12 @@ export default function PostDetails({ post }) {
         let url = `/hr_view/managePosts/editPostDetail/${post.postId}`
         navigate(url);
     }
+    const deletePost = async () => {
+        await HRdeletePost(post.postId);
+        message.info('删除岗位成功');
+        let url = `/hr_view/managePosts`
+        navigate(url);
+    }
 
     return <div style={{justifyContent:"center"}}>
         <Row>
@@ -99,7 +107,7 @@ export default function PostDetails({ post }) {
         </div>
         <Row size="large" align={'center'} style={{marginTop: 10}}>
             <Button onClick={edit} style={{width: '100px'}} type="primary">编辑</Button>
-            <Button style={{width: '100px', marginLeft: 10}} danger>删除</Button>
+            <Button onClick={deletePost} style={{width: '100px', marginLeft: 10}} danger>删除</Button>
         </Row>
     </div>
 }

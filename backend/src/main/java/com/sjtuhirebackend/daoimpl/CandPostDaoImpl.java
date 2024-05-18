@@ -53,8 +53,14 @@ public class CandPostDaoImpl implements CandPostDao {
     public List<CandPost> getCandPostByCandIdIn(List<String> candIds){
         return candPostRepository.findByBiIdCandIdIn(candIds);
     }
+    public List<CandPost> getCandPostByCandIdAndSubmissionStage(String candId, String stage) {
+        return candPostRepository.findByBiIdCandIdAndSubmissionStage(candId, stage);
+    }
     public void updateSubmissionStageByBiIdCandIdAndBiIdPostId(String submissionStage, String candId, Integer postId){
         candPostRepository.updateSubmissionStageByBiIdCandIdAndBiIdPostId(submissionStage, candId, postId);
+    }
+    public void updateSubmissionStageAndSubmissionDateByBiIdCandIdAndBiIdPostId(String submissionStage, Date date, String candId, Integer postId) {
+        candPostRepository.updateSubmissionStageAndSubmissionDateByBiIdCandIdAndBiIdPostId(submissionStage, date, candId, postId);
     }
     public List<CandPost> getCandPostBySubmissionStageIsNot(String submissionStage){
         return candPostRepository.findBySubmissionStageIsNot(submissionStage);
@@ -68,5 +74,15 @@ public class CandPostDaoImpl implements CandPostDao {
         candPost.setSubmissionDate(submissionDate);
         candPost.setSubmissionStage(submissionStage);
         candPostRepository.save(candPost);
+    }
+    public void deleteCandPostByCandIdAndPostId(String candId, Integer postId) {
+        candPostRepository.deleteByBiIdCandIdAndBiIdPostId(candId, postId);
+    }
+
+    public void save(CandPost candPost) {
+        candPostRepository.save(candPost);
+    }
+    public List<CandPost> getDeliveredCandPostByCandId(String candId) {
+        return candPostRepository.findByCandIdAndExcludeTwoSubmissionStages(candId, "邀请", "流程终止");
     }
 }

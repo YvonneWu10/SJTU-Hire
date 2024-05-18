@@ -51,8 +51,6 @@ public class PostServiceImpl implements PostService {
     public List<Integer> getPostIdByHRId(int hrId){
         return postDao.getPostIdByHRId(hrId);
     }
-    // 添加新岗位
-    public void createPost(Post post) { postDao.createPost(post); }
     // 删除已有岗位
     public void deletePost(int postId) { postDao.deletePost(postId); }
 
@@ -68,5 +66,16 @@ public class PostServiceImpl implements PostService {
                 onSiteDayReq, city, openDate, endDate,
                 recruitNum, salary, workStyle, workType,
                 description, responsibility);
+    }
+
+    public void createPost(String postName, String degreeReq, Integer workYearReq,
+                         Integer onSiteDayReq, String city, Date openDate, Date endDate,
+                         Integer recruitNum, Integer salary, String workStyle, String workType,
+                         String description, String responsibility, Integer departmentId, Integer companyId,
+                           Integer hrId){
+        postDao.createPost(postName, degreeReq, workYearReq,
+                onSiteDayReq, city, openDate, endDate,
+                recruitNum, salary, workStyle, workType,
+                description, responsibility, departmentId, companyId, hrId);
     }
 }

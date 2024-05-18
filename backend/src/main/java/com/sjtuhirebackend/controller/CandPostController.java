@@ -90,4 +90,99 @@ public class CandPostController {
         candPostService.insertCandPostByInvitation(candId, postId);
         return new ResponseEntity<>("", HttpStatus.OK);
     }
+
+    @RequestMapping("/candidate_view/DeliveredPost")
+    public ResponseEntity<Map<String, Object>> getDeliveredCandPostForCandidate(@RequestHeader Map<String, Object> header) {
+        String id = authService.getCandIdByHeader(header);
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<>(candPostService.getDeliveredCandPostDetailByCandId(id), HttpStatus.OK);
+    }
+
+    @RequestMapping("/candidate_view/InvitedPost")
+    public ResponseEntity<Map<String, Object>> getInvitedCandPostForCandidate(@RequestHeader Map<String, Object> header) {
+        String id = authService.getCandIdByHeader(header);
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<>(candPostService.getCandPostByCandIdAndSubmissionStage(id, "邀请"), HttpStatus.OK);
+    }
+
+    @RequestMapping("/candidate_view/EndedPost")
+    public ResponseEntity<Map<String, Object>> getEndedCandPostForCandidate(@RequestHeader Map<String, Object> header) {
+        String id = authService.getCandIdByHeader(header);
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<>(candPostService.getCandPostByCandIdAndSubmissionStage(id, "流程终止"), HttpStatus.OK);
+    }
+
+
+    @RequestMapping("/candidate_view/deliver/{postId}")
+    public ResponseEntity<String> CandidateDeliverPost(@RequestHeader Map<String, Object> header,
+                                                       @PathVariable Integer postId) {
+        String id = authService.getCandIdByHeader(header);
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        if (postId == null){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        candPostService.insertCandPostByDelivery(id, postId);
+        return new ResponseEntity<>("", HttpStatus.OK);
+    }
+
+    @RequestMapping("/candidate_view/end/{postId}")
+    public ResponseEntity<String> CandidateEndProcess(@RequestHeader Map<String, Object> header,
+                                                      @PathVariable Integer postId) {
+        String id = authService.getCandIdByHeader(header);
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        if (postId == null){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        candPostService.terminateSubmissionStageByCandIdAndPostId(id, postId);
+        return new ResponseEntity<>("", HttpStatus.OK);
+    }
+
+    @RequestMapping("/candidate_view/accept/{postId}")
+    public ResponseEntity<String> CandidateAcceptInvitation(@RequestHeader Map<String, Object> header,
+                                                            @PathVariable Integer postId) {
+        String id = authService.getCandIdByHeader(header);
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        if (postId == null){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        candPostService.acceptInvitationByCandIdAndPostId(id, postId);
+        return new ResponseEntity<>("", HttpStatus.OK);
+    }
+
+    @RequestMapping("/candidate_view/refuse/{postId}")
+    public ResponseEntity<String> CandidateRefuseInvitation(@RequestHeader Map<String, Object> header,
+                                                            @PathVariable Integer postId) {
+        String id = authService.getCandIdByHeader(header);
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        if (postId == null){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        candPostService.refuseInvitationByCandIdAndPostId(id, postId);
+        return new ResponseEntity<>("", HttpStatus.OK);
+    }
 }

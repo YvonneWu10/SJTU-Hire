@@ -26,14 +26,21 @@ svg {
     display: flex;
     justify-content: center; /* 水平居中 */
     align-items: center; /* 垂直居中，可选 */
+    width: 98%;
     height: 80px;
+    bottom: 15px;
 }
 
 .basic-layout {
-    min-height: 100vh !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 98.3vh !important;
 }
 
 .card-container {
+    top: 10px;
+    width: 98%;
+    min-height: 740px;
     margin: 20px;
 }
 
@@ -49,10 +56,41 @@ svg {
 }
 
 /* Card组件的圆角 */
-.post-card {
+.post-card, .company-card, .delivered-post-card  {
     border-radius: 20px; /* 设置你想要的圆角大小 */
     background-color: #F1F5F8;
+    display: flex;
 }
+
+.ant-menu-horizontal .ant-menu-item-selected::after,
+.ant-menu-horizontal .ant-menu-submenu-selected::after {
+    border-bottom: 2px solid #033941 !important; /* 这里的 #ff0000 是指示条的颜色，你可以根据需要修改 */
+}
+
+.ant-menu-submenu-title {
+    color: #033941 !important; /* 替换为你想要的颜色值 */
+}
+
+.candidate-header-menu {
+/*color: #033941 !important;*/
+
+/*color: #your-text-color !important;*/
+.ant-menu-item-selected, .ant-menu-submenu-selected::after {
+    color: #033941 !important;
+}
+
+.active-parent > .ant-menu-item-group-title,
+.active-parent > .ant-menu-item,
+.active-parent > .ant-menu-submenu-selected,
+.active-parent > .ant-menu-submenu-selected::after {
+    color: #ff0000  !important; /* 这里设置你想要的颜色 */
+}
+
+.ant-menu-item-selected::after, .ant-menu-submenu-selected::after {
+    border-bottom: 2px solid #033941; /* 这里的 #ff0000 是指示条的颜色，你可以根据需要修改 */
+}
+}
+
 
 .ant-input-search-button {
     background-color: #033941;
@@ -66,8 +104,9 @@ svg {
 }
 
 .ant-button-primary {
-    background-color: #F1F5F8;
-    border-color: #F1F5F8;
+    background-color: #033941;
+    border-color: #033941;
+    color: white;
 }
 
 .avatar-with-subtitle {

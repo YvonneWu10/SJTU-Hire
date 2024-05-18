@@ -39,7 +39,11 @@ public interface PostDao {
     List<Post> getPostByHRId(int hrId);
     List<Integer> getPostIdByHRId(int hrId);
     // 添加新岗位
-    void createPost(Post post);
+    void createPost(String postName, String degreeReq, Integer workYearReq,
+                    Integer onSiteDayReq, String city, Date openDate, Date endDate,
+                    Integer recruitNum, Integer salary, String workStyle, String workType,
+                    String description, String responsibility, Integer departmentId,
+                    Integer companyId, Integer hrId);
     // 删除已有岗位
     void deletePost(int postId);
 

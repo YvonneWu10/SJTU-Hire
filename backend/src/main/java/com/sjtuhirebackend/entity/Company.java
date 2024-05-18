@@ -25,4 +25,8 @@ public class Company {
     private String companyType;
     @Column(name = "companyField")
     private String companyField;
+    @Column(name = "companyToken")
+    private String companyToken;
+    @Column(name = "description")
+    private String description;
 }

@@ -22,4 +22,7 @@ public interface CompanyDao {
                             String companyType, String companyField);
     // 删除公司信息
     void deleteCompany(int companyId);
+    void saveCompany(Company company);
+
+    List<String> getAllCompanyNames();
 }

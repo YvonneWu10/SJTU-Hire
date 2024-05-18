@@ -1,7 +1,9 @@
 package com.sjtuhirebackend.controller;
 
+import com.sjtuhirebackend.entity.HR;
 import com.sjtuhirebackend.entity.Post;
 import com.sjtuhirebackend.service.AuthService;
+import com.sjtuhirebackend.service.HRService;
 import com.sjtuhirebackend.service.PostService;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,8 @@ public class PostController {
     private PostService postService;
     @Autowired
     private AuthService authService;
+    @Autowired
+    private HRService hrService;
 
     @RequestMapping("/candidate_view/SearchPosts")
     public ResponseEntity<List<Post>> searchPosts(@RequestHeader Map<String, Object> header,
@@ -228,5 +232,73 @@ public class PostController {
                             description, responsibility);
 
         return new ResponseEntity<>("", HttpStatus.OK);
+    }
+
+    @RequestMapping("/hr_view/HRCreatePost/")
+    public ResponseEntity<String> HRcreatePost(@RequestHeader Map<String, Object> header,
+                                                 @RequestBody Map<String, Object> map) throws ParseException {
+        String postName = (String) map.get("postName");
+        String degreeReq = (String) map.get("degreeReq");
+        Integer workYearReq = (Integer) map.get("workYearReq");
+        Integer onSiteDayReq = (Integer) map.get("onSiteDayReq");
+        String city = (String) map.get("city");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date openDate = sdf.parse((String) map.get("openDate"));
+        Date endDate = sdf.parse((String) map.get("endDate"));
+        Integer recruitNum = (Integer) map.get("recruitNum");
+        Integer salary = (Integer) map.get("salary");
+        String workStyle = (String) map.get("workStyle");
+        String workType = (String) map.get("workType");
+        String description = (String) map.get("description");
+        String responsibility = (String) map.get("responsibility");
+
+        Integer id = authService.getHRIdByHeader(header);
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+        HR hr = hrService.getHR(id);
+
+        postService.createPost(postName, degreeReq, workYearReq,
+                onSiteDayReq, city, openDate, endDate,
+                recruitNum, salary, workStyle, workType,
+                description, responsibility, hr.getDepartmentId(), hr.getCompanyId(), id);
+
+        return new ResponseEntity<>("", HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/deletePost/{postId}")
+    public ResponseEntity<String> deletePostById(@RequestHeader Map<String, Object> header,
+                                                 @PathVariable Integer postId) {
+        // 检查管理员权限
+        String userType = (String) header.get("user-type");
+        String id = null;
+        if ("HR".equals(userType)) {
+            id = authService.getHRIdByHeader(header).toString();
+        }
+        if ("admin".equals(userType)) {
+            id = authService.getAdminIdByHeader(header);
+        }
+
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        // 检查是否提供了有效的postId
+        if (postId == null || postId <= 0) {
+            System.out.println("Invalid id: " + id);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+        // 检查是否存在对应post
+        if (postService.getPostById(postId) == null) {
+            System.out.println("No post id: " + id);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        // 调用服务层删除
+        postService.deletePost(postId);
+
+        // 删除成功
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }

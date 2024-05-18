@@ -13,6 +13,7 @@
     "@uiw/react-tooltip": "^4.21.28",
     "antd": "^5.6.3",
     "axios": "^1.4.0",
+    "dayjs": "^1.11.11",
     "element-china-area-data": "^6.1.0",
     "history": "^5.3.0",
     "http-proxy-middleware": "^2.0.6",

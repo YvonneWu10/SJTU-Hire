@@ -106,7 +106,9 @@ export default function HREditPostDetails({ post }) {
                 </Col>
                 <Col span={12}>
                     <Form.Item name="city" label={"所在城市"} initialValue={post.city} rules={[{required: true, message: "请选择所在城市"}]}>
-                        <Select style={{ width: '80%'}} options={cityOptions}></Select>
+                        {/*<Select style={{ width: '80%'}} options={pcTextArr}></Select>*/}
+                        {/*<Cascader options={pcTextArr}></Cascader>*/}
+                        <Input style={{ width: '80%'}}></Input>
                     </Form.Item>
                 </Col>
             </Row>
@@ -173,14 +175,14 @@ export default function HREditPostDetails({ post }) {
 
             <Row>
                 <Col span={24} >
-                    <Form.Item labelCol={8} name="description" label="岗位描述" initialValue={post.description} rules={[{required: true, message: "请输入岗位描述"}]}>
+                    <Form.Item labelCol={8} name="description" label="岗位描述" initialValue={post.description} rules={[{message: "请输入岗位描述"}]}>
                         <Input.TextArea rows={4} style={{width: '100%'}}/>
                     </Form.Item>
                 </Col>
             </Row>
             <Row>
                 <Col span={24} >
-                    <Form.Item labelCol={8} name="responsibility" label="岗位职责" initialValue={post.responsibility} rules={[{required: true, message: "请输入岗位职责"}]}>
+                    <Form.Item labelCol={8} name="responsibility" label="岗位职责" initialValue={post.responsibility} rules={[{message: "请输入岗位职责"}]}>
                         <Input.TextArea rows={4} style={{width: '100%'}}/>
                     </Form.Item>
                 </Col>

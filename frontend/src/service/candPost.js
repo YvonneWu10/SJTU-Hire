@@ -105,3 +105,91 @@ export async function inviteByCandPostId(candId, postId) {
         console.log(e);
     }
 }
+
+export async function searchDeliveredEndedPosts(pageIndex, pageSize, status) {
+    const url = `${PREFIX}/candidate_view/${status}`;
+    let result;
+    let response;
+    try {
+        result = await getJson(url, "candidate");
+        response = {
+            total: Math.ceil(result["candPosts"].length / pageSize),
+            posts: result["posts"],
+            companies: result["companies"],
+            candPosts: result["candPosts"]
+        };
+    } catch (e) {
+        console.log(e);
+        response = {
+            total: 0,
+            posts: [],
+            companies: [],
+            candPosts: []
+        };
+    }
+
+    return response;
+}
+
+export async function searchInvitedPosts(pageIndex, pageSize) {
+    const url = `${PREFIX}/candidate_view/InvitedPost`;
+    let result;
+    let response;
+    try {
+        result = await getJson(url, "candidate");
+        response = {
+            total: Math.ceil(result["candPosts"].length / pageSize),
+            posts: result["posts"],
+            companies: result["companies"],
+            candPosts: result["candPosts"],
+            timeout: result["timeout"]
+        };
+    } catch (e) {
+        console.log(e);
+        response = {
+            total: 0,
+            posts: [],
+            companies: [],
+            candPosts: [],
+            timeout: []
+        };
+    }
+
+    return response;
+}
+
+export async function deliverByPostId(postId) {
+    const url = `${PREFIX}/candidate_view/deliver/${postId}`;
+    try {
+        await getJson(url, "candidate");
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export async function endProcessByPostId(postId) {
+    const url = `${PREFIX}/candidate_view/end/${postId}`;
+    try {
+        await getJson(url, "candidate");
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export async function acceptInvitationByPostId(postId) {
+    const url = `${PREFIX}/candidate_view/accept/${postId}`;
+    try {
+        await getJson(url, "candidate");
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export async function refuseInvitationByPostId(postId) {
+    const url = `${PREFIX}/candidate_view/refuse/${postId}`;
+    try {
+        await getJson(url, "candidate");
+    } catch (e) {
+        console.log(e);
+    }
+}

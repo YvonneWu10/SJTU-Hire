@@ -1,6 +1,7 @@
 package com.sjtuhirebackend.daoimpl;
 
 import com.sjtuhirebackend.dao.ProjectDao;
+import com.sjtuhirebackend.entity.CandPost;
 import com.sjtuhirebackend.entity.Project;
 import com.sjtuhirebackend.repository.ProjectRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -20,4 +21,12 @@ public class ProjectDaoImpl implements ProjectDao {
     public Project getProjectById(int projectId) { return projectRepository.findByProjectId(projectId); }
     public List<Project> getProjects() { return projectRepository.findAll(); }
     public List<Project> getProjectByCandId(String candId) { return projectRepository.findByParticipant(candId); }
+
+    public void deleteProject(int projectId) {
+        projectRepository.deleteByProjectId(projectId);
+    }
+
+    public void saveProject(Project project) {
+        projectRepository.save(project);
+    }
 }

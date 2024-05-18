@@ -44,4 +44,5 @@ public interface CandidateService {
     List<Candidate> getAllCandidatesAvailable(int HRId);
     Map<String, Object> getCandInfoByCandId(String id);
     List<String> getCandIdByCandName(String candName);
+    void editCandidateInfo(String id, Map<String, Object> values, List<Integer> deletedProjects);
 }

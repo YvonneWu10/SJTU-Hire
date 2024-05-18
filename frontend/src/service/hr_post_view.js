@@ -63,3 +63,15 @@ export async function hrEditPost(values) {
         console.log(e);
     }
 }
+
+export async function hrCreatePost(values) {
+    const url = `${PREFIX}/hr_view/HRCreatePost/`;
+
+    console.log(values);
+    try {
+        let res = await post(url, "HR", values);
+        console.log(res);
+    } catch (e) {
+        console.log(e);
+    }
+}
