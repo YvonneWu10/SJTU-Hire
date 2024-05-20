@@ -88,4 +88,6 @@ public class CandidateDaoImpl implements CandidateDao {
     public void deleteCandidate(String candId) {
         candidateRepository.deleteById(candId);
     }
+
+    public long candidateCount() { return candidateRepository.count(); }
 }

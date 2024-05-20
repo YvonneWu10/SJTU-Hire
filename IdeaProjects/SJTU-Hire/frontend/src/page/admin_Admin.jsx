@@ -1,5 +1,5 @@
 import '../css/Statistics.css';  // 确保CSS文件路径正确
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useMemo} from 'react';
 import {Input, Card, Space, Row, Col, Statistic} from 'antd';
 import { useSearchParams } from 'react-router-dom';
 import { AdminsearchPosts } from "../service/post";
@@ -7,12 +7,19 @@ import PostList from "../components/post_list";
 import SidebarLayout from './admin_SidebarLayout';
 import {ClockCircleTwoTone, ContainerTwoTone, EyeTwoTone, FrownTwoTone, IdcardTwoTone} from "@ant-design/icons";
 import {PostProgress} from "./statistics";
+import {getAdminnameByToken, getCandidateNum, getHRNum, getpostInProgress, getPostNum} from "../service/admin";
+import md5 from "md5";
+import Identicon from "identicon.js";
 
 const { Search } = Input;
 
 const AdminPage = () => {
     const [posts, setPosts] = useState([]);
     const [totalPage, setTotalPage] = useState(0);
+    const [postInProgressData, setPostInProgressData] = useState(0);
+    const [postNum, setPostNum] = useState(0);
+    const [candidateNum, setCandidateNum] = useState(0);
+    const [HRNum, setHRNum] = useState(0);
     const [searchParams, setSearchParams] = useSearchParams();
     const pageIndex = searchParams.get("pageIndex") != null ? Number.parseInt(searchParams.get("pageIndex")) : 1;
     const pageSize = searchParams.get("pageSize") != null ? Number.parseInt(searchParams.get("pageSize")) : 25;
@@ -28,7 +35,7 @@ const AdminPage = () => {
         let totalPage = resPosts.total;
         setPosts(posts);
         setTotalPage(totalPage);
-        console.log("API Response:", resPosts);
+        // console.log("API Response:", resPosts);
     };
 
     // 用来调试，监听searchParams
@@ -54,8 +61,39 @@ const AdminPage = () => {
         setSearchParams(currentParams);
     };
 
-    // 示例数据，您需要根据实际从后端获取
-    const PostInProgressData = 0.72
+    // 进展中岗位数(已从后端获取)、总岗位数、总应聘者数、总HR数
+    // const postInProgressData = 0.72
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data1 = await getPostNum();
+                setPostNum(data1);
+                const data2 = await getCandidateNum();
+                setCandidateNum(data2);
+                const data3 = await getHRNum();
+                setHRNum(data3);
+                const data4 = await getpostInProgress();
+                setPostInProgressData(data4);
+            } catch (e) {
+                console.error('Error fetching PanelData:', e);
+                setPostNum(0);
+                setCandidateNum(0);
+                setHRNum(0);
+                setPostInProgressData(0);
+            }
+        };
+        fetchData();
+    }, []);
+
+    // 获取当前日期并格式化
+    const currentDateTime = useMemo(() => {
+        const date = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const dateString = date.toLocaleDateString('zh-CN', options);
+        const timeString = date.toLocaleTimeString('zh-CN');
+        return `${dateString} ${timeString}`;
+    }, []);
+
 
     return (
         <SidebarLayout>
@@ -64,29 +102,29 @@ const AdminPage = () => {
                 <Row gutter={6}>
                     <Col span={6} style={{ borderRight: '1px solid #ccc' }}>
                         <Card bordered={false} style={{  boxShadow: "none"}}>
-                            <EyeTwoTone /> 今日访问量
-                            <Statistic value={12} valueStyle={{ fontSize: '40px', fontWeight: 'bold' }} />
-                            <div className="small-text">截至2024年5月20日</div>
+                            <EyeTwoTone /> 总岗位数
+                            <Statistic value={postNum} valueStyle={{ fontSize: '40px', fontWeight: 'bold' }} />
+                            <div className="small-text">截至 {currentDateTime}</div>
                         </Card>
                     </Col>
                     <Col span={6} style={{ borderRight: '1px solid #ccc' }}>
                         <Card bordered={false} style={{  boxShadow: "none"}}>
-                            <ContainerTwoTone /> 新增岗位数
-                            <Statistic value={13} valueStyle={{ fontSize: '40px', fontWeight: 'bold' }} />
-                            <div className="small-text">截至2024年5月20日</div>
+                            <ContainerTwoTone /> 总招聘者数
+                            <Statistic value={candidateNum} valueStyle={{ fontSize: '40px', fontWeight: 'bold' }} />
+                            <div className="small-text">截至 {currentDateTime} </div>
                         </Card>
                     </Col>
                     <Col span={6} style={{ borderRight: '1px solid #ccc' }}>
                         <Card bordered={false} style={{  boxShadow: "none"}}>
-                            <IdcardTwoTone /> 新增用户数
-                            <Statistic value={14} valueStyle={{ fontSize: '40px', fontWeight: 'bold' }} />
-                            <div className="small-text">截至2024年5月20日</div>
+                            <IdcardTwoTone /> 总HR数
+                            <Statistic value={HRNum} valueStyle={{ fontSize: '40px', fontWeight: 'bold' }} />
+                            <div className="small-text">截至 {currentDateTime}</div>
                         </Card>
                     </Col>
                     <Col span={6}>
                         <Card bordered={false} style={{  boxShadow: "none"}}>
                             <ClockCircleTwoTone /> 进程中岗位数
-                            <PostProgress data={PostInProgressData}></PostProgress>
+                            <PostProgress data={postInProgressData}></PostProgress>
                         </Card>
                     </Col>
                 </Row>

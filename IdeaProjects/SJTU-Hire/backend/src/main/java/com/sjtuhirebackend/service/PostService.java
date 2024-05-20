@@ -41,4 +41,6 @@ public interface PostService {
     // 删除已有岗位
     void deletePost(int postId);
     List<String> getDistinctPostCities();
+    // 获取所有岗位数
+    long getPostCount();
 }

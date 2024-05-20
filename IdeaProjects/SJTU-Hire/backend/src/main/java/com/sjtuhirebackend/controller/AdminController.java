@@ -1,8 +1,6 @@
 package com.sjtuhirebackend.controller;
 
-import com.sjtuhirebackend.service.AdminService;
-import com.sjtuhirebackend.service.AuthService;
-import com.sjtuhirebackend.service.PostService;
+import com.sjtuhirebackend.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +21,14 @@ public class AdminController {
     private AuthService authService;
     @Autowired
     private PostService postService;
+    @Autowired
+    private CandPostService candPostService;
+    @Autowired
+    private HRService hrService;
+    @Autowired
+    private CandidateService candidateService;
+    @Autowired
+    private CompanyService companyService;
 
     @RequestMapping("/administer-main/adminname")
     public ResponseEntity<Map<String, Object>> getAdminNameByToken(@RequestHeader Map<String, Object> header) {
@@ -36,4 +42,38 @@ public class AdminController {
         return new ResponseEntity<>(Map.of("adminname", name), HttpStatus.OK);
     }
 
+    @RequestMapping("/administer/postInProgressData")
+    public ResponseEntity<Map<String, Object>> getPostInProgressData(){
+        long postCount = postService.getPostCount();
+        long candPostCount = candPostService.countPosts();
+        double ratio = (double) candPostCount / postCount;
+        if (postCount == 0){
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);   //防止除以0
+        }
+        return new ResponseEntity<>(Map.of("data", ratio), HttpStatus.OK);
+    }
+
+    @RequestMapping("/postNum")
+    public ResponseEntity<Map<String, Object>> getPostNum(){
+        long postCount = postService.getPostCount();
+        return new ResponseEntity<>(Map.of("data", postCount), HttpStatus.OK);
+    }
+
+    @RequestMapping("/candidateNum")
+    public ResponseEntity<Map<String, Object>> getCandidateNum(){
+        long candidateCount = candidateService.candidateCount();
+        return new ResponseEntity<>(Map.of("data", candidateCount), HttpStatus.OK);
+    }
+
+    @RequestMapping("/HRNum")
+    public ResponseEntity<Map<String, Object>> getHRNum(){
+        long HRCount = hrService.HRCount();
+        return new ResponseEntity<>(Map.of("data", HRCount), HttpStatus.OK);
+    }
+
+    @RequestMapping("/companyNum")
+    public ResponseEntity<Map<String, Object>> getCompanyNum(){
+        long companyCount = companyService.companyCount();
+        return new ResponseEntity<>(Map.of("data", companyCount), HttpStatus.OK);
+    }
 }

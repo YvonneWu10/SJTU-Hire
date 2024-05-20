@@ -24,4 +24,8 @@ public interface CandPostRepository extends JpaRepository<CandPost, CandPostPK> 
 
     @Query(value = "SELECT * FROM cand_post p LIMIT :startIndex, :pageSize", nativeQuery = true)
     List<CandPost> findByPages(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize);
+
+    // 获取postId不同的投递个数（即被投递的岗位数）
+    @Query(value="SELECT COUNT(DISTINCT postId) FROM cand_post", nativeQuery = true)
+    Integer countPosts();
 }

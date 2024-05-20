@@ -22,4 +22,6 @@ public interface CompanyDao {
                             String companyType, String companyField);
     // 删除公司信息
     void deleteCompany(int companyId);
+
+    long companyCount();
 }

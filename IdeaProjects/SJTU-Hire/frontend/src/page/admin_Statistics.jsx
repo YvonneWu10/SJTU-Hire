@@ -1,13 +1,20 @@
 // Statistics.js
 import '../css/Statistics.css';  // 确保CSS文件路径正确
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import SidebarLayout from './admin_SidebarLayout'; // 确保路径正确
 import { Row, Col, Card, Statistic } from 'antd';
 import {CaretUpOutlined, CaretDownOutlined, FrownTwoTone, EyeTwoTone, ContainerTwoTone, IdcardTwoTone } from '@ant-design/icons';
 import {JobRankingList, AgeGraph, DegreeGraph, SalaryGraph, PostMap} from './statistics';
+import {getCandidateNum, getCompanyNum, getHRNum, getpostInProgress, getPostNum} from "../service/admin";
 
 
 const Statistics = () => {
+    const [postNum, setPostNum] = useState(0);
+    const [candidateNum, setCandidateNum] = useState(0);
+    const [HRNum, setHRNum] = useState(0);
+    const [companyNum, setCompanyNum] = useState(0);
+
+
     const renderChange = (value) => {
         const isPositive = parseFloat(value) > 0;   // 将字符串转换为数字并检查是否大于0
         const formattedValue = Math.abs(parseFloat(value)).toFixed(1);
@@ -18,6 +25,29 @@ const Statistics = () => {
             </span>
         );
     };
+
+    // (已从后端获取)总岗位数、总应聘者数、总HR数
+    // const postInProgressData = 0.72
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data1 = await getPostNum();
+                setPostNum(data1);
+                const data2 = await getCandidateNum();
+                setCandidateNum(data2);
+                const data3 = await getHRNum();
+                setHRNum(data3);
+                const data4 = await getCompanyNum();
+                setCompanyNum(data4);
+            } catch (e) {
+                console.error('Error fetching PanelData:', e);
+                setPostNum(0);
+                setCandidateNum(0);
+                setHRNum(0);
+            }
+        };
+        fetchData();
+    }, []);
 
     // 示例数据，您需要根据实际从后端获取
     const JobRankData = [
@@ -146,29 +176,30 @@ const Statistics = () => {
                 <Row gutter={6}>
                     <Col span={6} style={{ borderRight: '1px solid #ccc' }}>
                         <Card bordered={false} style={{ border: 'none', boxShadow: "none"}}>
-                            <EyeTwoTone /> 今日访问量
-                            <Statistic value={12} valueStyle={{ fontSize: '30px', fontWeight: 'bold' }} />
+                            <EyeTwoTone /> 总岗位数
+                            <Statistic value={postNum} valueStyle={{ fontSize: '30px', fontWeight: 'bold' }} />
                             <div className="small-text">同比昨日 {renderChange('12.2')}</div>
                         </Card>
                     </Col>
                     <Col span={6} style={{ borderRight: '1px solid #ccc' }}>
                         <Card bordered={false} style={{ border: 'none', boxShadow: "none"}}>
-                            <ContainerTwoTone /> 新增岗位数
-                            <Statistic value={13} valueStyle={{ fontSize: '30px', fontWeight: 'bold' }} />
+                            <ContainerTwoTone /> 总应聘者数
+                            <Statistic value={candidateNum} valueStyle={{ fontSize: '30px', fontWeight: 'bold' }} />
                             <div className="small-text">同比昨日{renderChange('-13.4')}</div>
                         </Card>
                     </Col>
                     <Col span={6} style={{ borderRight: '1px solid #ccc' }}>
                         <Card bordered={false} style={{ border: 'none', boxShadow: "none"}}>
-                            <IdcardTwoTone /> 新增用户数
-                            <Statistic value={14} valueStyle={{ fontSize: '30px', fontWeight: 'bold' }} />
+                            <IdcardTwoTone /> 总HR数
+                            <Statistic value={HRNum} valueStyle={{ fontSize: '30px', fontWeight: 'bold' }} />
                             <div className="small-text">同比昨日{renderChange('10.0')}</div>
                         </Card>
                     </Col>
                     <Col span={6}>
-                        <Card bordered={false} style={{ border: 'none', boxShadow: "none"}}>
-                            <FrownTwoTone /> 投诉数
-                            <Statistic value={15} valueStyle={{ fontSize: '30px', fontWeight: 'bold' }} />
+                        <Card bordered={false} style={{border: 'none', boxShadow: "none"}}>
+                            <FrownTwoTone/> 总公司数
+                            <Statistic value={companyNum} valueStyle={{fontSize: '30px', fontWeight: 'bold'}}/>
+                            <div className="small-text">同比昨日{renderChange('0.0')}</div>
                         </Card>
                     </Col>
                 </Row>

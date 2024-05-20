@@ -86,4 +86,8 @@ public class CandidateServiceImpl implements CandidateService {
     public void deleteCandidate(String candId) {
         candidateDao.deleteCandidate(candId);
     }
+
+    public long candidateCount() {
+        return candidateDao.candidateCount();
+    }
 }

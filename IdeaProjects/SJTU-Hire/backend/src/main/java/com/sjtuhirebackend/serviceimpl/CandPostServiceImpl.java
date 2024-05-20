@@ -128,4 +128,6 @@ public class CandPostServiceImpl implements CandPostService {
     public void deleteCandPost(String candId, int postId) {
         candPostDao.deleteCandPost(candId, postId);
     }
+
+    public long countPosts() { return candPostDao.countPosts(); }
 }

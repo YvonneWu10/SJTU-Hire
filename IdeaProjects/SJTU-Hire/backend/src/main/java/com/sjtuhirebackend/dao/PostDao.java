@@ -44,4 +44,6 @@ public interface PostDao {
     void deletePost(int postId);
 
     List<String> getDistinctPostCities();
+
+    long getPostCount();
 }

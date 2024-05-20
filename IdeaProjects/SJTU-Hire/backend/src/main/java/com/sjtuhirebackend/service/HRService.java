@@ -13,4 +13,5 @@ public interface HRService {
     List<HR> getHRByCompanyIdAndDepartmentId(int companyId, int departmentId);
     HR registerHR(int HRId, String HRName, int companyId, int departmentId);
     void deleteHRById(int HRId);
+    long HRCount();
 }

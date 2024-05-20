@@ -50,4 +50,6 @@ public class HRDaoImpl implements HRDao {
     public void deleteHRById(int HRId){
         hrRepository.deleteById(HRId);
     }
+
+    public long HRCount() {return hrRepository.count(); }
 }

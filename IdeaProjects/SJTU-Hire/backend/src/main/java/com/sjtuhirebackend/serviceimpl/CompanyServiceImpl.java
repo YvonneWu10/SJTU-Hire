@@ -53,4 +53,8 @@ public class CompanyServiceImpl implements CompanyService {
         companyDao.deleteCompany(companyId);
     }
 
+    public long companyCount(){
+        return companyDao.companyCount();
+    }
+
 }

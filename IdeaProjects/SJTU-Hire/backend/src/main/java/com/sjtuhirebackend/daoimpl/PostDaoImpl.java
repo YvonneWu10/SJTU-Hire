@@ -66,4 +66,6 @@ public class PostDaoImpl implements PostDao {
     public void deletePost(int postId) { postRepository.deleteById(postId); }
 
     public List<String> getDistinctPostCities() { return postRepository.findDistinctCity(); }
+
+    public long getPostCount() { return postRepository.count(); }
 }

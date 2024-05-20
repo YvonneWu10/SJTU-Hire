@@ -57,4 +57,6 @@ public class PostServiceImpl implements PostService {
     public void deletePost(int postId) { postDao.deletePost(postId); }
 
     public List<String> getDistinctPostCities() { return postDao.getDistinctPostCities(); }
+
+    public long getPostCount() { return postDao.getPostCount(); }
 }

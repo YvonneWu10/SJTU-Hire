@@ -40,4 +40,6 @@ public class HRServiceImpl implements HRService {
     public void deleteHRById(int HRId){
         hrDao.deleteHRById(HRId);
     }
+
+    public long HRCount() { return hrDao.HRCount(); }
 }

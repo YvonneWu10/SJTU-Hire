@@ -22,4 +22,5 @@ public interface CandPostService {
     List<CandPost> getPagedCandPosts(int pageIndex, int pageSize); //分页列举
     int getTotalPages(int pageSize);    //总页数
     void deleteCandPost(String candId, int postId);
+    long countPosts(); //返回所有有投递的岗位数
 }

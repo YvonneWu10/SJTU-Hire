@@ -288,8 +288,12 @@ export const PostMap = ({ data }) => {
 };
 
 export const PostProgress = ({data}) => {
+    // 确保 data 是数字，并只保留两位小数
+    const formattedData = Math.round(parseFloat(data) * 100) / 100;
+    // console.log(formattedData);
+
     const config = {
-        percent: data,
+        percent: formattedData,
         style: {
             textFill: '#fff',
             fontSize: 10, // 设置字体大小为12px

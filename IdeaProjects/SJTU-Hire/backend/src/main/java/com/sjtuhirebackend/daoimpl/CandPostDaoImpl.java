@@ -57,4 +57,6 @@ public class CandPostDaoImpl implements CandPostDao {
     public void deleteCandPost(String candId, int postId) {
         candPostRepository.delete(candPostRepository.findByBiIdCandIdAndBiIdPostId(candId, postId));
     }
+
+    public long countPosts() {return candPostRepository.countPosts();}
 }

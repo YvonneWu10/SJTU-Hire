@@ -23,4 +23,7 @@ public interface CompanyService {
                             String companyType, String companyField);
 
     void deleteCompany(int companyId);
+
+    // 计数
+    long companyCount();
 }

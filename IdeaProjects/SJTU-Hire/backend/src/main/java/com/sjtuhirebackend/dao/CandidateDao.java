@@ -29,4 +29,5 @@ public interface CandidateDao {
     List<String> getDistinctCandMajors();
     List<String> getDistinctUniversities();
     void  deleteCandidate(String candId);
+    long candidateCount();
 }

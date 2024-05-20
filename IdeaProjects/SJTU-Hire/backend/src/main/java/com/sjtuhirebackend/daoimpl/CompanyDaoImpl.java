@@ -58,4 +58,8 @@ public class CompanyDaoImpl implements CompanyDao {
     public void deleteCompany(int companyId){
         companyRepository.deleteById(companyId);
     }
+
+    public long companyCount(){
+        return companyRepository.count();
+    }
 }
