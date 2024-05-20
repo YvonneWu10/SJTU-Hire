@@ -1,9 +1,12 @@
+import '../css/Statistics.css';  // 确保CSS文件路径正确
 import React, { useState, useEffect } from 'react';
-import { Input, Card, Space } from 'antd';
+import {Input, Card, Space, Row, Col, Statistic} from 'antd';
 import { useSearchParams } from 'react-router-dom';
 import { AdminsearchPosts } from "../service/post";
 import PostList from "../components/post_list";
 import SidebarLayout from './admin_SidebarLayout';
+import {ClockCircleTwoTone, ContainerTwoTone, EyeTwoTone, FrownTwoTone, IdcardTwoTone} from "@ant-design/icons";
+import {PostProgress} from "./statistics";
 
 const { Search } = Input;
 
@@ -51,9 +54,44 @@ const AdminPage = () => {
         setSearchParams(currentParams);
     };
 
+    // 示例数据，您需要根据实际从后端获取
+    const PostInProgressData = 0.72
+
     return (
         <SidebarLayout>
-            <Card className="card-container" style={{ maxWidth: "1170px", width: "100%" }}>
+            <Card bordered={false} style={{ marginBottom: '10px'}}>
+                <div style={{fontWeight: 'bold', fontSize: '17px'}}>核心指标</div>
+                <Row gutter={6}>
+                    <Col span={6} style={{ borderRight: '1px solid #ccc' }}>
+                        <Card bordered={false} style={{  boxShadow: "none"}}>
+                            <EyeTwoTone /> 今日访问量
+                            <Statistic value={12} valueStyle={{ fontSize: '40px', fontWeight: 'bold' }} />
+                            <div className="small-text">截至2024年5月20日</div>
+                        </Card>
+                    </Col>
+                    <Col span={6} style={{ borderRight: '1px solid #ccc' }}>
+                        <Card bordered={false} style={{  boxShadow: "none"}}>
+                            <ContainerTwoTone /> 新增岗位数
+                            <Statistic value={13} valueStyle={{ fontSize: '40px', fontWeight: 'bold' }} />
+                            <div className="small-text">截至2024年5月20日</div>
+                        </Card>
+                    </Col>
+                    <Col span={6} style={{ borderRight: '1px solid #ccc' }}>
+                        <Card bordered={false} style={{  boxShadow: "none"}}>
+                            <IdcardTwoTone /> 新增用户数
+                            <Statistic value={14} valueStyle={{ fontSize: '40px', fontWeight: 'bold' }} />
+                            <div className="small-text">截至2024年5月20日</div>
+                        </Card>
+                    </Col>
+                    <Col span={6}>
+                        <Card bordered={false} style={{  boxShadow: "none"}}>
+                            <ClockCircleTwoTone /> 进程中岗位数
+                            <PostProgress data={PostInProgressData}></PostProgress>
+                        </Card>
+                    </Col>
+                </Row>
+            </Card>
+            <Card className="card-container" style={{ maxWidth: "1310px", width: "100%" }}>
                 <Space direction="vertical" size="large" style={{ width: "100%" }}>
                     <Search placeholder="输入岗位名" onSearch={handleSearch} enterButton size="large" />
                     <PostList posts={posts} pageSize={pageSize} total={totalPage * pageSize} current={pageIndex} onPageChange={handlePageChange} columns ={5} gutter ={16} />

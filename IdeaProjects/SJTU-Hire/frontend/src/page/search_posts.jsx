@@ -1,16 +1,14 @@
 import '../css/global.css'
-import { UserContext } from "../utils/context";
 
 import type {SelectProps} from 'antd';
 import {Avatar, Button, Card, Input, Select, Space} from "antd";
-import {useContext, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {retPostCities, searchPosts} from "../service/post";
 
 import {useSearchParams} from "react-router-dom";
-import {BasicLayout, PrivateLayout} from "../components/layout";
+import {PrivateLayout} from "../components/layout";
 import PostList from "../components/post_list";
 import {UserOutlined} from "@ant-design/icons";
-import {Text} from "recharts";
 import {getUsernameById} from "../service/candidate";
 
 const { Search } = Input;

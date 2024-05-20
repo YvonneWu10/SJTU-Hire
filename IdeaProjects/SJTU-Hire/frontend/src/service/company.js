@@ -1,5 +1,4 @@
 import { PREFIX, getJson } from "./common";
-import axios from "axios";
 
 export async function getAllCompany() {
     const url = `${PREFIX}/company/getAllCompany`;
