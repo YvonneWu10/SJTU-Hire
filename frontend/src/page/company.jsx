@@ -1,19 +1,17 @@
 import '../css/global.css'
 
-import { Avatar, Button, Card, Menu, Space } from "antd";
+import { Card, Menu, Space } from "antd";
 import { useEffect, useState } from "react";
 
-import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { PrivateLayout } from "../components/layout";
-import { UserOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { searchCandidateUsername } from "../service/candidate";
 import { getCompanyById } from "../service/company";
 import CompanyDetails from "../components/company_details";
 import PostList from "../components/post_list";
 import CandidateHeader from "../components/candidate_header";
 
-
+// 公司详细情况页面
 export default function CompanyPage() {
     const [posts, setPosts] = useState(null);
     const [totalPage, setTotalPage] = useState(0);

@@ -21,6 +21,7 @@ import CandidateChangePasswordPage from "../page/candidate_changePassword";
 import CandidateDeleteAccountPage from "../page/candidate_deleteAccount";
 import CandidateRegisterPage from "../page/candidate_register";
 
+// 路由配置
 export default function AppRouter() {
     return <BrowserRouter>
         <Routes>

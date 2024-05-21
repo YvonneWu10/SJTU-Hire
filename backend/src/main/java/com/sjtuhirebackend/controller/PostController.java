@@ -22,6 +22,7 @@ public class PostController {
     @Autowired
     private AuthService authService;
 
+    // 根据条件筛选符合要求的岗位
     @RequestMapping("/candidate_view/SearchPost")
     public ResponseEntity<List<Post>> searchPosts(@RequestHeader Map<String, Object> header,
                                                   @RequestParam(defaultValue = "") String postName,
@@ -90,6 +91,7 @@ public class PostController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    // 获取岗位postId的详细信息
     @RequestMapping("/candidate_view/Post/{postId}")
     public ResponseEntity<Map<String, Object>> getPostDetailById(@RequestHeader Map<String, Object> header,
                                                                  @PathVariable Integer postId) {
@@ -105,6 +107,7 @@ public class PostController {
         return new ResponseEntity<>(postService.getPostDetailById(id, postId), HttpStatus.OK);
     }
 
+    // 获取所有岗位的城市信息
     @RequestMapping("/candidate_view/PostCities")
     public ResponseEntity<List<String>> getPostCities(@RequestHeader Map<String, Object> header) {
         String id = authService.getCandIdByHeader(header);

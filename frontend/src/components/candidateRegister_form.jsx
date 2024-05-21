@@ -15,7 +15,7 @@ const formItemLayout = {
     },
 };
 
-
+// 求职者注册表单
 export default function CandidateRegisterForm() {
     const [form] = Form.useForm();
     const navigate = useNavigate();

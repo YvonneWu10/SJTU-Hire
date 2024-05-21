@@ -1,7 +1,6 @@
 package com.sjtuhirebackend.controller;
 
 import com.sjtuhirebackend.entity.Company;
-import com.sjtuhirebackend.entity.Post;
 import com.sjtuhirebackend.service.AuthService;
 import com.sjtuhirebackend.service.CompanyService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +23,7 @@ public class CompanyController {
     @Autowired
     private AuthService authService;
 
+    // 根据条件筛选符合要求的公司
     @RequestMapping("/candidate_view/SearchCompany")
     public ResponseEntity<List<Company>> searchCompany(@RequestHeader Map<String, Object> header,
                                                        @RequestParam(defaultValue = "") String companyName,
@@ -92,6 +92,7 @@ public class CompanyController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    // 根据公司id获取公司详细信息
     @RequestMapping("/candidate_view/Company/{companyId}")
     public ResponseEntity<Map<String, Object>> getCompanyDetailById(@RequestHeader Map<String, Object> header,
                                                                     @PathVariable Integer companyId) {

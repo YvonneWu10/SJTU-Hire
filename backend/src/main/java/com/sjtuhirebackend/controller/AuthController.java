@@ -16,6 +16,7 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+    // 登录
     @RequestMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, Object> map) {
         String type = (String) map.get("type");
@@ -40,6 +41,7 @@ public class AuthController {
         return new ResponseEntity<>(null, HttpStatus.NOT_IMPLEMENTED);
     }
 
+    // 页面鉴权
     @RequestMapping("/auth")
     public ResponseEntity<Map<String, Object>> auth(@RequestHeader Map<String, Object> header,
                                                     @RequestBody Map<String, Object> body) {

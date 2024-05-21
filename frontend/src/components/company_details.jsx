@@ -5,6 +5,7 @@ import { TeamOutlined, RiseOutlined, BankOutlined, CompassOutlined } from "@ant-
 
 const { Title } = Typography;
 
+// 公司详情
 export default function CompanyDetails({ company }) {
     const basicItems = [
         {

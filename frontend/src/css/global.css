@@ -96,12 +96,6 @@ svg {
     background-color: #033941;
 }
 
-/* 还没调好，不能发挥作用 */
-.ant-input-search-button:hover {
-    background-color: #F1F5F8; /* Change to your desired hover color */
-    border-color: #F1F5F8; /* Change to your desired hover border color */
-    color: #F1F5F8; /* Change to your desired hover text color */
-}
 
 .ant-button-primary {
     background-color: #033941;

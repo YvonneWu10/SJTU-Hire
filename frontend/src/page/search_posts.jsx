@@ -12,7 +12,7 @@ import CandidateHeader from "../components/candidate_header";
 
 const { Search } = Input;
 
-
+// 搜索岗位页面，也是求职者的主页
 export default function SearchPostsPage() {
     const [posts, setPosts] = useState([]);
     const [totalPage, setTotalPage] = useState(0);

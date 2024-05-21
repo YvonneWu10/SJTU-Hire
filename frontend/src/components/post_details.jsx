@@ -11,6 +11,7 @@ import {
 import { refreshPage } from "../utils/refresh";
 const { Title, Text } = Typography;
 
+// 岗位详情
 export default function PostDetails({ post, department, timeout, delivered, ended, invited }) {
     const basicItems = [
         {

@@ -1,5 +1,5 @@
 import { List, Pagination, Space } from "antd"
-import InvitedPostCard from "./invitedPos_card";
+import InvitedPostCard from "./invitedPost_card";
 
 
 export default function InvitedPostList({ posts, companies, candPosts, timeout, pageSize, current, total, onPageChange }) {

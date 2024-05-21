@@ -12,7 +12,7 @@ import CandidateHeader from "../components/candidate_header";
 
 const { Search } = Input;
 
-
+// 搜索公司页面
 export default function SearchCompanyPage() {
     const [company, setCompany] = useState([]);
     const [totalPage, setTotalPage] = useState(0);

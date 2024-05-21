@@ -7,7 +7,7 @@ import CandidateRegisterForm from "../components/candidateRegister_form";
 import React from "react";
 const { Title, Paragraph } = Typography;
 
-
+// 求职者注册页面
 export default function CandidateRegisterPage() {
     return (
         <BasicLayout>

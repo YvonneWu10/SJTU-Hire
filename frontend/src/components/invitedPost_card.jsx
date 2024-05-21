@@ -8,6 +8,7 @@ import React from "react";
 
 const { Meta } = Card;
 
+// 被邀请的岗位卡片
 export default function InvitedPostCard({ post, companyName, candPost, timeout }) {
     const acceptOnClick = () => {
         acceptInvitationByPostId(post.postId);

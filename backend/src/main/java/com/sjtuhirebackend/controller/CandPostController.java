@@ -10,10 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.ArrayList;
 
 @RestController
 @Slf4j
@@ -25,6 +22,7 @@ public class CandPostController {
     @Autowired
     private PostService postService;
 
+    // 获取求职者投递的岗位
     @RequestMapping("/candidate_view/DeliveredPost")
     public ResponseEntity<Map<String, Object>> getDeliveredCandPostForCandidate(@RequestHeader Map<String, Object> header) {
         String id = authService.getCandIdByHeader(header);
@@ -35,6 +33,7 @@ public class CandPostController {
         return new ResponseEntity<>(candPostService.getDeliveredCandPostDetailByCandId(id), HttpStatus.OK);
     }
 
+    // 获取求职者被邀请的岗位
     @RequestMapping("/candidate_view/InvitedPost")
     public ResponseEntity<Map<String, Object>> getInvitedCandPostForCandidate(@RequestHeader Map<String, Object> header) {
         String id = authService.getCandIdByHeader(header);
@@ -45,6 +44,7 @@ public class CandPostController {
         return new ResponseEntity<>(candPostService.getCandPostByCandIdAndSubmissionStage(id, "邀请"), HttpStatus.OK);
     }
 
+    // 获取求职者已结束流程的岗位
     @RequestMapping("/candidate_view/EndedPost")
     public ResponseEntity<Map<String, Object>> getEndedCandPostForCandidate(@RequestHeader Map<String, Object> header) {
         String id = authService.getCandIdByHeader(header);
@@ -99,6 +99,7 @@ public class CandPostController {
         return new ResponseEntity<>("", HttpStatus.OK);
     }
 
+    // 求职者投递岗位postId
     @RequestMapping("/candidate_view/deliver/{postId}")
     public ResponseEntity<String> CandidateDeliverPost(@RequestHeader Map<String, Object> header,
                                                        @PathVariable Integer postId) {
@@ -115,6 +116,7 @@ public class CandPostController {
         return new ResponseEntity<>("", HttpStatus.OK);
     }
 
+    // 求职者结束岗位postId的流程
     @RequestMapping("/candidate_view/end/{postId}")
     public ResponseEntity<String> CandidateEndProcess(@RequestHeader Map<String, Object> header,
                                                        @PathVariable Integer postId) {
@@ -131,6 +133,7 @@ public class CandPostController {
         return new ResponseEntity<>("", HttpStatus.OK);
     }
 
+    // 求职者接受岗位postId的邀请
     @RequestMapping("/candidate_view/accept/{postId}")
     public ResponseEntity<String> CandidateAcceptInvitation(@RequestHeader Map<String, Object> header,
                                                             @PathVariable Integer postId) {
@@ -147,6 +150,7 @@ public class CandPostController {
         return new ResponseEntity<>("", HttpStatus.OK);
     }
 
+    // 求职者拒绝岗位postId的邀请
     @RequestMapping("/candidate_view/refuse/{postId}")
     public ResponseEntity<String> CandidateRefuseInvitation(@RequestHeader Map<String, Object> header,
                                                       @PathVariable Integer postId) {

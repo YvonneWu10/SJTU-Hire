@@ -1,14 +1,16 @@
 package com.sjtuhirebackend.dao;
 
-import com.sjtuhirebackend.entity.CandPost;
 import com.sjtuhirebackend.entity.Company;
 
 import java.util.List;
 
 
 public interface CompanyDao {
+    // 获取所有公司
     List<Company> getCompanies();
+    // 根据公司id查找公司
     Company getCompany(int id);
+    // 根据公司名查找公司
     List<Company> getCompanyByName(String searchCompstr);
     // 根据公司规模查找公司
     List<Company> getCompanyByScale(String searchScale);

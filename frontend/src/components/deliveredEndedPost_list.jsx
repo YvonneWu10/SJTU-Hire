@@ -7,6 +7,7 @@ const CardComponentMap = {
     'EndedPostCard': EndedPostCard,
 };
 
+// 已投递/已结束流程的职位列表
 export default function DeliveredEndedPostList({ posts, companies, candPosts, pageSize, current, total,
                                                         onPageChange, cardType }) {
     const combinedData = candPosts.map((candPost, index) => ({

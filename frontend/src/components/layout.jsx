@@ -5,6 +5,7 @@ import React, {useEffect, useState} from "react";
 import { getMe } from "../service/user";
 import { UserContext } from "../utils/context";
 
+// 未登录时的Layout
 export function BasicLayout({ children }) {
     return (
         <Layout className="basic-layout">
@@ -24,6 +25,7 @@ export function BasicLayout({ children }) {
     )
 }
 
+// 登录后的Layout
 export function PrivateLayout(type, { header }, { children }) {
     const [user, setUser] = useState(null);
     const navigate = useNavigate();

@@ -9,7 +9,7 @@ import { searchCandidateInfo } from "../service/candidate";
 import CandidateDescription from "../components/candidate_description";
 import CandidateHeader from "../components/candidate_header";
 
-
+// 求职者个人中心页面
 export default function CandPersonalCenterPage() {
     const [candidateInfo, setCandidateInfo] = useState(null);
     const [projects, setProjects] = useState([]);

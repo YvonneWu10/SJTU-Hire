@@ -18,6 +18,7 @@ public class CandidateDaoImpl implements CandidateDao {
     @Autowired
     private CandidateRepository candidateRepository;
 
+    // 通过candId获取求职者
     public Candidate getCandidateByCandId(String candidateId) { return candidateRepository.findByCandId(candidateId); }
     public Candidate getCandidateByCandToken(String candidateToken) { return candidateRepository.findByCandToken(candidateToken); }
 
@@ -76,11 +77,15 @@ public class CandidateDaoImpl implements CandidateDao {
         return candidateRepository.findByCandExpectedSalaryBetween(lb, ub);
     }
 
+    // 保存求职者
     public void saveCandidate(Candidate candidate) {
         candidateRepository.save(candidate);
     }
+
+    // 删除求职者
     public void deleteCandidateById(String candidateId) { candidateRepository.deleteByCandId(candidateId); }
 
+    // 判断是否存在当前的token
     public boolean existToken(String token) {
         List<String> tokens = candidateRepository.findAllToken();
         return tokens.contains(token);

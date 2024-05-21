@@ -15,7 +15,7 @@ const formItemLayout = {
     },
 };
 
-
+// 求职者删除账号表单
 export default function CandidateDeleteAccountForm() {
     const [form] = Form.useForm();
     const navigate = useNavigate();

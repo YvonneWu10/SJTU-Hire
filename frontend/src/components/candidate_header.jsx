@@ -34,6 +34,7 @@ const candidateMenuItems: MenuProps['items'] = [
     },
 ];
 
+// 求职者的头部组件
 export default function CandidateHeader(initialMenu) {
     const [user, setUser] = useState("");
     const [curMenu, setCurMenu] = useState(initialMenu.initialMenu);

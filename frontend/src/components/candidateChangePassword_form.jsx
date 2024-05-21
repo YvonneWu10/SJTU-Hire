@@ -15,7 +15,7 @@ const formItemLayout = {
     },
 };
 
-
+// 求职者修改密码表单
 export default function CandidateChangePasswordForm() {
     const [form] = Form.useForm();
     const navigate = useNavigate();

@@ -1,7 +1,7 @@
 import {getJson, post, PREFIX} from "./common";
 
+// 根据token得到求职者姓名
 export async function searchCandidateUsername() {
-    // console.log(`Enter getUsernameById`);
     const url = `${PREFIX}/candidate_view/username`;
     let username;
     try {
@@ -15,6 +15,7 @@ export async function searchCandidateUsername() {
     return username["username"];
 }
 
+// 根据token得到求职者简历
 export async function searchCandidateInfo() {
     const url = `${PREFIX}/candidate_view/PersonalCenter`;
     let result;
@@ -36,6 +37,7 @@ export async function searchCandidateInfo() {
     return response;
 }
 
+// 求职者修改简历
 export async function candidateEdit(data) {
     const url = `${PREFIX}/candidate_view/CandidateEdit`;
     let result;
@@ -56,6 +58,7 @@ export async function candidateEdit(data) {
     return result;
 }
 
+// 求职者修改密码
 export async function candidateChangePassword(data) {
     const url = `${PREFIX}/candidate_view/ChangePassword`;
     let result;
@@ -72,6 +75,7 @@ export async function candidateChangePassword(data) {
     return result;
 }
 
+// 求职者注销
 export async function candidateDeleteAccount(data) {
     const url = `${PREFIX}/candidate_view/DeleteAccount`;
     let result;
@@ -88,6 +92,7 @@ export async function candidateDeleteAccount(data) {
     return result;
 }
 
+// 求职者注册
 export async function candidateRegister(data) {
     const url = `${PREFIX}/candidate_view/Register`;
     let result;

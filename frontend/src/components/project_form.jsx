@@ -4,9 +4,8 @@ import {Button, Col, Form, Input, InputNumber, Row} from "antd"
 import {DatePicker} from "antd/lib";
 import dayjs from "dayjs";
 
-
+// 求职者修改项目经历表单
 export default function ProjectForm({projectList, handleDeleteProject}) {
-    // console.log(JSON.stringify(projectList, null, 2));
     return (projectList.map((project) => (
         <div key={project.projectId}>
             <Row>

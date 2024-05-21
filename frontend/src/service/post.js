@@ -1,5 +1,6 @@
 import { PREFIX, getJson } from "./common";
 
+// 按条件搜索岗位
 export async function searchPosts(pageIndex, pageSize, postName, city, workType, workStyle) {
     const url = `${PREFIX}/candidate_view/SearchPost?pageIndex=${pageIndex}&pageSize=${pageSize}
                  &postName=${postName}&city=${city}&workType=${workType}&workStyle=${workStyle}`;
@@ -26,6 +27,7 @@ export async function searchPosts(pageIndex, pageSize, postName, city, workType,
     return response;
 }
 
+// 得到岗位id的信息
 export async function getPostById(id) {
     const url = `${PREFIX}/candidate_view/Post/${id}`;
     let result;
@@ -57,6 +59,7 @@ export async function getPostById(id) {
     return response;
 }
 
+// 得到所有岗位的所在城市
 export async function retPostCities() {
     const url = `${PREFIX}/candidate_view/PostCities`;
     let cities;

@@ -20,7 +20,7 @@ export async function getJson(url, type) {
     if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
     }
-    // res.json() 会自动将JSON格式的响应体解析为JavaScript对象
+
     return res.json();
 }
 

@@ -9,7 +9,7 @@ import {searchDeliveredEndedPosts} from "../service/candPost";
 import CandidateHeader from "../components/candidate_header";
 import DeliveredEndedPostList from "../components/deliveredEndedPost_list";
 
-
+// 已投递的岗位页面
 export default function CandidateDeliveredPage() {
     const [posts, setPosts] = useState([]);
     const [companies, setCompanies] = useState([]);

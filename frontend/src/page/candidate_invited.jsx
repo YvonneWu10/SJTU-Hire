@@ -9,7 +9,7 @@ import { searchInvitedPosts } from "../service/candPost";
 import CandidateHeader from "../components/candidate_header";
 import InvitedPostList from "../components/invitedPost_list";
 
-
+// 被邀请的岗位页面
 export default function CandidateInvitedPage() {
     const [posts, setPosts] = useState([]);
     const [companies, setCompanies] = useState([]);

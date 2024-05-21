@@ -1,5 +1,6 @@
 import { PREFIX, getJson } from "./common";
 
+// 根据条件查找公司
 export async function searchCompany(pageIndex, pageSize, companyName, companyType, financingStage, companyScale) {
     const url = `${PREFIX}/candidate_view/SearchCompany?pageIndex=${pageIndex}&pageSize=${pageSize}
                  &companyName=${companyName}&companyType=${companyType}&financingStage=${financingStage}&companyScale=${companyScale}`;
@@ -26,6 +27,7 @@ export async function searchCompany(pageIndex, pageSize, companyName, companyTyp
     return response;
 }
 
+// 得到公司id的详细信息
 export async function getCompanyById(id) {
     const url= `${PREFIX}/candidate_view/Company/${id}`;
     let result;

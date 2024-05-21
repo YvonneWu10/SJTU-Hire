@@ -1,11 +1,11 @@
 import '../css/global.css'
 
-import {Card, Menu, Space} from "antd";
+import { Card, Menu, Space } from "antd";
 import { useEffect, useState } from "react";
 import { getCandPostById } from "../service/candPost";
 
 import { useParams } from "react-router-dom";
-import {BasicLayout, PrivateLayout} from "../components/layout";
+import { PrivateLayout } from "../components/layout";
 import CandPostDetails from "../components/candPost_detail";
 import type {MenuProps} from "antd";
 

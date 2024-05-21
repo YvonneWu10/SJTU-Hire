@@ -44,6 +44,7 @@ function transformData(data) {
     return transformedData;
 }
 
+// 求职者修改基本信息表单
 export default function CandidateBasicInfoForm({candidate, projectList}) {
     const [form] = Form.useForm();
     const navigate = useNavigate();

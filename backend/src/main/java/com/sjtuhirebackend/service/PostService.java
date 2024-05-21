@@ -10,7 +10,7 @@ import java.util.Map;
 
 public interface PostService {
     Post getPostById(int postId);
-    // 获取岗位信息
+    // 获取所有岗位信息
     List<Post> getPosts();
     // 根据岗位名查找岗位
     List<Post> getPostByName(String searchPostName);
@@ -42,6 +42,8 @@ public interface PostService {
     void createPost(Post post);
     // 删除已有岗位
     void deletePost(int postId);
+    // 获取所有岗位的城市（不重复）
     List<String> getDistinctPostCities();
+    // 获取岗位postId的详细信息，和该岗位求职者candId的投递情况
     Map<String, Object> getPostDetailById(String candId, int postId);
 }

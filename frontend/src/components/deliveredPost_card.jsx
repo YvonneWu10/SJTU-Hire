@@ -7,6 +7,7 @@ import { refreshPage } from "../utils/refresh";
 
 const { Meta } = Card;
 
+// 已投递的岗位卡片
 export default function DeliveredPostCard({ post, companyName, candPost }) {
     const endPorcessOnClick = () => {
         endProcessByPostId(post.postId);
