@@ -5,7 +5,15 @@ import SidebarLayout from './admin_SidebarLayout'; // 确保路径正确
 import { Row, Col, Card, Statistic } from 'antd';
 import {CaretUpOutlined, CaretDownOutlined, FrownTwoTone, EyeTwoTone, ContainerTwoTone, IdcardTwoTone } from '@ant-design/icons';
 import {JobRankingList, AgeGraph, DegreeGraph, SalaryGraph, PostMap} from './statistics';
-import {getCandidateNum, getCompanyNum, getHRNum, getpostInProgress, getPostNum} from "../service/admin";
+import {
+    getCandidateAgeDistribution, getCandidateDegreeDistribution,
+    getCandidateNum, getCityDistribution,
+    getCompanyNum,
+    getHotJob,
+    getHRNum,
+    getpostInProgress,
+    getPostNum, getSalaryAndDegreeNum, getSalaryDistribution
+} from "../service/admin";
 
 
 const Statistics = () => {
@@ -13,6 +21,12 @@ const Statistics = () => {
     const [candidateNum, setCandidateNum] = useState(0);
     const [HRNum, setHRNum] = useState(0);
     const [companyNum, setCompanyNum] = useState(0);
+    const [hotJobs, setHotJobs] = useState([]);
+    const [ageDistribution, setAgeDistribution] = useState([]);
+    const [degreeDistribution, setDegreeDistribution] = useState([]);
+    const [salaryDegreeDistribution, setSalaryDegreeDistribution] = useState([]);
+    const [salaryDistribution, setSalaryDistribution] = useState([]);
+    const [cityDistribution, setCityDistribution] = useState([]);
 
 
     const renderChange = (value) => {
@@ -31,43 +45,49 @@ const Statistics = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data1 = await getPostNum();
+                // 使用 Promise.all 同时开始所有请求
+                const [data1, data2, data3, data4, data5, data6, data7, data8, data9, data10] = await Promise.all([
+                    getPostNum(),
+                    getCandidateNum(),
+                    getHRNum(),
+                    getCompanyNum(),
+                    getHotJob(6),
+                    getCandidateAgeDistribution(),
+                    getCandidateDegreeDistribution(),
+                    getSalaryAndDegreeNum(),
+                    getSalaryDistribution(),
+                    getCityDistribution()
+                ]);
+
+                // 更新状态
                 setPostNum(data1);
-                const data2 = await getCandidateNum();
                 setCandidateNum(data2);
-                const data3 = await getHRNum();
                 setHRNum(data3);
-                const data4 = await getCompanyNum();
                 setCompanyNum(data4);
+                setHotJobs(data5.items);
+                setAgeDistribution(data6);
+                setDegreeDistribution(data7);
+                setSalaryDegreeDistribution(data8);
+                setSalaryDistribution(data9);
+                setCityDistribution(data10);
             } catch (e) {
                 console.error('Error fetching PanelData:', e);
+                // 可以考虑在这里设置所有相关状态为错误值或默认值
                 setPostNum(0);
                 setCandidateNum(0);
                 setHRNum(0);
+                setCompanyNum(0);
+                setHotJobs([]);
+                setAgeDistribution([]);
+                setDegreeDistribution([]);
+                setSalaryDegreeDistribution([]);
             }
         };
         fetchData();
     }, []);
 
-    // 示例数据，您需要根据实际从后端获取
-    const JobRankData = [
-        { title: '运维Yuque', count: 830, percent: 83 },
-        { title: '云原神', count: 600, percent: 60 },
-        { title: 'Basement', count: 500, percent: 50 },
-        { title: 'Kitchen - Sketch...', count: 400, percent: 40 },
-        { title: 'Ant Design Pro', count: 350, percent: 35 },
-        { title: 'Ant V', count: 120, percent: 12 }
-    ];
 
-    // 示例数据，您需要根据实际从后端获取
-    const ageData = [
-        { name: '<20岁', value: 40 },
-        { name: '21-30岁', value: 60 },
-        { name: '31-40岁', value: 30 },
-        { name: '41-50岁', value: 50 },
-        { name: '>51岁', value: 20 },
-    ];
-
+    console.log("city Data: ",cityDistribution);
     // 示例数据，您需要根据实际从后端获取
     const degreeData = [
         { name: '本科', value: 150 },
@@ -76,57 +96,48 @@ const Statistics = () => {
     ];
 
     // 示例数据，您需要根据实际从后端获取
-    const salaryAndNumData = [
-        { name: '<10', value: 150, type: 'given' },
-        { name: '11-20', value: 145, type: 'given' },
-        { name: '21-30', value: 230, type: 'given' },
-        { name: '31-40', value: 124, type: 'given' },
-        { name: '41-50', value: 46, type: 'given' },
-        { name: '51-60', value: 50, type: 'given' },
-        { name: '>61', value: 30, type: 'given' },
-        { name: '<10', value: 72, type: 'required' },
-        { name: '11-20', value: 162, type: 'required' },
-        { name: '21-30', value: 189, type: 'required' },
-        { name: '31-40', value: 153, type: 'required' },
-        { name: '41-50', value: 40, type: 'required' },
-        { name: '51-60', value: 60, type: 'required' },
-        { name: '>61', value: 54, type: 'required' },
-    ];
+    // const salaryAndNumData = [
+    //     { name: '<10', value: 150, type: 'given' },
+    //     { name: '11-20', value: 145, type: 'given' },
+    //     { name: '21-30', value: 230, type: 'given' },
+    //     { name: '31-40', value: 124, type: 'given' },
+    //     { name: '41-50', value: 46, type: 'given' },
+    //     { name: '51-60', value: 50, type: 'given' },
+    //     { name: '>61', value: 30, type: 'given' },
+    //     { name: '<10', value: 72, type: 'required' },
+    //     { name: '11-20', value: 162, type: 'required' },
+    //     { name: '21-30', value: 189, type: 'required' },
+    //     { name: '31-40', value: 153, type: 'required' },
+    //     { name: '41-50', value: 40, type: 'required' },
+    //     { name: '51-60', value: 60, type: 'required' },
+    //     { name: '>61', value: 54, type: 'required' },
+    // ];
 
     // 示例数据，您需要根据实际从后端获取
-    const salaryAndDegreeNumData = [
-        { name: '<10', value: 100, type: '本科' },
-        { name: '11-20', value: 90, type: '本科' },
-        { name: '21-30', value: 100, type: '本科' },
-        { name: '31-40', value: 60, type: '本科' },
-        { name: '41-50', value: 10, type: '本科' },
-        { name: '51-60', value: 10, type: '本科' },
-        { name: '>61', value: 5, type: '本科' },
-        { name: '<10', value: 40, type: '硕士' },
-        { name: '11-20', value: 40, type: '硕士' },
-        { name: '21-30', value: 80, type: '硕士' },
-        { name: '31-40', value: 40, type: '硕士' },
-        { name: '41-50', value: 26, type: '硕士' },
-        { name: '51-60', value: 20, type: '硕士' },
-        { name: '>61', value: 10, type: '硕士' },
-        { name: '<10', value: 10, type: '博士' },
-        { name: '11-20', value: 15, type: '博士' },
-        { name: '21-30', value: 50, type: '博士' },
-        { name: '31-40', value: 24, type: '博士' },
-        { name: '41-50', value: 10, type: '博士' },
-        { name: '51-60', value: 20, type: '博士' },
-        { name: '>61', value: 15, type: '博士' },
-    ];
+    // const salaryAndDegreeNumData = [
+    //     { name: '<10', value: 100, type: '本科' },
+    //     { name: '11-20', value: 90, type: '本科' },
+    //     { name: '21-30', value: 100, type: '本科' },
+    //     { name: '31-40', value: 60, type: '本科' },
+    //     { name: '41-50', value: 10, type: '本科' },
+    //     { name: '51-60', value: 10, type: '本科' },
+    //     { name: '>61', value: 5, type: '本科' },
+    //     { name: '<10', value: 40, type: '硕士' },
+    //     { name: '11-20', value: 40, type: '硕士' },
+    //     { name: '21-30', value: 80, type: '硕士' },
+    //     { name: '31-40', value: 40, type: '硕士' },
+    //     { name: '41-50', value: 26, type: '硕士' },
+    //     { name: '51-60', value: 20, type: '硕士' },
+    //     { name: '>61', value: 10, type: '硕士' },
+    //     { name: '<10', value: 10, type: '博士' },
+    //     { name: '11-20', value: 15, type: '博士' },
+    //     { name: '21-30', value: 50, type: '博士' },
+    //     { name: '31-40', value: 24, type: '博士' },
+    //     { name: '41-50', value: 10, type: '博士' },
+    //     { name: '51-60', value: 20, type: '博士' },
+    //     { name: '>61', value: 15, type: '博士' },
+    // ];
 
-    // 示例数据，您需要根据实际从后端获取
-    const PostCityData = [
-        { province: '广东', value: 130, lng: 113.763433, lat: 23.379033 },
-        { province: '北京', value: 230, lng: 116.407526, lat: 39.904030 },
-        { province: '上海', value: 210, lng: 121.473701, lat: 31.230416 },
-        { province: '江苏', value: 220, lng: 118.763232, lat: 32.061707 },
-        { province: '浙江', value: 210, lng: 120.152792, lat: 29.267544 },
-        { province: '哈尔滨', value: 70, lng: 126.642464, lat: 45.756967 },
-    ];
 
     // 示例数据，您需要根据实际从后端获取
     const GDPSpeed = {
@@ -199,7 +210,7 @@ const Statistics = () => {
                         <Card bordered={false} style={{border: 'none', boxShadow: "none"}}>
                             <FrownTwoTone/> 总公司数
                             <Statistic value={companyNum} valueStyle={{fontSize: '30px', fontWeight: 'bold'}}/>
-                            <div className="small-text">同比昨日{renderChange('0.0')}</div>
+                            <div className="small-text">同比昨日{renderChange('0+.0')}</div>
                         </Card>
                     </Col>
                 </Row>
@@ -212,24 +223,24 @@ const Statistics = () => {
                 </Col>
                 <Col span={8}>
                     <Card>
-                        <JobRankingList data={JobRankData}/>
+                        <JobRankingList data={hotJobs}/>
                     </Card>
                 </Col>
             </Row>
             <Row gutter={6} style={{ marginBottom: '10px' }}>
                 <Col span={12}>
                     <Card>
-                        <SalaryGraph data1={salaryAndNumData} data2={salaryAndDegreeNumData} />
+                        <SalaryGraph data1={salaryDistribution} data2={salaryDegreeDistribution} />
                     </Card>
                 </Col>
                 <Col span={6}>
                     <Card>
-                        <AgeGraph data={ageData} />
+                        <AgeGraph data={ageDistribution} />
                     </Card>
                 </Col>
                 <Col span={6}>
                     <Card>
-                        <DegreeGraph data={degreeData} />
+                        <DegreeGraph data={degreeDistribution} />
                     </Card>
                 </Col>
             </Row>

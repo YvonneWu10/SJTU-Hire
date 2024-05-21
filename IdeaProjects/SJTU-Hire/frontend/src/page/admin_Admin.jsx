@@ -66,16 +66,22 @@ const AdminPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data1 = await getPostNum();
+                // 使用 Promise.all 来并行执行所有请求
+                const [data1, data2, data3, data4] = await Promise.all([
+                    getPostNum(),
+                    getCandidateNum(),
+                    getHRNum(),
+                    getpostInProgress()
+                ]);
+
+                // 同时更新状态
                 setPostNum(data1);
-                const data2 = await getCandidateNum();
                 setCandidateNum(data2);
-                const data3 = await getHRNum();
                 setHRNum(data3);
-                const data4 = await getpostInProgress();
                 setPostInProgressData(data4);
             } catch (e) {
                 console.error('Error fetching PanelData:', e);
+                // 在一个 catch 块中处理所有错误
                 setPostNum(0);
                 setCandidateNum(0);
                 setHRNum(0);

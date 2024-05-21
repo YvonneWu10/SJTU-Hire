@@ -90,4 +90,10 @@ public class CandidateDaoImpl implements CandidateDao {
     }
 
     public long candidateCount() { return candidateRepository.count(); }
+
+    public List<Object[]> countCandidatesByAgeRange() { return candidateRepository.countCandidatesByAgeRange(); }
+
+    public List<Object[]> countCandidatesByDegree() { return candidateRepository.countCandidatesByDegree(); }
+
+    public List<Object[]> findSalaryExpectationsByCandidate() { return candidateRepository.findSalaryExpectationsByCandidate(); };
 }

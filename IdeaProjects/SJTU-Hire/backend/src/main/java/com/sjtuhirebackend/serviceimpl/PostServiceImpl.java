@@ -55,8 +55,16 @@ public class PostServiceImpl implements PostService {
     public void createPost(Post post) { postDao.createPost(post); }
     // 删除已有岗位
     public void deletePost(int postId) { postDao.deletePost(postId); }
+    // 根据id获取岗位
+    public List<Post> getPostsByPostIds(List<Integer> postIds) { return postDao.getPostsByPostIds(postIds); }
 
     public List<String> getDistinctPostCities() { return postDao.getDistinctPostCities(); }
 
     public long getPostCount() { return postDao.getPostCount(); }
+
+    public List<Object[]> countPostsBySalaryAndDegree() { return  postDao.countPostsBySalaryAndDegree(); }
+
+    public List<Object[]> findSalaryDistributionByPost() { return postDao.findSalaryDistributionByPost(); }
+
+    public List<Object[]> findRecruitmentByCity() { return postDao.findRecruitmentByCity(); }
 }

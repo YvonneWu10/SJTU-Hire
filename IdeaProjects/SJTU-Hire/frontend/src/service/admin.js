@@ -84,3 +84,118 @@ export async function getCompanyNum(){
     }
     return companyNum["data"];
 }
+
+// 获取岗位热度排名
+export async function getHotJob(rank){
+    console.log(`Enter getHotJob`);
+    const url = `${PREFIX}/hotJob/${rank}`;
+    let response;
+    try {
+        const hotJob = await getJson(url, "admin");
+
+        if (Array.isArray(hotJob)) {
+            // 解析并构建需要的格式
+            const items = hotJob.map(item => ({
+                post: item.post,
+                count: item.count,
+            }));
+
+            response = {
+                items: items,
+            }
+        } else {
+            throw new Error('Received hotJob data is not an array!');
+        }
+    } catch (e) {
+        console.log(e);
+        response = {
+            items: []
+        }
+    }
+    // console.log(`final response:`, response);
+    return response;
+}
+
+// 获取应聘者年龄分布
+export async function getCandidateAgeDistribution() {
+    const url = `${PREFIX}/countCandidatesByAgeRange`;
+    try {
+        const response = await getJson(url, "admin");
+        if (Array.isArray(response)) {
+            return response;
+        } else {
+            throw new Error('Received data is not an array!');
+        }
+    } catch (e) {
+        console.error(e);
+        return [];
+    }
+}
+
+// 获取应聘者学历分布
+export async function getCandidateDegreeDistribution() {
+    const url = `${PREFIX}/candidateDegreeDistribution`;
+    try {
+        const response = await getJson(url, "admin");
+        if (Array.isArray(response)){
+            return response;
+        } else {
+            throw new Error('Received data is not an array!');
+        }
+    } catch (e) {
+        console.error(e);
+        return [];
+    }
+}
+
+// 获取岗位薪资学历聚类
+export async function getSalaryAndDegreeNum() {
+    // console.log('SalaryAndDegre!!')
+    const url = `${PREFIX}/salaryAndDegreeNum`;
+    try {
+        const response = await getJson(url, "admin");
+        // console.log('SalaryAndDegre response:', response)
+        if (Array.isArray(response)){
+            return response;
+        } else {
+            throw new Error('Received data is not an array!');
+        }
+    } catch (e) {
+        console.error(e);
+        return [];
+    }
+}
+
+// 获取求职者和岗位薪资聚类
+export async function getSalaryDistribution() {
+    const url = `${PREFIX}/salaryDistribution`;
+    try {
+        const response = await getJson(url, "admin");
+        // console.log('SalaryAndDegre response:', response)
+        if (Array.isArray(response)){
+            return response;
+        } else {
+            throw new Error('Received data is not an array!');
+        }
+    } catch (e) {
+        console.error(e);
+        return [];
+    }
+}
+
+// 获取岗位城市聚类
+export async function getCityDistribution() {
+    const url = `${PREFIX}/cityDistribution`;
+    try {
+        const response = await getJson(url, "admin");
+        // console.log('City response:', response)
+        if (Array.isArray(response)){
+            return response;
+        } else {
+            throw new Error('Received data is not an array!');
+        }
+    } catch (e) {
+        console.error(e);
+        return [];
+    }
+}

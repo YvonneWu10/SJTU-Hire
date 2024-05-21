@@ -43,4 +43,12 @@ public interface PostService {
     List<String> getDistinctPostCities();
     // 获取所有岗位数
     long getPostCount();
+    // 根据id获取岗位
+    List<Post> getPostsByPostIds(List<Integer> postIds);
+    // 根据薪水和学历聚类
+    List<Object[]> countPostsBySalaryAndDegree();
+    // 根据薪水聚类
+    List<Object[]> findSalaryDistributionByPost();
+    // 根据城市聚类
+    List<Object[]> findRecruitmentByCity();
 }

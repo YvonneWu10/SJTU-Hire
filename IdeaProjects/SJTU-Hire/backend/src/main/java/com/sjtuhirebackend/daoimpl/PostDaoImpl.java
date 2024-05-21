@@ -68,4 +68,10 @@ public class PostDaoImpl implements PostDao {
     public List<String> getDistinctPostCities() { return postRepository.findDistinctCity(); }
 
     public long getPostCount() { return postRepository.count(); }
+
+    public List<Object[]> countPostsBySalaryAndDegree() { return postRepository.countPostsBySalaryAndDegree(); }
+
+    public List<Object[]> findSalaryDistributionByPost() { return postRepository.findSalaryDistributionByPost(); }
+
+    public List<Object[]> findRecruitmentByCity() { return postRepository.findRecruitmentByCity(); }
 }

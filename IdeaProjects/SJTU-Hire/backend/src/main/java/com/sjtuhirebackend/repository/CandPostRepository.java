@@ -28,4 +28,8 @@ public interface CandPostRepository extends JpaRepository<CandPost, CandPostPK> 
     // 获取postId不同的投递个数（即被投递的岗位数）
     @Query(value="SELECT COUNT(DISTINCT postId) FROM cand_post", nativeQuery = true)
     Integer countPosts();
+
+    // 获取热度的前rank个岗位
+    @Query(value = "SELECT p.postId, COUNT(p.postId) FROM cand_post p GROUP BY p.postId ORDER BY COUNT(p.postId) DESC LIMIT :rank ", nativeQuery = true)
+    List<Object[]> getHotJobId(@Param("rank") int rank);
 }

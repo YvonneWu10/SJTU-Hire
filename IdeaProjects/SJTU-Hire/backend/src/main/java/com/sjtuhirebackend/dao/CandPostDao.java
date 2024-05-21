@@ -21,4 +21,5 @@ public interface CandPostDao {
     long count();
     void deleteCandPost(String candId, int postId);
     long countPosts();
+    List<Object[]> getHotJobId(int rank);
 }

@@ -46,4 +46,10 @@ public interface PostDao {
     List<String> getDistinctPostCities();
 
     long getPostCount();
+
+    List<Object[]> countPostsBySalaryAndDegree();
+
+    List<Object[]> findSalaryDistributionByPost();
+
+    List<Object[]> findRecruitmentByCity();
 }

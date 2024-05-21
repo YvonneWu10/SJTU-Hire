@@ -59,4 +59,8 @@ public class CandPostDaoImpl implements CandPostDao {
     }
 
     public long countPosts() {return candPostRepository.countPosts();}
+
+    public List<Object[]> getHotJobId(int rank) {
+        return  candPostRepository.getHotJobId(rank);
+    }
 }

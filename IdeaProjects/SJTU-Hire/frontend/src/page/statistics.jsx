@@ -12,32 +12,35 @@ import { Map } from '@antv/l7-maps';
 
 
 export const JobRankingList = ({ data }) => {
+    // 对数据进行排序
+    const sortedData = [...data].sort((a, b) => b.count - a.count);
+
     return (
         <div style={{ height: '400px', overflowY: 'auto' }}>
-            <div style={{fontWeight: 'bold', fontSize: '16px'}}><FireTwoTone /> 岗位热度排行</div>
+            <div style={{fontWeight: 'bold', fontSize: '16px'}}><FireTwoTone /> 岗位投递热度排行</div>
         <List
             itemLayout="horizontal"
-            dataSource={data}
+            dataSource={sortedData}
             renderItem={(item, index) => (
                 <List.Item>
                     <List.Item.Meta
                         title={
                             <div style={{ display: 'flex', width: '100%', alignItems: 'center' }}>
-                                <span style={{ marginRight: '16px', width: '30px', textAlign: 'center' }}>
+                                <span style={{ marginRight: '16px', width: '30px', textAlign: 'center', fontSize: '20px', fontWeight: 'bold' }}>
                                     #{index + 1}
                                 </span>
-                                <span style={{ flex: 1, marginRight: '16px' }}>
-                                    {item.title}
+                                <span style={{ flex: 1, marginRight: '10px', color: '#3e3d3d' }}>
+                                    {item.post['postName']} <span style={{ color: blue[2], fontSize: '12px' }}>({item.post['city']})</span>
                                 </span>
                                 <Progress
-                                    percent={item.percent}
+                                    percent={item.count / item.post["recruitNum"] * 100}
                                     showInfo={false}
-                                    style={{ flex: 1, marginRight: '2px' }}
+                                    style={{ width:'50px', marginRight: '2px' }}
                                     trailColor={blue[0]}
                                     strokeColor={blue[2]}
                                 />
-                                <span style={{ width: '50px', textAlign: 'right' }} className="small-text">
-                                    {item.percent}%
+                                <span style={{ width: '90px', textAlign: 'right' }} className="small-text">
+                                    共{item.count}人/招{item.post["recruitNum"]}人
                                 </span>
                             </div>
                         }
@@ -52,13 +55,16 @@ export const JobRankingList = ({ data }) => {
 export const AgeGraph = ({ data }) => {
     const config = {
         data: data,
-        height: 250,
+        height: 260,
         angleField: 'value',
         colorField: 'name',
-        legend: false,
+        legend: {
+            layout: 'horizontal',
+            position: 'bottom'
+        },
         innerRadius: 0.5,
         // 自定义颜色
-        color: ['#6395f9', '#62daaa', '#657798', '#f6c022', '#7262fd'],
+        color: ['#6395f9', '#62daaa', '#f6c022'],
         labels: [
             { text: 'name', style: { fontSize: 10, fontWeight: 'bold' } },
             {
@@ -89,13 +95,16 @@ export const AgeGraph = ({ data }) => {
 export const DegreeGraph = ({ data }) => {
     const config = {
         data: data,
-        height: 250,
+        height: 260,
         angleField: 'value',
         colorField: 'name',
-        legend: false,
+        legend: {
+            layout: 'horizontal',
+            position: 'bottom'
+        },
         innerRadius: 0.5,
         // 自定义颜色
-        color: ['#6395f9', '#62daaa', '#f6c022'],
+        color: ['#6395f9', '#62daaa', '#f6c022', '#5022f6'],
         labels: [
             { text: 'name', style: { fontSize: 10, fontWeight: 'bold' } },
             {
@@ -123,27 +132,45 @@ export const DegreeGraph = ({ data }) => {
     );
 };
 
+// 解析工资区间，返回可比较的数字
+const parseSalaryRange = (range) => {
+    if (range === '<10') return 0;
+    if (range === '>61') return 100;
+    return parseInt(range.split('-')[0], 10);
+};
+
+// 根据工资区间对 data 进行排序的函数
+const sortBySalaryRange = (a, b) => {
+    return parseSalaryRange(a.name) - parseSalaryRange(b.name);
+};
+
 export const SalaryGraph = ({ data1, data2 }) => {
+    const sortedData1 = data1.sort(sortBySalaryRange);
+    // 使用 sortBySalaryRange 函数对 data2 排序
+    const sortedData2 = data2.sort(sortBySalaryRange);
     const config = {
         xField: 'name',
-        height: 250,
+        axis: {x: {title: '工资(k)'}},
+        height: 260,
         children:[
             {
-                data: data1,
+                data: sortedData1,
                 type: 'interval',
                 yField: 'value',
                 colorField: 'type',
                 group: true,
                 style: { maxWidth: 80 },
+                axis: {y: {title: '岗位数(个)'}},
                 interaction: { elementHighlightByColor: { background: true } },
+
             },
             {
-                data: data2,
+                data: sortedData2,
                 type: 'line',
                 yField: 'value',
                 colorField: 'type',
                 style: { lineWidth: 2 },
-                axis: { y: { position: 'right' } },
+                axis: { y: { position: 'right' }},
                 scale: { series: { independent: true } },
                 interaction: {
                     tooltip: {
@@ -152,7 +179,9 @@ export const SalaryGraph = ({ data1, data2 }) => {
                     },
                 },
             },
+
         ],
+
     }
     return (
         <div>

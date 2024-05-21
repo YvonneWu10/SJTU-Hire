@@ -36,4 +36,35 @@ public interface CandidateRepository extends JpaRepository<Candidate, String> {
     //返回所有涉及应聘者的大学
     @Query("SELECT DISTINCT p.candUniversity FROM Candidate p")
     List<String> findDistinctUniversity();
+
+    //返回应聘者的年龄段聚类
+    @Query("SELECT " +
+            "CASE " +
+            "WHEN c.candAge < 20 THEN '<20岁' " +
+            "WHEN c.candAge BETWEEN 21 AND 30 THEN '21-30岁' " +
+            "WHEN c.candAge BETWEEN 31 AND 40 THEN '31-40岁' " +
+            "WHEN c.candAge BETWEEN 41 AND 50 THEN '41-50岁' " +
+            "ELSE '>51岁' END AS ageRange, " +
+            "COUNT(c) AS count " +
+            "FROM Candidate c " +
+            "GROUP BY ageRange")
+    List<Object[]> countCandidatesByAgeRange();
+
+    //返回应聘者的学历聚类
+    @Query(value = "SELECT candDegree as name, COUNT(*) as value FROM candidate c GROUP BY candDegree", nativeQuery = true)
+    List<Object[]> countCandidatesByDegree();
+
+    //返回应聘者的薪水聚类
+    @Query("SELECT CASE " +
+            "WHEN c.candExpectedSalary < 10 THEN '<10' " +
+            "WHEN c.candExpectedSalary BETWEEN 11 AND 20 THEN '11-20' " +
+            "WHEN c.candExpectedSalary BETWEEN 21 AND 30 THEN '21-30' " +
+            "WHEN c.candExpectedSalary BETWEEN 31 AND 40 THEN '31-40' " +
+            "WHEN c.candExpectedSalary BETWEEN 41 AND 50 THEN '41-50' " +
+            "WHEN c.candExpectedSalary BETWEEN 51 AND 60 THEN '51-60' " +
+            "ELSE '>61' END AS name, COUNT(c) AS value, 'required' AS type " +
+            "FROM Candidate c " +
+            "GROUP BY name")
+    List<Object[]> findSalaryExpectationsByCandidate();
+
 }

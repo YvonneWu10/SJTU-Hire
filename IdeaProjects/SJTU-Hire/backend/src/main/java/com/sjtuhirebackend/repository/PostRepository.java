@@ -33,4 +33,37 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     // 返回所有岗位涉及的城市
     @Query("SELECT DISTINCT p.city FROM Post p")
     List<String> findDistinctCity();
+
+    // 返回岗位关于工资和学历的聚类
+    @Query(value = "SELECT " +
+            "CASE " +
+            "WHEN salary < 10 THEN '<10' " +
+            "WHEN salary BETWEEN 11 AND 20 THEN '11-20' " +
+            "WHEN salary BETWEEN 21 AND 30 THEN '21-30' " +
+            "WHEN salary BETWEEN 31 AND 40 THEN '31-40' " +
+            "WHEN salary BETWEEN 41 AND 50 THEN '41-50' " +
+            "WHEN salary BETWEEN 51 AND 60 THEN '51-60' " +
+            "ELSE '>61' END AS name, " +
+            "SUM(recruitNum) AS value, " +
+            "degreeReq AS type " +
+            "FROM post " +
+            "GROUP BY name, type", nativeQuery = true)
+    List<Object[]> countPostsBySalaryAndDegree();
+
+    // 返回关于工资的聚类
+    @Query("SELECT CASE " +
+            "WHEN p.salary < 10 THEN '<10' " +
+            "WHEN p.salary BETWEEN 11 AND 20 THEN '11-20' " +
+            "WHEN p.salary BETWEEN 21 AND 30 THEN '21-30' " +
+            "WHEN p.salary BETWEEN 31 AND 40 THEN '31-40' " +
+            "WHEN p.salary BETWEEN 41 AND 50 THEN '41-50' " +
+            "WHEN p.salary BETWEEN 51 AND 60 THEN '51-60' " +
+            "ELSE '>61' END AS name, SUM(p.recruitNum) AS value, 'given' AS type " +
+            "FROM Post p " +
+            "GROUP BY name")
+    List<Object[]> findSalaryDistributionByPost();
+
+    // 返回关于城市的聚类
+    @Query("SELECT p.city, SUM(p.recruitNum) as value FROM Post p GROUP BY p.city")
+    List<Object[]> findRecruitmentByCity();
 }

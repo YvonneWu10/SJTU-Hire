@@ -177,26 +177,6 @@ const JobManagement = () => {
         },
     ];
 
-    // const showDrawer = () => {
-    //     setDrawerVisible(true);
-    // };
-    //
-    // const closeDrawer = () => {
-    //     setDrawerVisible(false);
-    //     form.resetFields();
-    // };
-
-    // const handleFormSubmit = async () => {
-    //     try {
-    //         const values = await form.validateFields();
-    //         const response = await createPost(values, 'admin');
-    //         console.log('岗位创建成功:', response);
-    //         closeDrawer();
-    //         getPosts(); // 刷新岗位列表
-    //     } catch (error) {
-    //         console.log('Error submitting form:', error);
-    //     }
-    // };
 
     return (
         <SidebarLayout>

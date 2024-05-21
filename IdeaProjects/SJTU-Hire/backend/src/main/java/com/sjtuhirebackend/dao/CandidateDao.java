@@ -30,4 +30,7 @@ public interface CandidateDao {
     List<String> getDistinctUniversities();
     void  deleteCandidate(String candId);
     long candidateCount();
+    List<Object[]> countCandidatesByAgeRange();
+    List<Object[]> countCandidatesByDegree();
+    List<Object[]> findSalaryExpectationsByCandidate();
 }

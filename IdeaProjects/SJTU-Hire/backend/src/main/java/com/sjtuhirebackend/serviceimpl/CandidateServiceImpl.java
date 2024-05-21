@@ -90,4 +90,10 @@ public class CandidateServiceImpl implements CandidateService {
     public long candidateCount() {
         return candidateDao.candidateCount();
     }
+
+    public List<Object[]> countCandidatesByAgeRange() {return candidateDao.countCandidatesByAgeRange();}
+
+    public List<Object[]> countCandidatesByDegree() {return candidateDao.countCandidatesByDegree();}
+
+    public List<Object[]> findSalaryExpectationsByCandidate() {return candidateDao.findSalaryExpectationsByCandidate(); }
 }

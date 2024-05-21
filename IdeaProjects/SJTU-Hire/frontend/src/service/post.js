@@ -22,7 +22,6 @@ export async function searchPosts(pageIndex, pageSize, postName, city, workType,
             items: []
         };
     }
-
     return response;
 }
 
@@ -48,7 +47,7 @@ export async function AdminsearchPosts(pageIndex, pageSize, postName, city, work
             items: []
         };
     }
-
+    // console.log(`posts:`, response);
     return response;
 }
 

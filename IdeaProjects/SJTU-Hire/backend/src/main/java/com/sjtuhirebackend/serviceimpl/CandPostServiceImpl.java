@@ -130,4 +130,9 @@ public class CandPostServiceImpl implements CandPostService {
     }
 
     public long countPosts() { return candPostDao.countPosts(); }
+
+    public List<Object[]> getHotJobId(int rank) {
+        return candPostDao.getHotJobId(rank);
+    }
+
 }

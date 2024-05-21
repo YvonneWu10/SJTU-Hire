@@ -48,4 +48,10 @@ public interface CandidateService {
     void deleteCandidate(String candId);
 
     long candidateCount();
+
+    List<Object[]> countCandidatesByAgeRange();
+
+    List<Object[]> countCandidatesByDegree();
+
+    List<Object[]> findSalaryExpectationsByCandidate();
 }
