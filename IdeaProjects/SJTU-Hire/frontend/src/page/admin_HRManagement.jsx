@@ -1,11 +1,12 @@
 // HRManagement.js
 import React, {useState, useEffect, useCallback} from 'react';
-import {Button, Table, Space, Modal, Form, Input, Select} from 'antd';
+import {Button, Table, Space, Modal, Form, Input, Select, Tooltip} from 'antd';
 import SidebarLayout from './admin_SidebarLayout';
 import {useSearchParams} from "react-router-dom";
 import type {SelectProps} from "antd";
 import {adminDeleteHR, AdminsearchHRs} from "../service/HR";
-import {getAllCompany} from "../service/company"; // 确保路径正确
+import {getAllCompany} from "../service/company";
+import {EyeInvisibleOutlined, EyeOutlined} from "@ant-design/icons"; // 确保路径正确
 
 const { Search } = Input;
 
@@ -17,6 +18,12 @@ const HRManagement = () => {
     const pageIndex = searchParams.get("pageIndex") != null ? Number.parseInt(searchParams.get("pageIndex")) : 1;
     const pageSize = searchParams.get("pageSize") != null ? Number.parseInt(searchParams.get("pageSize")) : 10;
     const HRName = searchParams.get("HRName") || "";
+    // 创建一个状态来存储哪些密码是可见的
+    const [visiblePasswords, setVisiblePasswords] = useState({});
+
+    const togglePasswordVisibility = key => {
+        setVisiblePasswords(prev => ({ ...prev, [key]: !prev[key] }));
+    };
 
     const getHRs = async () => {
         console.log("In search HRs");
@@ -89,7 +96,28 @@ const HRManagement = () => {
         { title: '用户名', dataIndex: 'hrname', key: 'hrname', width: '20%' },
         { title: '公司名', dataIndex: 'companyName', key: 'companyName', width: '25%' },
         { title: '部门名', dataIndex: 'departmentId', key: 'departmentId', width: '15%' },
-        { title: '密码', dataIndex: 'hrpassword', key: 'hrpassword', render: text => '******', width: '15%' },
+        {
+            title: '密码',
+            dataIndex: 'hrpassword',
+            key: 'hrpassword',
+            width: '15%',
+            render: (text, record) => (
+                <Input
+                    type={visiblePasswords[record.key] ? 'text' : 'password'}
+                    value={text}
+                    suffix={
+                        <Tooltip title={visiblePasswords[record.key] ? "隐藏密码" : "显示密码"}>
+                            <Button
+                                icon={visiblePasswords[record.key] ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+                                onClick={() => togglePasswordVisibility(record.key)}
+                                type="text"
+                            />
+                        </Tooltip>
+                    }
+                    disabled
+                />
+            ),
+        },
         {
             title: '操作',
             key: 'action',

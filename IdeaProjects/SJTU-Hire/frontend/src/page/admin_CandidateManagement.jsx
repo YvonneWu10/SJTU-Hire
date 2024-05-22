@@ -1,10 +1,11 @@
 // CandidateManagement.js
 import React, {useState, useEffect, useCallback} from 'react';
-import {Button, Table, Space, Modal, Form, Input, Select} from 'antd';
+import {Button, Table, Space, Modal, Form, Input, Select, Tooltip} from 'antd';
 import SidebarLayout from './admin_SidebarLayout';
 import {useSearchParams} from "react-router-dom";
 import {adminDeleteCandidate, AdminsearchCandidates, retCandMajors, retCandUniversities} from "../service/candidate";
-import type {SelectProps} from "antd"; // 确保路径正确
+import type {SelectProps} from "antd";
+import {EyeInvisibleOutlined, EyeOutlined} from "@ant-design/icons"; // 确保路径正确
 
 const { Search } = Input;
 
@@ -22,6 +23,13 @@ const CandidateManagement = () => {
     const candUniversity = searchParams.get("candUniversity") || "";
     const candGender = searchParams.get("candGender") || "";
     const candMajor = searchParams.get("candMajor") || "";
+    // 创建一个状态来存储哪些密码是可见的
+    const [visiblePasswords, setVisiblePasswords] = useState({});
+
+    const togglePasswordVisibility = key => {
+        setVisiblePasswords(prev => ({ ...prev, [key]: !prev[key] }));
+    };
+
 
     const getCandidates = async () => {
         console.log("In search Candidates");
@@ -30,7 +38,7 @@ const CandidateManagement = () => {
         let totalPage = resCandidates.total;
         setCandidates(candidates);
         setTotalPage(totalPage);
-        // console.log("API Response:", resCandidates);
+        console.log("API Response:", resCandidates);
     }
 
     const getMajors = async () => {
@@ -149,10 +157,31 @@ const CandidateManagement = () => {
         { title: '用户名', dataIndex: 'candName', key: 'candName', width: '10%' },
         { title: '性别', dataIndex: 'candGender', key: 'candGender', width: '6%' },
         { title: '年龄', dataIndex: 'candAge', key: 'candAge', width: '6%' },
-        { title: '学校', dataIndex: 'candUniversity', key: 'candUniversity', width: '18%' },
+        { title: '学校', dataIndex: 'candUniversity', key: 'candUniversity', width: '12%' },
         { title: '专业', dataIndex: 'candMajor', key: 'candMajor', width: '15%' },
         { title: '学历', dataIndex: 'candDegree', key: 'candDegree', width: '10%' },
-        { title: '密码', dataIndex: 'candPassword', key: 'candPassword', width: '10%', render: text => '******' }, //
+        {
+            title: '密码',
+            dataIndex: 'candPassword',
+            key: 'candPassword',
+            width: '16%',
+            render: (text, record) => (
+                <Input
+                    type={visiblePasswords[record.key] ? 'text' : 'password'}
+                    value={text}
+                    suffix={
+                        <Tooltip title={visiblePasswords[record.key] ? "隐藏密码" : "显示密码"}>
+                            <Button
+                                icon={visiblePasswords[record.key] ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+                                onClick={() => togglePasswordVisibility(record.key)}
+                                type="text"
+                            />
+                        </Tooltip>
+                    }
+                    disabled
+                />
+            ),
+        },
         {
             title: '操作',
             key: 'action',
@@ -185,27 +214,6 @@ const CandidateManagement = () => {
                     {/*<Button type="primary" style={{height: '40px'}}>添加用户</Button>*/}
                 </div>
                 <Table columns={columns} dataSource={candidates} rowKey="candId"/>
-                {/*<Modal title="编辑用户" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>*/}
-                {/*    <Form*/}
-                {/*        layout="vertical"*/}
-                {/*        initialValues={editingUser || { username: '', password: '' }}*/}
-                {/*    >*/}
-                {/*        <Form.Item*/}
-                {/*            label="用户名"*/}
-                {/*            name="username"*/}
-                {/*            rules={[{ required: true, message: '请输入用户名!' }]}*/}
-                {/*        >*/}
-                {/*            <Input />*/}
-                {/*        </Form.Item>*/}
-                {/*        <Form.Item*/}
-                {/*            label="密码"*/}
-                {/*            name="password"*/}
-                {/*            rules={[{ required: true, message: '请输入密码!' }]}*/}
-                {/*        >*/}
-                {/*            <Input.Password />*/}
-                {/*        </Form.Item>*/}
-                {/*    </Form>*/}
-                {/*</Modal>*/}
             </div>
         </SidebarLayout>
     );

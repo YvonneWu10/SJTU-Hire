@@ -15,7 +15,7 @@ import Identicon from 'identicon.js';
 import md5 from 'md5';
 
 const { Sider } = Layout;
-const { Text } = Typography;
+const { Text, Title } = Typography;
 
 const Sidebar = ({ collapsed, setCollapsed }) => {
     const [adminName, setAdminName] = useState('加载中...'); // 初始状态设置为“加载中...”
@@ -72,9 +72,11 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
                 </div>
             </div>
             <Menu mode="inline" defaultSelectedKeys={[getKeyFromPath(location.pathname)]} style={{height: '100%', borderRight: 0}}>
+                <Title style={{ color: '#bbbbbb', fontSize:'15px', marginLeft: '20px' }}>主页</Title>
                 <Menu.Item key="0" icon={<HomeOutlined />}>
                     <Link to="/administer-main">主页</Link>
                 </Menu.Item>
+                <Title style={{ color: '#bbbbbb', fontSize:'15px', marginLeft: '20px' }}>信息管理</Title>
                 <Menu.Item key="1" icon={<InboxOutlined />}>
                     <Link to="/job-management">岗位管理</Link>
                 </Menu.Item>
@@ -84,12 +86,14 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
                 <Menu.Item key="3" icon={<ProfileOutlined />}>
                     <Link to="/resume-management">投递管理</Link>
                 </Menu.Item>
+                <Title style={{ color: '#bbbbbb', fontSize:'15px', marginLeft: '20px' }}>用户管理</Title>
                 <Menu.Item key="4" icon={<UserSwitchOutlined />}>
                     <Link to="/candidate-management">招聘者管理</Link>
                 </Menu.Item>
                 <Menu.Item key="5" icon={<UserSwitchOutlined />}>
                     <Link to="/HR-management">HR管理</Link>
                 </Menu.Item>
+                <Title style={{ color: '#bbbbbb', fontSize:'15px', marginLeft: '20px' }}>统计分析</Title>
                 <Menu.Item key="6" icon={<BarChartOutlined />}>
                     <Link to="/statistics">统计分析</Link>
                 </Menu.Item>

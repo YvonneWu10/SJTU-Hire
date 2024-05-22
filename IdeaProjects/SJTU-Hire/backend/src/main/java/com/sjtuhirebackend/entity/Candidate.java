@@ -17,7 +17,7 @@ public class Candidate {
     @Column(name = "candName")
     private String candName;
     @Column(name = "candAge")
-    private int candAge;
+    private Integer candAge;
     @Column(name = "candGender")
     private String candGender;
     @Column(name = "candPhone")
@@ -27,11 +27,11 @@ public class Candidate {
     @Column(name = "candProvince")
     private String candProvince;
     @Column(name = "candGPA")
-    private double candGPA;
+    private Double candGPA;
     @Column(name = "candMentor")
     private String candMentor;
     @Column(name = "candPaperNum")
-    private int candPaperNum;
+    private Integer candPaperNum;
     @Column(name = "candDegree")
     private String candDegree;
     @Column(name = "candUniversity")
@@ -39,9 +39,9 @@ public class Candidate {
     @Column(name = "candMajor")
     private String candMajor;
     @Column(name = "candWorkYear")
-    private int candWorkYear;
+    private Integer candWorkYear;
     @Column(name = "candExpectedSalary")
-    private int candExpectedSalary;
+    private Integer candExpectedSalary;
     @Column(name = "password")
     private String candPassword;
     @Column(name = "token")

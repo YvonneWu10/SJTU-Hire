@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, {useEffect, useRef} from 'react';
 import { List, Progress } from 'antd';
 import '../css/Statistics.css';
 import {BulbTwoTone, DollarTwoTone, FireTwoTone, IdcardTwoTone} from "@ant-design/icons";
@@ -26,11 +26,11 @@ export const JobRankingList = ({ data }) => {
                     <List.Item.Meta
                         title={
                             <div style={{ display: 'flex', width: '100%', alignItems: 'center' }}>
-                                <span style={{ marginRight: '16px', width: '30px', textAlign: 'center', fontSize: '20px', fontWeight: 'bold' }}>
+                                <span style={{ marginRight: '16px', width: '20px', textAlign: 'center', fontSize: '20px', fontWeight: 'bold' }}>
                                     #{index + 1}
                                 </span>
                                 <span style={{ flex: 1, marginRight: '10px', color: '#3e3d3d' }}>
-                                    {item.post['postName']} <span style={{ color: blue[2], fontSize: '12px' }}>({item.post['city']})</span>
+                                    {item.post['postName']} <span style={{ color: blue[2], fontSize: '11px' }}>({item.post['city']})</span>
                                 </span>
                                 <Progress
                                     percent={item.count / item.post["recruitNum"] * 100}
@@ -53,6 +53,12 @@ export const JobRankingList = ({ data }) => {
 };
 
 export const AgeGraph = ({ data }) => {
+    // const ageData = [
+    //     { name: '21-30', value: 150 },
+    //     { name: '31-40', value: 80 },
+    //     { name: '>51', value: 30 },
+    // ];
+
     const config = {
         data: data,
         height: 260,
@@ -68,7 +74,7 @@ export const AgeGraph = ({ data }) => {
         labels: [
             { text: 'name', style: { fontSize: 10, fontWeight: 'bold' } },
             {
-                text: (d, i, data) => (i < data.length ? d.value : ''),
+                text: 'value',
                 style: {
                     fontSize: 9,
                     dy: 12,
@@ -82,7 +88,14 @@ export const AgeGraph = ({ data }) => {
             inset: 1,
             radius: 10,
         },
+        interactions: [
+            {
+                type: 'element-active',
+            },
+        ],
     };
+
+    console.log('config:', config);
     return (
         <div>
             <div style={{fontWeight: 'bold', fontSize: '16px'}}><IdcardTwoTone /> 应聘者年龄段 </div>
@@ -93,6 +106,12 @@ export const AgeGraph = ({ data }) => {
 };
 
 export const DegreeGraph = ({ data }) => {
+    // const degreeData = [
+    //     { name: '本科', value: 150 },
+    //     { name: '硕士', value: 80 },
+    //     { name: '博士', value: 30 },
+    // ];
+
     const config = {
         data: data,
         height: 260,
@@ -107,22 +126,20 @@ export const DegreeGraph = ({ data }) => {
         color: ['#6395f9', '#62daaa', '#f6c022', '#5022f6'],
         labels: [
             { text: 'name', style: { fontSize: 10, fontWeight: 'bold' } },
-            {
-                text: (d, i, data) => (i < data.length ? d.value : ''),
-                style: {
-                    fontSize: 9,
-                    dy: 12,
-                    position: "outside",
-                },
-
-            },
+            { text: 'value', style: { fontSize: 9, dy: 12, position: "outside", }, },
         ],
         style: {
             stroke: '#ffffff',
             inset: 1,
             radius: 10,
         },
+        interactions: [
+            {
+                type: 'element-active',
+            },
+        ],
     };
+
     return (
         <div>
             <div style={{fontWeight: 'bold', fontSize: '16px'}}><BulbTwoTone /> 应聘者学历分布 </div>
@@ -201,14 +218,18 @@ export const PostMap = ({ data }) => {
 
         const colors = {};
 
+        const maxGDP = Math.max(...Object.values(GDPSpeed).map(d => d.value));
+        const minGDP = Math.min(...Object.values(GDPSpeed).map(d => d.value));
+
         const getColorByDGP = function (adcode) {
             if (!colors[adcode]) {
-                const gdp = GDPSpeed[adcode]?.value;
-                if (!gdp) {
-                    colors[adcode] = 'rgb(227,227,227)';
+                const gdp = GDPSpeed[adcode]?.value || 0;
+                // Check if the GDP value is 0 and assign gray color
+                if (gdp === 0) {
+                    colors[adcode] = 'rgb(237,237,237)'; // Gray color for 0 GDP
                 } else {
-                    const rg = 255 - Math.floor(((gdp - 5) / 5) * 255);
-                    colors[adcode] = 'rgb(' + rg + ',' + rg + ',255)';
+                    const colorIntensity = 255 - Math.round(255 * (gdp - minGDP) / (maxGDP - minGDP));
+                    colors[adcode] = `rgb(${colorIntensity},${colorIntensity},255)`;
                 }
             }
             return colors[adcode];
@@ -291,13 +312,22 @@ export const PostMap = ({ data }) => {
 
             // 添加图例
             const legend = document.createElement('div');
+            legend.style.position = 'absolute';  // Ensures the element is positioned relative to its nearest positioned ancestor.
+            legend.style.bottom = '10px';
+            legend.style.left = '10px';
+            legend.style.background = 'white';
+            legend.style.padding = '10px';
+            legend.style.borderRadius = '5px';
+            legend.style.boxShadow = '0 0 5px rgba(0,0,0,0.3)';
+            legend.style.zIndex = '1000';  // High z-index to ensure it's on top
             legend.innerHTML = `
-                <div style="position: absolute; bottom: 10px; left: 10px; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.3);">
-                    <div><strong>GDP Speed Legend</strong></div>
-                    <div><span style="display:inline-block; width: 20px; height: 20px; background: rgb(0,0,255);"></span> High GDP</div>
-                    <div><span style="display:inline-block; width: 20px; height: 20px; background: rgb(178,184,232);"></span> Low GDP</div>
-                </div>
-            `;
+    <div><strong>省份岗位数图例</strong></div>
+    <div style="height: 20px; background: linear-gradient(to right, rgb(255,255,255), rgb(0,0,255));"></div>
+    <div style="display: flex; justify-content: space-between; font-size: 12px;">
+        <span>${minGDP}</span>
+        <span>${maxGDP}</span>
+    </div>
+`;
             mapContainer.current.appendChild(legend);
         });
 
