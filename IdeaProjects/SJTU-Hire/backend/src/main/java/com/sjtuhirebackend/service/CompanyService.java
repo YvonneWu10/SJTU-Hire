@@ -22,8 +22,9 @@ public interface CompanyService {
     Company registerCompany(int companyId, String companyName, String companyScale, String financingStage,
                             String companyType, String companyField);
 
+    // 删除公司
     void deleteCompany(int companyId);
 
-    // 计数
+    // 总公司个数
     long companyCount();
 }

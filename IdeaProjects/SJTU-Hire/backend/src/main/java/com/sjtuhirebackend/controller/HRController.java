@@ -63,6 +63,7 @@ public class HRController {
         return new ResponseEntity<>(candPostService.getCandPostDetailByCandIdAndPostId(candId, postId), HttpStatus.OK);
     }
 
+    // 管理者查找符合条件的投递信息
     @RequestMapping("/administer/searchCandPost")
     public ResponseEntity<Map<String, Object>> AdminsearchCandPost(@RequestHeader Map<String, Object> header,
                                                                    @RequestParam(defaultValue = "") String candName,
@@ -175,6 +176,7 @@ public class HRController {
 
     }
 
+    // 管理者查找符合条件的HR
     @RequestMapping("/administer/SearchHRs")
     public ResponseEntity<List<HR>> searchHRs(@RequestHeader Map<String, Object> header,
                                               @RequestParam(defaultValue = "") String HRName) {
@@ -200,6 +202,7 @@ public class HRController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    // 删除HR
     @DeleteMapping(value = "/deleteHR/{HRId}")
     public ResponseEntity<String> deleteCandidateById(@RequestHeader Map<String, Object> header,
                                                       @PathVariable Integer HRId) {
@@ -235,6 +238,7 @@ public class HRController {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
+    // 删除投递信息
     @DeleteMapping(value = "/deleteCandPost/candID={candID}&postID={postID}")
     public ResponseEntity<String> deleteCandidateById(@RequestHeader Map<String, Object> header,
                                                       @PathVariable String candID,

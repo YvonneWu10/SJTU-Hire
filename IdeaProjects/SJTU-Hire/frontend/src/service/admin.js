@@ -1,5 +1,6 @@
 import {getJson, PREFIX} from "./common";
 
+// 获取管理者名称
 export async function getAdminnameByToken() {
     console.log(`Enter getAdminnameByToken`);
     const url = `${PREFIX}/administer-main/adminname`;
@@ -15,6 +16,7 @@ export async function getAdminnameByToken() {
     return adminname["adminname"];
 }
 
+// 获取进展中岗位比例
 export async function getpostInProgress(){
     console.log(`Enter getPostInProgress`);
     const url = `${PREFIX}/administer/postInProgressData`;

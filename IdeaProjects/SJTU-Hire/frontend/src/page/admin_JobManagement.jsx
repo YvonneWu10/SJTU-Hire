@@ -1,10 +1,18 @@
 // JobManagement.js
 import React, { useState, useEffect } from 'react';
-import {Button, Table, Space, Input, Select, Modal} from 'antd';
+import {Button, Table, Space, Input, Select, Modal, Row, Col} from 'antd';
 import SidebarLayout from './admin_SidebarLayout';
 import {AdminsearchPosts, retAdminPostCities, AdmindeletePost} from "../service/post"; // 确保路径正确, createPost
 import { useSearchParams } from 'react-router-dom';
 import { getAllCompany} from "../service/company";
+import {
+    AuditOutlined, CommentOutlined, DesktopOutlined,
+    EnvironmentOutlined, EuroOutlined,
+    ExceptionOutlined, FieldNumberOutlined,
+    FieldTimeOutlined,
+    HomeOutlined, InsertRowAboveOutlined, NotificationOutlined, ProfileOutlined, TeamOutlined,
+    UserOutlined
+} from "@ant-design/icons";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -51,7 +59,7 @@ const JobManagement = () => {
         let totalPage = resPosts.total;
         setPosts(posts);
         setTotalPage(totalPage);
-        // console.log("API Response:", resPosts);
+        // console.log("API Response:", posts);
     };
 
     const getPostCities = async () => {
@@ -158,8 +166,8 @@ const JobManagement = () => {
 
     const columns = [
         // Define table columns for job data
-        { title: '岗位名称', dataIndex: 'postName', key: 'postName', width: '20%'},
-        { title: '公司名称', dataIndex: 'companyName', key: 'companyName', width: '25%' },
+        { title: '岗位名称', dataIndex: 'postName', key: 'postName', width: '25%'},
+        { title: '公司名称', dataIndex: 'companyName', key: 'companyName', width: '30%' },
         { title: '地点', dataIndex: 'city', key: 'city', width: '10%' },
         { title: '类型', dataIndex: 'workType', key: 'workType', width: '10%' },
         { title: '方式', dataIndex: 'workStyle', key: 'workStyle', width: '10%' },
@@ -169,20 +177,76 @@ const JobManagement = () => {
             key: 'action',
             render: (_, record) => (
                 <Space size="middle">
-                    <Button type="default" onClick={() => window.location.href = `/candidate_view/Post/${record.postId}`}>查看</Button>
-                    <Button type="default">编辑</Button>
                     <Button danger onClick={() => handleDelete(record.postId)}>删除</Button>
                 </Space>
             ),
         },
     ];
 
+    // 定义展开行内容的渲染函数
+    const expandedRowRender = (record) => {
+        return (
+            <div>
+                <div style={{marginLeft: 20, marginBottom: 5, color: '#005848'}}>
+                    <Row>
+                        <Col span={3} style={{fontSize: 13}}>
+                            <FieldNumberOutlined/> 岗位号：{record.postId}
+                        </Col>
+                        <Col span={4} style={{fontSize: 13}}>
+                            <UserOutlined/> 岗位名：{record.postName}
+                        </Col>
+                        <Col span={5} style={{fontSize: 13}}>
+                            <HomeOutlined/> 公司名：{record.companyName}
+                        </Col>
+                        <Col span={3} style={{fontSize: 13}}>
+                            <EnvironmentOutlined/> 城市：{record.city}
+                        </Col>
+                        <Col span={4} style={{fontSize: 13}}>
+                            <AuditOutlined/> 工作类型：{record.workStyle}{record.workType}
+                        </Col>
+                        <Col span={4} style={{fontSize: 13}}>
+                            <EuroOutlined/> 年薪：{record.salary} k&nbsp;&nbsp;&nbsp;&nbsp;
+                        </Col>
+                    </Row>
+                </div>
+                <div style={{marginLeft: 20, marginBottom: 5, color: '#005848'}}>
+                    <Row>
+                        <Col span={7} style={{fontSize: 13}}>
+                            <FieldTimeOutlined/> 开放时间：{record.openDate} - {record.endDate}
+                        </Col>
+                        <Col span={5} style={{fontSize: 13}}>
+                            <ExceptionOutlined/> 学历要求：{record.degreeReq}
+                        </Col>
+                        <Col span={3} style={{fontSize: 13}}>
+                            <TeamOutlined/> 招聘人数：{record.recruitNum}
+                        </Col>
+                        <Col span={4} style={{fontSize: 13}}>
+                            <DesktopOutlined/> 工作经验：{record.workYearReq} 年
+                        </Col>
+                        <Col span={4} style={{fontSize: 13}}>
+                            <InsertRowAboveOutlined/> 一周到岗：{record.onSiteDayReq} 天
+                        </Col>
+                    </Row>
+                </div>
+                <div style={{marginLeft: 20, marginBottom: 5, color: '#005848', fontSize: 13}}>
+                    <CommentOutlined/> 负责HR：{record.hrid}
+                </div>
+                <div style={{marginLeft: 20, marginBottom: 5, color: '#005848', fontSize: 13}}>
+                    <ProfileOutlined /> 岗位职责：{record.responsibility}
+                </div>
+                <div style={{marginLeft: 20, marginBottom: 5, color: '#005848', fontSize: 13}}>
+                    <NotificationOutlined/> 岗位描述：{record.description}
+                </div>
+            </div>
+        );
+    };
+
 
     return (
         <SidebarLayout>
             <div>
                 <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: 16}}>
-                    <div style={{display: 'flex', gap: '8px'}}>
+                <div style={{display: 'flex', gap: '8px'}}>
                         <Select allowClear placeholder="请选择城市" onChange={handleCityOption} options={cityOptions} style={{ height: '40px' }} />
                         <Select allowClear placeholder="请选择实习/正式" onChange={handleWorkTypeOption}
                                 options={workTypeOptions} style={{ height: '40px' }}/>
@@ -193,81 +257,13 @@ const JobManagement = () => {
                     <Search placeholder="输入岗位名" onSearch={handleSearch} enterButton size="large" style={{ marginLeft: 'auto', maxWidth: '300px', width: '100%'}} />
                     {/*<Button type="primary" onClick={showDrawer} style={{ height: '40px' }}>添加岗位</Button>*/}
                 </div>
-                <Table columns={columns} dataSource={posts} rowKey="postId" pagination={{
+                <Table columns={columns} dataSource={posts} rowKey="postId" expandable={{ expandedRowRender }} pagination={{
                     current: pageIndex,
                     pageSize,
                     total: totalPage * pageSize,
                     onChange: handlePageChange,
                     hideOnSinglePage: true
                 }}/>
-                {/*<Drawer*/}
-                {/*    title="添加新岗位"*/}
-                {/*    width={720}*/}
-                {/*    onClose={closeDrawer}*/}
-                {/*    visible={drawerVisible}*/}
-                {/*    bodyStyle={{ paddingBottom: 80 }}*/}
-                {/*    footer={*/}
-                {/*        <div style={{ textAlign: 'right' }}>*/}
-                {/*            <Button onClick={closeDrawer} style={{ marginRight: 8 }}>取消</Button>*/}
-                {/*            <Button onClick={handleFormSubmit} type="primary">提交</Button>*/}
-                {/*        </div>*/}
-                {/*    }*/}
-                {/*>*/}
-                {/*    <Form form={form} layout="vertical" hideRequiredMark>*/}
-                {/*        <Form.Item name="postName" label="岗位名称" rules={[{ required: true, message: '请输入岗位名称' }]}>*/}
-                {/*            <Input placeholder="请输入岗位名称" />*/}
-                {/*        </Form.Item>*/}
-                {/*        <Form.Item name="companyName" label="公司名称" rules={[{ required: true, message: '请输入公司名称' }]}>*/}
-                {/*            <Input placeholder="请输入公司名称" />*/}
-                {/*        </Form.Item>*/}
-                {/*        <Form.Item name="city" label="城市" rules={[{ required: true, message: '请选择城市' }]}>*/}
-                {/*            <Select placeholder="请选择城市" options={cityOptions}></Select>*/}
-                {/*        </Form.Item>*/}
-                {/*        <Form.Item name="workType" label="工作类型" rules={[{ required: true, message: '请选择工作类型' }]}>*/}
-                {/*            <Select placeholder="请选择工作类型" options={workTypeOptions}></Select>*/}
-                {/*        </Form.Item>*/}
-                {/*        <Form.Item name="workStyle" label="工作方式" rules={[{ required: true, message: '请选择工作方式' }]}>*/}
-                {/*            <Select placeholder="请选择工作方式" options={workStyleOptions}></Select>*/}
-                {/*        </Form.Item>*/}
-                {/*        <Form.Item name="degreeReq" label="学历要求" rules={[{ required: true, message: '请选择学历要求' }]}>*/}
-                {/*            <Select placeholder="请选择学历要求">*/}
-                {/*                {degreeOptions.map(degree => (*/}
-                {/*                    <Option key={degree} value={degree}>{degree}</Option>*/}
-                {/*                ))}*/}
-                {/*            </Select>*/}
-                {/*        </Form.Item>*/}
-                {/*        <Form.Item name="workYearReq" label="工作经验年数要求" rules={[{required: true, message: '请输入工作经验年数要求'}, {type: 'number', min: 0, message: '格式不符合要求（请输入非负整数）'}]}>*/}
-                {/*            <InputNumber placeholder="请输入工作经验年数要求" style={{ width: '100%' }} />*/}
-                {/*        </Form.Item>*/}
-                {/*        <Form.Item name="onSiteDayReq" label="一周到岗天数要求" rules={[{ required: true, message: '请输入一周到岗天数要求' }, {type: 'number', min: 0, max:7, message: '格式不符合要求（请输入1-7的整数）'}]}>*/}
-                {/*            <InputNumber placeholder="请输入一周到岗天数要求" style={{ width: '100%' }} />*/}
-                {/*        </Form.Item>*/}
-                {/*        <Form.Item name="openDate" label="开放日期" rules={[{ required: true, message: '请选择开放日期' }]}>*/}
-                {/*            <DatePicker placeholder="请选择开放日期" style={{ width: '100%' }} />*/}
-                {/*        </Form.Item>*/}
-                {/*        <Form.Item name="endDate" label="关闭日期" rules={[{ required: true, message: '请选择关闭日期' }]}>*/}
-                {/*            <DatePicker placeholder="请选择关闭日期" style={{ width: '100%' }} />*/}
-                {/*        </Form.Item>*/}
-                {/*        <Form.Item name="recruitNum" label="招募人数" rules={[{ required: true, message: '请输入招募人数' }, {type: 'number', min: 0, message: '格式不符合要求（请输入非负整数）'}]}>*/}
-                {/*            <InputNumber placeholder="请输入招募人数" style={{ width: '100%' }} />*/}
-                {/*        </Form.Item>*/}
-                {/*        <Form.Item name="salary" label="年薪" rules={[{ required: true, message: '请输入年薪(k)' }, {type: 'number', min: 0, message: '格式不符合要求（请输入非负整数）'}]}>*/}
-                {/*            <InputNumber placeholder="请输入年薪(k)" style={{ width: '100%' }} />*/}
-                {/*        </Form.Item>*/}
-                {/*        <Form.Item name="departmentId" label="部门名" rules={[{ required: true, message: '请输入负责部门' }]}>*/}
-                {/*            <Input placeholder="请输入负责部门" />*/}
-                {/*        </Form.Item>*/}
-                {/*        <Form.Item name="HRId" label="对应HR名" rules={[{ required: true, message: '请输入对应HR名' }]}>*/}
-                {/*            <Input placeholder="请输入对应HR名" />*/}
-                {/*        </Form.Item>*/}
-                {/*        <Form.Item name="description" label="岗位描述" rules={[{ required: true, message: '请输入岗位描述' }]}>*/}
-                {/*            <Input placeholder="请输入岗位描述" />*/}
-                {/*        </Form.Item>*/}
-                {/*        <Form.Item name="responsibility" label="岗位需求" rules={[{ required: true, message: '请输入岗位需求' }]}>*/}
-                {/*            <Input placeholder="请输入岗位需求" />*/}
-                {/*        </Form.Item>*/}
-                {/*    </Form>*/}
-                {/*</Drawer>*/}
             </div>
         </SidebarLayout>
     );

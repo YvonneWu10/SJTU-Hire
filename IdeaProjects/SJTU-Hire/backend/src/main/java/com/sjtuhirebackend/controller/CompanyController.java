@@ -40,6 +40,7 @@ public class CompanyController {
         return new ResponseEntity<>(companyService.getCompanies(), HttpStatus.OK);
     }
 
+    // 管理者搜索满足条件的所有公司
     @RequestMapping(value = {"/administer/SearchCompanies"})
     public ResponseEntity<List<Company>> searchCompanies(@RequestHeader Map<String, Object> header,
                                                   @RequestParam(defaultValue = "") String companyName,
@@ -78,6 +79,7 @@ public class CompanyController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    // 删除公司
     @DeleteMapping(value = "/deleteCompany/{companyId}")
     public ResponseEntity<String> deleteCompanyById(@RequestHeader Map<String, Object> header,
                                                  @PathVariable Integer companyId) {

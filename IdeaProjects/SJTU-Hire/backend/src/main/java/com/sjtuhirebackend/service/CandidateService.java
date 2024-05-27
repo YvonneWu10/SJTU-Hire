@@ -41,17 +41,17 @@ public interface CandidateService {
 
     List<Candidate> getCandidatesByCandExpectedSalaryBetween(int lb, int ub);
 
-    List<String> getDistinctCandMajors();
+    List<String> getDistinctCandMajors();   // 得到应聘者所有专业名
 
-    List<String> getDistinctCandUniversities();
+    List<String> getDistinctCandUniversities(); // 得到应聘者所有学校名
 
-    void deleteCandidate(String candId);
+    void deleteCandidate(String candId);    // 删除应聘者
 
-    long candidateCount();
+    long candidateCount();  // 得到应聘者总个数
 
-    List<Object[]> countCandidatesByAgeRange();
+    List<Object[]> countCandidatesByAgeRange();     // 得到应聘者的年龄分布
 
-    List<Object[]> countCandidatesByDegree();
+    List<Object[]> countCandidatesByDegree();   // 得到应聘者的学历分布
 
-    List<Object[]> findSalaryExpectationsByCandidate();
+    List<Object[]> findSalaryExpectationsByCandidate(); // 得到应聘者薪资期望分布
 }

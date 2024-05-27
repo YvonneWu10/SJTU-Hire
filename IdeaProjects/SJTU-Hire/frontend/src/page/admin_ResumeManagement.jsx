@@ -82,18 +82,16 @@ const ResumeManagement = () => {
 
     // Define the columns for the resumes table
     const columns = [
-        { title: '姓名', dataIndex: 'candName', key: 'candName', width: '15%' },
+        { title: '姓名', dataIndex: 'candName', key: 'candName', width: '20%' },
         { title: '应聘岗位', dataIndex: 'postName', key: 'postName', width: '20%' },
         { title: '投递状态', dataIndex: 'submissionStage', key: 'submissionStage', width: '20%' },
-        { title: '投递日期', dataIndex: 'submissionDate', key: 'submissionDate', width: '20%' },
+        { title: '投递日期', dataIndex: 'submissionDate', key: 'submissionDate', width: '25%' },
         // Add more columns as needed
         {
             title: '操作',
             key: 'action',
             render: (_, record) => (
                 <Space size="middle">
-                    <Button type="default">查看</Button>
-                    <Button type="default">编辑</Button>
                     <Button danger onClick={()=>handleDelete(record.candID, record.postID)}>删除</Button>
                 </Space>
             ),

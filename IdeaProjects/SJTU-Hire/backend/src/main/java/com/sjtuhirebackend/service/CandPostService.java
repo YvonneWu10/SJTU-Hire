@@ -23,5 +23,5 @@ public interface CandPostService {
     int getTotalPages(int pageSize);    //总页数
     void deleteCandPost(String candId, int postId);
     long countPosts(); //返回所有有投递的岗位数
-    List<Object[]> getHotJobId(int rank);
+    List<Object[]> getHotJobId(int rank);   // 得到热门的前rank个岗位id
 }

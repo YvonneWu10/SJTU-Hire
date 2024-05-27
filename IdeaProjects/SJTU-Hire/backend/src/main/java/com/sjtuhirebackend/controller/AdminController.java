@@ -31,6 +31,7 @@ public class AdminController {
     @Autowired
     private CompanyService companyService;
 
+    // 返回管理员用户名
     @RequestMapping("/administer-main/adminname")
     public ResponseEntity<Map<String, Object>> getAdminNameByToken(@RequestHeader Map<String, Object> header) {
         String id = authService.getAdminIdByHeader(header);
@@ -43,6 +44,7 @@ public class AdminController {
         return new ResponseEntity<>(Map.of("adminname", name), HttpStatus.OK);
     }
 
+    // 监控处于流程中的岗位比例
     @RequestMapping("/administer/postInProgressData")
     public ResponseEntity<Map<String, Object>> getPostInProgressData(){
         long postCount = postService.getPostCount();
@@ -54,30 +56,35 @@ public class AdminController {
         return new ResponseEntity<>(Map.of("data", ratio), HttpStatus.OK);
     }
 
+    // 返回总岗位数
     @RequestMapping("/postNum")
     public ResponseEntity<Map<String, Object>> getPostNum(){
         long postCount = postService.getPostCount();
         return new ResponseEntity<>(Map.of("data", postCount), HttpStatus.OK);
     }
 
+    // 返回总应聘者数
     @RequestMapping("/candidateNum")
     public ResponseEntity<Map<String, Object>> getCandidateNum(){
         long candidateCount = candidateService.candidateCount();
         return new ResponseEntity<>(Map.of("data", candidateCount), HttpStatus.OK);
     }
 
+    // 返回总HR数
     @RequestMapping("/HRNum")
     public ResponseEntity<Map<String, Object>> getHRNum(){
         long HRCount = hrService.HRCount();
         return new ResponseEntity<>(Map.of("data", HRCount), HttpStatus.OK);
     }
 
+    // 返回总公司数
     @RequestMapping("/companyNum")
     public ResponseEntity<Map<String, Object>> getCompanyNum(){
         long companyCount = companyService.companyCount();
         return new ResponseEntity<>(Map.of("data", companyCount), HttpStatus.OK);
     }
 
+    // 返回热门的前rank个岗位
     @RequestMapping("/hotJob/{rank}")
     public ResponseEntity<List<Map<String, Object>>> getHotJob(@PathVariable Integer rank){
         if (rank == null || rank < 0 ){
@@ -110,6 +117,7 @@ public class AdminController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    // 统计应聘者年龄分布
     @RequestMapping("/countCandidatesByAgeRange")
     public ResponseEntity<List<Map<String, Object>>> getCandidateAgeDistribution() {
         List<Object[]> results = candidateService.countCandidatesByAgeRange();
@@ -123,6 +131,7 @@ public class AdminController {
         return new ResponseEntity<>(ageData, HttpStatus.OK);
     }
 
+    // 统计应聘者学历分布
     @RequestMapping("/candidateDegreeDistribution")
     public ResponseEntity<List<Map<String, Object>>> getCandidateDegreeDistribution() {
         List<Object[]> results = candidateService.countCandidatesByDegree();
@@ -141,6 +150,7 @@ public class AdminController {
         return new ResponseEntity<>(degreeData, HttpStatus.OK);
     }
 
+    // 统计岗位不同学历的薪资分布
     @RequestMapping("/salaryAndDegreeNum")
     public ResponseEntity<List<Map<String, Object>>> getSalaryAndDegreeNum(){
         List<Object[]> results = postService.countPostsBySalaryAndDegree();
@@ -155,6 +165,7 @@ public class AdminController {
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
+    // 统计岗位总的薪资分布
     @RequestMapping("/salaryDistribution")
     public ResponseEntity<List<Map<String, Object>>> getSalaryDistribution(){
         List<Map<String, Object>> combinedResults = new ArrayList<>();
@@ -179,6 +190,7 @@ public class AdminController {
         return new ResponseEntity<>(combinedResults, HttpStatus.OK);
     }
 
+    // 统计岗位的城市分布
     @RequestMapping("/cityDistribution")
     public ResponseEntity<List<Map<String, Object>>> getCityDistribution(){
         List<Object[]> cityData = postService.findRecruitmentByCity();

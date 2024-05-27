@@ -1,12 +1,21 @@
 // HRManagement.js
 import React, {useState, useEffect, useCallback} from 'react';
-import {Button, Table, Space, Modal, Form, Input, Select, Tooltip} from 'antd';
+import {Button, Table, Space, Modal, Form, Input, Select, Tooltip, Row, Col} from 'antd';
 import SidebarLayout from './admin_SidebarLayout';
 import {useSearchParams} from "react-router-dom";
 import type {SelectProps} from "antd";
 import {adminDeleteHR, AdminsearchHRs} from "../service/HR";
 import {getAllCompany} from "../service/company";
-import {EyeInvisibleOutlined, EyeOutlined} from "@ant-design/icons"; // 确保路径正确
+import {
+    AuditOutlined,
+    BankOutlined, BookOutlined, ContainerOutlined,
+    EyeInvisibleOutlined,
+    EyeOutlined,
+    FieldNumberOutlined, ForkOutlined, FormatPainterOutlined,
+    HomeOutlined, HourglassOutlined, MailOutlined, PayCircleOutlined, PhoneOutlined, SafetyCertificateOutlined,
+    UserOutlined,
+    WomanOutlined
+} from "@ant-design/icons"; // 确保路径正确
 
 const { Search } = Input;
 
@@ -94,13 +103,13 @@ const HRManagement = () => {
     // Define the columns for the users table
     const columns = [
         { title: '用户名', dataIndex: 'hrname', key: 'hrname', width: '20%' },
-        { title: '公司名', dataIndex: 'companyName', key: 'companyName', width: '25%' },
-        { title: '部门名', dataIndex: 'departmentId', key: 'departmentId', width: '15%' },
+        { title: '公司名', dataIndex: 'companyName', key: 'companyName', width: '30%' },
+        { title: '部门号', dataIndex: 'departmentId', key: 'departmentId', width: '15%' },
         {
             title: '密码',
             dataIndex: 'hrpassword',
             key: 'hrpassword',
-            width: '15%',
+            width: '20%',
             render: (text, record) => (
                 <Input
                     type={visiblePasswords[record.key] ? 'text' : 'password'}
@@ -123,15 +132,45 @@ const HRManagement = () => {
             key: 'action',
             render: (_, record) => (
                 <Space size="middle">
-                    {/*<Button onClick={() => showModal(record)}>编辑</Button>*/}
-                    {/*<Button danger onClick={() => deleteUser(record.id)}>删除</Button>*/}
-                    <Button type="default">查看</Button>
-                    <Button type="default">编辑</Button>
                     <Button danger onClick={()=>handleDelete(record.hrid)}>删除</Button>
                 </Space>
             ),
         },
     ];
+
+    const expandedRowRender = (record) => {
+        return(
+            <div>
+                <div style={{marginLeft: 20, marginBottom: 5, color: '#005848'}}>
+                    <Row>
+                        <Col span={5} style={{fontSize: 13}}>
+                            <FieldNumberOutlined/> 账号：{record.hrid}
+                        </Col>
+                        <Col span={3} style={{fontSize: 13}}>
+                            <UserOutlined /> 姓名：{record.hrname}
+                        </Col>
+                        <Col span={5} style={{fontSize: 13}}>
+                            <HomeOutlined/> 公司名：{record.companyName}
+                        </Col>
+                        <Col span={4} style={{fontSize: 13}}>
+                            <FieldNumberOutlined/> 部门号：{record.departmentId}
+                        </Col>
+
+                    </Row>
+                </div>
+                <div style={{marginLeft: 20, marginBottom: 5, color: '#005848', fontSize: 13}}>
+                    <Row>
+                        <Col span={5} style={{fontSize: 13}}>
+                            <SafetyCertificateOutlined /> 密码：{record.hrpassword}
+                        </Col>
+                        <Col span={5} style={{fontSize: 13}}>
+                            <SafetyCertificateOutlined /> Token：{record.hrtoken}
+                        </Col>
+                    </Row>
+                </div>
+            </div>
+        );
+    };
 
     return (
         <SidebarLayout>
@@ -140,9 +179,8 @@ const HRManagement = () => {
                     <div style={{display: 'flex', gap: '8px'}}>
                         <Search placeholder="输入用户名" onSearch={handleSearch} enterButton size="large"/>
                     </div>
-                    {/*<Button type="primary" style={{height: '40px'}}>添加用户</Button>*/}
                 </div>
-                <Table columns={columns} dataSource={HRs} rowKey="hrid"/>
+                <Table columns={columns} dataSource={HRs} expandable={{ expandedRowRender }} rowKey="hrid"/>
             </div>
         </SidebarLayout>
     );

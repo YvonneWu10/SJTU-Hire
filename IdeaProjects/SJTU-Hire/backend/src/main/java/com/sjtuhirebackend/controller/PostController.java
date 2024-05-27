@@ -97,6 +97,7 @@ public class PostController {
         return new ResponseEntity<>(postService.getDistinctPostCities(), HttpStatus.OK);
     }
 
+    // 删除岗位
     @DeleteMapping(value = "/deletePost/{postId}")
     public ResponseEntity<String> deletePostById(@RequestHeader Map<String, Object> header,
                                                  @PathVariable Integer postId) {

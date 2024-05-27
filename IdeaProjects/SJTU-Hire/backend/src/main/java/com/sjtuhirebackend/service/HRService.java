@@ -12,6 +12,6 @@ public interface HRService {
     List<HR> getHRByDepartmentId(int departmentId);
     List<HR> getHRByCompanyIdAndDepartmentId(int companyId, int departmentId);
     HR registerHR(int HRId, String HRName, int companyId, int departmentId);
-    void deleteHRById(int HRId);
-    long HRCount();
+    void deleteHRById(int HRId);    // 删除HR
+    long HRCount(); // 计数HR个数
 }

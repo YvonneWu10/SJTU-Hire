@@ -55,6 +55,7 @@ public class CandidateController {
         return new ResponseEntity<>(candidateService.getCandidates(), HttpStatus.OK);
     }
 
+    // 管理者搜索满足条件的所有应聘者
     @RequestMapping("/administer/SearchCandidates")
     public ResponseEntity<List<Candidate>> searchCandidates(@RequestHeader Map<String, Object> header,
                                                             @RequestParam(defaultValue = "") String candName,
@@ -95,6 +96,7 @@ public class CandidateController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    // 管理者搜索所有的应聘者专业
     @RequestMapping("/administer/CandMajors")
     public ResponseEntity<List<String>> getCandMajors(@RequestHeader Map<String, Object> header) {
         String userType = (String) header.get("user-type");
@@ -112,6 +114,7 @@ public class CandidateController {
         return new ResponseEntity<>(candidateService.getDistinctCandMajors(), HttpStatus.OK);
     }
 
+    // 管理者搜索所有应聘者学校
     @RequestMapping("/administer/CandUniversities")
     public ResponseEntity<List<String>> getCandUniversities(@RequestHeader Map<String, Object> header) {
         String userType = (String) header.get("user-type");
@@ -129,6 +132,7 @@ public class CandidateController {
         return new ResponseEntity<>(candidateService.getDistinctCandUniversities(), HttpStatus.OK);
     }
 
+    // 删除应聘者
     @DeleteMapping(value = "/deleteCandidate/{candId}")
     public ResponseEntity<String> deleteCandidateById(@RequestHeader Map<String, Object> header,
                                                  @PathVariable String candId) {

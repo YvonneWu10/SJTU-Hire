@@ -15,6 +15,7 @@ export async function getAllCompany() {
     }
 }
 
+// 管理者条件筛选公司
 export async function AdminsearchCompanies(pageIndex, pageSize, companyName, companyType, companyScale) {
     const url = `${PREFIX}/administer/SearchCompanies?pageIndex=${pageIndex}&pageSize=${pageSize}
                  &companyName=${companyName}&companyType=${companyType}&companyScale=${companyScale}`;

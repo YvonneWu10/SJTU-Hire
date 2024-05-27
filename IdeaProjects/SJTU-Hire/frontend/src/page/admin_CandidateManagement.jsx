@@ -1,11 +1,29 @@
 // CandidateManagement.js
 import React, {useState, useEffect, useCallback} from 'react';
-import {Button, Table, Space, Modal, Form, Input, Select, Tooltip} from 'antd';
+import {Button, Table, Space, Modal, Form, Input, Select, Tooltip, Row, Col} from 'antd';
 import SidebarLayout from './admin_SidebarLayout';
 import {useSearchParams} from "react-router-dom";
 import {adminDeleteCandidate, AdminsearchCandidates, retCandMajors, retCandUniversities} from "../service/candidate";
 import type {SelectProps} from "antd";
-import {EyeInvisibleOutlined, EyeOutlined} from "@ant-design/icons"; // 确保路径正确
+import {
+    AuditOutlined, BankOutlined, BookOutlined, ContainerOutlined,
+    EnvironmentOutlined,
+    EuroOutlined,
+    EyeInvisibleOutlined,
+    EyeOutlined,
+    FieldNumberOutlined, ForkOutlined,
+    FormatPainterOutlined,
+    HomeOutlined,
+    HourglassOutlined,
+    MailOutlined,
+    NotificationOutlined,
+    PayCircleOutlined,
+    PhoneOutlined,
+    SafetyCertificateOutlined,
+    TeamOutlined,
+    UserOutlined,
+    WomanOutlined
+} from "@ant-design/icons"; // 确保路径正确
 
 const { Search } = Input;
 
@@ -38,7 +56,7 @@ const CandidateManagement = () => {
         let totalPage = resCandidates.total;
         setCandidates(candidates);
         setTotalPage(totalPage);
-        console.log("API Response:", resCandidates);
+        // console.log("API Response:", resCandidates);
     }
 
     const getMajors = async () => {
@@ -155,9 +173,9 @@ const CandidateManagement = () => {
     // Define the columns for the users table
     const columns = [
         { title: '用户名', dataIndex: 'candName', key: 'candName', width: '10%' },
-        { title: '性别', dataIndex: 'candGender', key: 'candGender', width: '6%' },
-        { title: '年龄', dataIndex: 'candAge', key: 'candAge', width: '6%' },
-        { title: '学校', dataIndex: 'candUniversity', key: 'candUniversity', width: '12%' },
+        { title: '性别', dataIndex: 'candGender', key: 'candGender', width: '10%' },
+        { title: '年龄', dataIndex: 'candAge', key: 'candAge', width: '10%' },
+        { title: '学校', dataIndex: 'candUniversity', key: 'candUniversity', width: '13%' },
         { title: '专业', dataIndex: 'candMajor', key: 'candMajor', width: '15%' },
         { title: '学历', dataIndex: 'candDegree', key: 'candDegree', width: '10%' },
         {
@@ -187,15 +205,78 @@ const CandidateManagement = () => {
             key: 'action',
             render: (_, record) => (
                 <Space size="middle">
-                    {/*<Button onClick={() => showModal(record)}>编辑</Button>*/}
-                    {/*<Button danger onClick={() => deleteUser(record.id)}>删除</Button>*/}
-                    <Button type="default">查看</Button>
-                    <Button type="default">编辑</Button>
                     <Button danger onClick={() => handleDelete(record.candId)}>删除</Button>
                 </Space>
             ),
         },
     ];
+
+    const expandedRowRender = (record) => {
+        return(
+            <div>
+                <div style={{marginLeft: 20, marginBottom: 5, color: '#005848'}}>
+                    <Row>
+                        <Col span={5} style={{fontSize: 13}}>
+                            <FieldNumberOutlined/> 账号：{record.candId}
+                        </Col>
+                        <Col span={3} style={{fontSize: 13}}>
+                            <UserOutlined /> 姓名：{record.candName}
+                        </Col>
+                        <Col span={3} style={{fontSize: 13}}>
+                            <HomeOutlined/> 省份：{record.candProvince}
+                        </Col>
+                        <Col span={3} style={{fontSize: 13}}>
+                            <WomanOutlined /> 性别：{record.candGender}
+                        </Col>
+                        <Col span={3} style={{fontSize: 13}}>
+                            <HourglassOutlined /> 年龄：{record.candAge}
+                        </Col>
+                        <Col span={3} style={{fontSize: 13}}>
+                            <FormatPainterOutlined /> 工作经验：{record.candWorkYear} 年
+                        </Col>
+                        <Col span={3} style={{fontSize: 13}}>
+                            <PayCircleOutlined /> 期望年薪：{record.candExpectedSalary} k
+                        </Col>
+                    </Row>
+                </div>
+                <div style={{marginLeft: 20, marginBottom: 5, color: '#005848', fontSize: 13}}>
+                    <Row>
+                        <Col span={5} style={{fontSize: 13}}>
+                            <MailOutlined /> 邮箱：{record.candMail}
+                        </Col>
+                        <Col span={3} style={{fontSize: 13}}>
+                            <PhoneOutlined /> 电话：{record.candPhone}
+                        </Col>
+                        <Col span={3} style={{fontSize: 13}}>
+                            <BankOutlined /> 大学：{record.candUniversity}
+                        </Col>
+                        <Col span={3} style={{fontSize: 13}}>
+                            <ContainerOutlined /> 学历：{record.candDegree}
+                        </Col>
+                        <Col span={3} style={{fontSize: 13}}>
+                            <ForkOutlined /> 专业：{record.candMajor}
+                        </Col>
+                        <Col span={3} style={{fontSize: 13}}>
+                            <AuditOutlined /> 导师：{record.candMentor}
+                        </Col>
+                        <Col span={3} style={{fontSize: 13}}>
+                            <BookOutlined /> 论文数：{record.candPaperNum}
+                        </Col>
+                    </Row>
+                </div>
+                <div style={{marginLeft: 20, marginBottom: 5, color: '#005848', fontSize: 13}}>
+                    <Row>
+                        <Col span={5} style={{fontSize: 13}}>
+                            <SafetyCertificateOutlined /> 密码：{record.candPassword}
+                        </Col>
+                        <Col span={5} style={{fontSize: 13}}>
+                            <SafetyCertificateOutlined /> Token：{record.candToken}
+                        </Col>
+                    </Row>
+                </div>
+            </div>
+        );
+    };
 
 
     return (
@@ -211,9 +292,8 @@ const CandidateManagement = () => {
                                 options={majorOptions} style={{height: '40px'}}/>
                     </div>
                     <Search placeholder="输入用户名" onSearch={handleSearch} enterButton size="large" style={{ marginLeft: 'auto', maxWidth: '300px', width: '100%'}}/>
-                    {/*<Button type="primary" style={{height: '40px'}}>添加用户</Button>*/}
                 </div>
-                <Table columns={columns} dataSource={candidates} rowKey="candId"/>
+                <Table columns={columns} dataSource={candidates} expandable={{ expandedRowRender }} rowKey="candId"/>
             </div>
         </SidebarLayout>
     );

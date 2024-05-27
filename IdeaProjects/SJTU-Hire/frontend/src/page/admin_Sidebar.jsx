@@ -7,7 +7,7 @@ import {
     ProfileOutlined,
     UserSwitchOutlined,
     BarChartOutlined,
-    HomeOutlined
+    HomeOutlined, UserOutlined
 } from '@ant-design/icons';
 import { Link, useLocation } from 'react-router-dom';
 import {getAdminnameByToken} from '../service/admin'
@@ -32,7 +32,7 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
                 setAvatar(`data:image/png;base64,${data}`);
             } catch (error) {
                 console.error('Error fetching admin name:', error);
-                setAdminName('加载失败'); // 错误处理
+                setAdminName('未知管理员'); // 错误处理
             }
         };
 
@@ -66,7 +66,7 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
             className="site-layout-background"
         >
             <div style={{padding: '16px', textAlign: 'center', backgroundColor: 'white'}}>
-                <Avatar size={64} src={avatar || '/images/00.png'}/> {/* 使用生成的 avatar */}
+                <Avatar size={64} icon={!avatar && <UserOutlined />} src={avatar} /> {/* 使用生成的 avatar */}
                 <div style={{marginTop: '8px'}}>
                     <Text strong={!collapsed}>{adminName}</Text> {/* 使用状态中的 adminName */}
                 </div>

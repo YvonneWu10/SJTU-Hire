@@ -1,9 +1,17 @@
 // CompanyManagement.js
 import React, { useState, useEffect } from 'react';
-import {Button, Table, Space, Select, Input, Modal} from 'antd';
+import {Button, Table, Space, Select, Input, Modal, Row, Col} from 'antd';
 import SidebarLayout from './admin_SidebarLayout';
 import {useSearchParams} from "react-router-dom";
-import {adminDeleteCompany, AdminsearchCompanies} from "../service/company"; // 确保路径正确
+import {adminDeleteCompany, AdminsearchCompanies} from "../service/company";
+import {
+    AuditOutlined, DesktopOutlined,
+    EnvironmentOutlined,
+    EuroOutlined, ExceptionOutlined,
+    FieldNumberOutlined, FieldTimeOutlined,
+    HomeOutlined, InsertRowAboveOutlined, NotificationOutlined, SafetyCertificateOutlined, TeamOutlined,
+    UserOutlined
+} from "@ant-design/icons"; // 确保路径正确
 const { Search } = Input;
 
 const CompanyManagement = () => {
@@ -105,11 +113,11 @@ const CompanyManagement = () => {
 
     // Define the columns for the companies table
     const columns = [
-        { title: '公司名称', dataIndex: 'companyName', key: 'companyName', width: '20%' },
+        { title: '公司名称', dataIndex: 'companyName', key: 'companyName', width: '25%' },
         { title: '公司类型', dataIndex: 'companyType', key: 'companyType', width: '15%' },
         { title: '公司领域', dataIndex: 'companyField', key: 'companyField', width: '15%' },
         { title: '公司规模', dataIndex: 'companyScale', key: 'companyScale', width: '15%' },
-        { title: '融资阶段', dataIndex: 'financingStage', key: 'financingStage', width: '10%' },
+        { title: '融资阶段', dataIndex: 'financingStage', key: 'financingStage', width: '15%' },
 
         // Add more columns as needed
         {
@@ -117,13 +125,46 @@ const CompanyManagement = () => {
             key: 'action',
             render: (_, record) => (
                 <Space size="middle">
-                    <Button type="default">查看</Button>
-                    <Button type="default">编辑</Button>
                     <Button danger onClick={() => handleDelete(record.companyId)}>删除</Button>
                 </Space>
             ),
         },
     ];
+
+    const expandedRowRender = (record) => {
+        return(
+            <div>
+                <div style={{marginLeft: 20, marginBottom: 5, color: '#005848'}}>
+                    <Row>
+                        <Col span={3} style={{fontSize: 13}}>
+                            <FieldNumberOutlined/> 公司号：{record.companyId}
+                        </Col>
+                        <Col span={5} style={{fontSize: 13}}>
+                            <HomeOutlined/> 公司名：{record.companyName}
+                        </Col>
+                        <Col span={4} style={{fontSize: 13}}>
+                            <TeamOutlined/> 公司规模：{record.companyScale}
+                        </Col>
+                        <Col span={4} style={{fontSize: 13}}>
+                            <EnvironmentOutlined/> 公司类型：{record.companyType}
+                        </Col>
+                        <Col span={4} style={{fontSize: 13}}>
+                            <AuditOutlined/> 公司领域：{record.companyField}
+                        </Col>
+                        <Col span={4} style={{fontSize: 13}}>
+                            <EuroOutlined/> 融资阶段：{record.financingStage}
+                        </Col>
+                    </Row>
+                </div>
+                <div style={{marginLeft: 20, marginBottom: 5, color: '#005848', fontSize: 13}}>
+                    <SafetyCertificateOutlined /> 公司Token：{record.companyToken}
+                </div>
+                <div style={{marginLeft: 20, marginBottom: 5, color: '#005848', fontSize: 13}}>
+                    <NotificationOutlined/> 公司描述：{record.description}
+                </div>
+            </div>
+        );
+    };
 
     return (
         <SidebarLayout>
@@ -138,7 +179,7 @@ const CompanyManagement = () => {
                     <Search placeholder="输入公司名" onSearch={handleSearch} enterButton size="large" style={{ marginLeft: 'auto', maxWidth: '300px', width: '100%'}}/>
                     {/*<Button type="primary" style={{height: '40px'}}>添加公司</Button>*/}
                 </div>
-                <Table columns={columns} dataSource={companies} rowKey="companyId" pagination={{
+                <Table columns={columns} dataSource={companies} rowKey="companyId" expandable={{ expandedRowRender }} pagination={{
                     current: pageIndex,
                     pageSize,
                     total: totalPage * pageSize,
