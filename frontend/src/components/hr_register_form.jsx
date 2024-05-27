@@ -20,6 +20,7 @@ const formItemLayout = {
     },
 };
 
+//初始表格，用于输入姓名和公司名
 function InitialForm({onFinish}) {
     return (
         <div style={{display: "flex", justifyContent:"center", alignItems:"center", marginLeft:"-5%"}}>
@@ -43,6 +44,7 @@ function InitialForm({onFinish}) {
     )
 }
 
+// 如果发现公司名没有出现在数据库中，则跳转进行公司的注册
 function CompanyRegisterForm({ companyName, onFinish, onBackward}) {
     return (
         <div style={{display: "flex", justifyContent:"center", alignItems:"center", marginLeft:"-5%"}}>
@@ -98,6 +100,7 @@ function CompanyRegisterForm({ companyName, onFinish, onBackward}) {
     )
 }
 
+// 用于输入部门的名城和公司的Token，若部门不存在则直接进行注册；都需要进行token的验证
 function DepartmentForm({onFinish, onBackward}) {
     return (
         <Form {...formItemLayout} onFinish={onFinish} scrollToFirstError>
@@ -111,11 +114,6 @@ function DepartmentForm({onFinish, onBackward}) {
                 <Input></Input>
             </Form.Item>
 
-            {/*<Form.Item>*/}
-            {/*    <Button type="primary" htmlType="submit" style={{marginLeft:"50%"}}>*/}
-            {/*        下一步*/}
-            {/*    </Button>*/}
-            {/*</Form.Item>*/}
             <Row align={"center"}>
                 <Button onClick={onBackward}> 上一步 </Button>
                 <Button type="primary" htmlType="submit" style={{marginLeft:10}}>
@@ -126,6 +124,7 @@ function DepartmentForm({onFinish, onBackward}) {
     )
 }
 
+// 用于输入密码并进行注册
 function PasswordForm({onFinish, onBackward}) {
     return (
         <div style={{display: "flex", justifyContent:"center", alignItems:"center", marginLeft:"-5%"}}>
@@ -149,14 +148,6 @@ function PasswordForm({onFinish, onBackward}) {
                 <Input.Password allowClear></Input.Password>
             </Form.Item>
 
-            {/*<Form.Item>*/}
-            {/*    <Row>*/}
-            {/*        <Button> 上一步 </Button>*/}
-            {/*        <Button type="primary" htmlType="submit" style={{marginLeft:"50%"}}>*/}
-            {/*            注册*/}
-            {/*        </Button>*/}
-            {/*    </Row>*/}
-            {/*</Form.Item>*/}
             <Row align={"center"}>
                 <Button onClick={onBackward}> 上一步 </Button>
                 <Button type="primary" htmlType="submit" style={{marginLeft:10}}>
@@ -168,6 +159,7 @@ function PasswordForm({onFinish, onBackward}) {
     )
 }
 
+// 主表格，用于流程的控制
 export default function HRRegisterForm() {
     const navigate = useNavigate();
     const [current, setCurrent] = useState(0);
@@ -193,7 +185,7 @@ export default function HRRegisterForm() {
     const onFinishInitialForm = (value) => {
         setInitialInfo(value);
         let companyName = value["companyName"];
-        if (companyName in companyNames){
+        if (companyNames.indexOf(companyName) > -1){
             setCurrent(2);
         } else {
             setCurrent(1);

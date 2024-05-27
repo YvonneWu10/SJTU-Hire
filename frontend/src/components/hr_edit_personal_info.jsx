@@ -6,9 +6,6 @@ import {hrEditPost} from "../service/hr_post_view";
 import {useNavigate} from "react-router-dom";
 import {HR_EditCompany, HR_EditPersonalInfo} from "../service/hr_user";
 
-const { Title, Text } = Typography;
-const { Option } = Select;
-
 const formItemLayout = {
     labelCol: {
         xs: { span: 24 },
@@ -19,6 +16,8 @@ const formItemLayout = {
         sm: { span: 20 },
     },
 };
+
+// 修改个人信息
 export default function HREditPersonalInfo({ hr, company, department }) {
     const [form] = Form.useForm();
 

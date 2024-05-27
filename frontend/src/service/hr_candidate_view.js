@@ -1,5 +1,6 @@
 import {getJson, PREFIX} from "./common";
 
+// 获得所有可以被邀请的应聘者信息
 export async function getAllCandidatesAvailable(pageIndex, pageSize, candDegree, candWorkYear) {
     const url = `${PREFIX}/hr_view/allCandidates?pageIndex=${pageIndex}&pageSize=${pageSize}&candDegree=${candDegree}&candWorkYear=${candWorkYear}`;
     let candidates;

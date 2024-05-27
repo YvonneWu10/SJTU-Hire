@@ -106,8 +106,9 @@ public class CompanyController {
         return new ResponseEntity<>(companyService.getCompanyDetailById(companyId), HttpStatus.OK);
     }
 
+    // HR更改公司信息，将其提交数据库
     @RequestMapping("/hr_view/editCompany/")
-    public ResponseEntity<Map<String, Object>> editPostDetail(@RequestHeader Map<String, Object> header,
+    public ResponseEntity<Map<String, Object>> editCompanyDetail(@RequestHeader Map<String, Object> header,
                                                  @RequestBody Map<String, Object> map) throws ParseException {
 
         Integer id = authService.getHRIdByHeader(header);

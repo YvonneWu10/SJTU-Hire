@@ -52,6 +52,8 @@ const tailFormItemLayout = {
         },
     },
 };
+
+// 用于在HR所在部门下增加新的岗位
 export default function HRCreatePostDetails({}) {
     const [form] = Form.useForm();
 

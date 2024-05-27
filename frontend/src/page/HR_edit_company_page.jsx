@@ -15,7 +15,7 @@ import HRUserDetails from "../components/hr_user_info";
 import HRCandDetail from "../components/hr_cand_detail";
 import HREditCompany from "../components/hr_edit_company";
 
-
+// 用于组织公司的修改界面
 export default function HREditCompanyPage() {
     const [hr, setHR] = useState(null);
     const [company, setCompany] = useState(null);

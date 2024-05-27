@@ -12,19 +12,12 @@ import {
     Select,
     Space
 } from "antd";
-import { Divider, Typography } from 'antd';
 import React, {useEffect, useState} from "react";
-import { EnvironmentOutlined, TagOutlined, BookOutlined, TeamOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
-import {pcTextArr} from "element-china-area-data";
 import {SelectProps} from "antd";
-import {retPostCities} from "../service/post";
 import {hrEditPost, retHRPostCities} from "../service/hr_post_view";
 import {useNavigate} from "react-router-dom";
-import {login} from "../service/login";
-import {handleBaseApiResponse} from "../utils/message";
 
-const { Title, Text } = Typography;
 
 const formItemLayout = {
     labelCol: {
@@ -40,24 +33,12 @@ const formItemLayout = {
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
-const tailFormItemLayout = {
-    wrapperCol: {
-        xs: {
-            span: 24,
-            offset: 0,
-        },
-        sm: {
-            span: 16,
-            offset: 8,
-        },
-    },
-};
+// 修改岗位信息的表格
 export default function HREditPostDetails({ post }) {
-    const [cities, setCities] = useState([]);
-
     const [form] = Form.useForm();
 
     const navigate = useNavigate();
+    // 用于提交表格到后端
     const onFinish = async (fieldsValue: any) => {
         const rangeValue = fieldsValue['postDate'];
         const values = {
@@ -73,22 +54,6 @@ export default function HREditPostDetails({ post }) {
         navigate(`/hr_view/managePosts/postDetail/${post.postId}`);
         // console.log('Received values of form: ', values);
     };
-
-    const cityOptions: SelectProps['options'] = cities.map(city => ({
-        label: city,
-        value: city
-    }));
-
-    const getPostCities = async () => {
-        let resCities = await retHRPostCities();
-        setCities(resCities);
-    };
-
-    useEffect(() => {
-        getPostCities();
-    }, []);
-
-
 
     return <div style={{display: "flex", justifyContent: 'center', alignItems:"center"}}>
         <Form
@@ -106,8 +71,6 @@ export default function HREditPostDetails({ post }) {
                 </Col>
                 <Col span={12}>
                     <Form.Item name="city" label={"所在城市"} initialValue={post.city} rules={[{required: true, message: "请选择所在城市"}]}>
-                        {/*<Select style={{ width: '80%'}} options={pcTextArr}></Select>*/}
-                        {/*<Cascader options={pcTextArr}></Cascader>*/}
                         <Input style={{ width: '80%'}}></Input>
                     </Form.Item>
                 </Col>

@@ -24,6 +24,7 @@ export async function getHRPosts(pageIndex, pageSize, postName) {
     return response;
 }
 
+// 用于根据ID获取岗位信息
 export async function getHRPostById(postId) {
     const url = `${PREFIX}/hr_view/managePosts/postDetail/${postId}`;
     let posts;
@@ -52,6 +53,7 @@ export async function retHRPostCities() {
     return cities;
 }
 
+// 用于提交对于岗位信息的修改
 export async function hrEditPost(values) {
     const url = `${PREFIX}/hr_view/editPostDetail/`;
 
@@ -64,6 +66,7 @@ export async function hrEditPost(values) {
     }
 }
 
+// 用于提交新注册的岗位信息到后端
 export async function hrCreatePost(values) {
     const url = `${PREFIX}/hr_view/HRCreatePost/`;
 

@@ -1,6 +1,7 @@
 import { List, Pagination, Space } from "antd"
 import CandPostCard from "./cand_post_card";
 
+// 用于组织已投递的信息
 export default function CandPostList({ cands, posts, candPosts, pageSize, current, total, onPageChange }) {
     const combinedData = cands.map((cand, index) => ({
         cand: cand,

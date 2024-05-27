@@ -14,7 +14,7 @@ import HRPostDetails from "../components/hr_user_info";
 import HRUserDetails from "../components/hr_user_info";
 import HRCandDetail from "../components/hr_cand_detail";
 
-
+// 用于展示个人信息
 export default function HRUserPage() {
     const [hr, setHR] = useState(null);
     const [company, setCompany] = useState(null);

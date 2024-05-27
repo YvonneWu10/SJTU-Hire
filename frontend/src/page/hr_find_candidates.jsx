@@ -20,28 +20,7 @@ import {retOpenPosts, retResponsiblePosts} from "../service/candPost";
 
 const { Search } = Input;
 
-const menuItems: MenuProps['items'] = [
-    {
-        label: '首页',
-        key: 'homepage',
-    },
-    {
-        label: '职位管理',
-        key: 'postManagement',
-    },
-    {
-        label: '找人',
-        key: 'hire',
-    },
-];
-
-const rightMenuItems: MenuProps['items'] = [
-    {
-        label: '个人中心',
-        key: 'center'
-    }
-];
-
+// 用于组织所有的可以被邀请的招聘者的界面
 export default function SearchAvailableCandidatesPage() {
     const [candidates, setCandidates] = useState([]);
     const [totalPage, setTotalPage] = useState(0);

@@ -8,7 +8,7 @@ import React from "react";
 import HRRegisterForm from "../components/hr_register_form";
 const { Title, Paragraph } = Typography;
 
-
+// 招聘者注册界面
 export default function HRRegisterPage() {
     return (
         <BasicLayout>

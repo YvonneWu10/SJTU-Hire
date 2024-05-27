@@ -135,15 +135,14 @@ public class PostController {
         }
 
         List<Post> result = new ArrayList<>();
-        boolean flag = false;
 
         if (!Objects.equals(postName, "")) {
-            flag = true;
             result = postService.getPostByName(postName);
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    // 根据ID获取对应岗位的详细信息
     @RequestMapping("/hr_view/managePosts/postDetail/{postId}")
     public ResponseEntity<Post> HRgetPostDetailById(@RequestHeader Map<String, Object> header,
                                                     @PathVariable Integer postId) {
@@ -159,6 +158,7 @@ public class PostController {
         return new ResponseEntity<>(postService.getPostById(postId), HttpStatus.OK);
     }
 
+    // 用于获得所有在期限内的岗位信息
     @RequestMapping("/hr_view/retOpenPosts")
     public ResponseEntity<List<String>> retOpenPosts(@RequestHeader Map<String, Object> header) {
         Integer id = authService.getHRIdByHeader(header);
@@ -178,6 +178,7 @@ public class PostController {
         return new ResponseEntity<>(postNameList, HttpStatus.OK);
     }
 
+    // 用于获得所有该HR负责的岗位信息
     @RequestMapping("/hr_view/retResponsiblePosts")
     public ResponseEntity<List<String>> retResponsiblePosts(@RequestHeader Map<String, Object> header) {
         Integer id = authService.getHRIdByHeader(header);
@@ -234,6 +235,7 @@ public class PostController {
         return new ResponseEntity<>("", HttpStatus.OK);
     }
 
+    // 用于创建具体的岗位，并赋予postID值
     @RequestMapping("/hr_view/HRCreatePost/")
     public ResponseEntity<String> HRcreatePost(@RequestHeader Map<String, Object> header,
                                                  @RequestBody Map<String, Object> map) throws ParseException {
@@ -266,6 +268,7 @@ public class PostController {
         return new ResponseEntity<>("", HttpStatus.OK);
     }
 
+    // 根据传入的id进行岗位删除
     @DeleteMapping(value = "/deletePost/{postId}")
     public ResponseEntity<String> deletePostById(@RequestHeader Map<String, Object> header,
                                                  @PathVariable Integer postId) {

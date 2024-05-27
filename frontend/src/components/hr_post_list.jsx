@@ -2,6 +2,7 @@ import { List, Pagination, Space } from "antd"
 import PostCard from "./post_card";
 import HRPostCard from "./hr_post_card";
 
+// 用于组织岗位列表
 export default function HRPostList({ posts, pageSize, current, total, onPageChange }) {
     return <Space direction="vertical" style={{ width: "100%" }}>
         <List

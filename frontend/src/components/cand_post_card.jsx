@@ -11,6 +11,7 @@ const IconFont = antIcons.createFromIconfontCN({
     scriptUrl: '//at.alicdn.com/t/c/font_4523760_9crnc6z2leh.js',
 });
 
+// 用于显示已投递某岗位的用户者的状态信息
 export default function CandPostCard({ cand, post, candPost }) {
     let icon_type;
     if (cand.candGender === "男") {
@@ -23,10 +24,7 @@ export default function CandPostCard({ cand, post, candPost }) {
         window.location.reload();
     }
 
-    // useEffect(() => {
-    //     refreshPage();
-    // }, []);
-
+    // 用于处理环节推进按钮
     const forwardStage = async() => {
         await forwardSubmissionStageByCandPostId(cand.candId, post.postId);
         refreshPage();
@@ -34,6 +32,7 @@ export default function CandPostCard({ cand, post, candPost }) {
         // getCandPost();
     }
 
+    // 用于处理环节终止按钮
     const terminateStage = async() => {
         await terminateSubmissionStageByCandPostId(cand.candId, post.postId);
         refreshPage();

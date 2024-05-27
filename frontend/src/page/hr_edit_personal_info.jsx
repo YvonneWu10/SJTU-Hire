@@ -9,13 +9,9 @@ import {BasicLayout, PrivateLayout} from "../components/layout";
 import PostDetails from "../components/post_details";
 import {getHRInfo} from "../service/hr_user";
 import HRMenu from "../components/hr_menu";
-import CandPostList from "../components/cand_post_list";
-import HRPostDetails from "../components/hr_user_info";
-import HRUserDetails from "../components/hr_user_info";
-import HRCandDetail from "../components/hr_cand_detail";
 import HREditPersonalInfo from "../components/hr_edit_personal_info";
 
-
+// 修改个人信息的组织界面
 export default function HREditUserInfoPage() {
     const [hr, setHR] = useState(null);
     const [company, setCompany] = useState(null);

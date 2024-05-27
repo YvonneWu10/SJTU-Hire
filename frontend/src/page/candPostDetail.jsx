@@ -14,6 +14,7 @@ import CandPostDetails from "../components/candPost_detail";
 import type {MenuProps} from "antd";
 import HRMenu from "../components/hr_menu";
 
+// 用于展示具体的CandPost信息，同时包含两个用于流程变化的按钮
 export default function CandPostDetailPage() {
     const [post, setPost] = useState(null);
     const [cand, setCand] = useState(null);

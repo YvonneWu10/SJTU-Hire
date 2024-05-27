@@ -24,7 +24,7 @@ public class CandPostController {
     private AuthService authService;
     @Autowired
     private PostService postService;
-
+    // 根据id号推进招聘流程
     @RequestMapping("/hr_view/forwardSubmissionStage/{candId}/{postId}")
     public ResponseEntity<String> forwardSubmissionStage(@RequestHeader Map<String, Object> header,
                                                                       @PathVariable String candId,
@@ -46,7 +46,7 @@ public class CandPostController {
         candPostService.forwardSubmissionStageByCandIdAndPostId(candId, postId);
         return new ResponseEntity<>("", HttpStatus.OK);
     }
-
+    // 根据id号终止招聘流程
     @RequestMapping("/hr_view/terminateSubmissionStage/{candId}/{postId}")
     public ResponseEntity<String> terminateSubmissionStage(@RequestHeader Map<String, Object> header,
                                                          @PathVariable String candId,
@@ -69,6 +69,7 @@ public class CandPostController {
         return new ResponseEntity<>("", HttpStatus.OK);
     }
 
+    // 邀请该candidate应聘该岗位，在CandPost表格中增加一条邀请记录
     @RequestMapping("/hr_view/invite/{candId}/{postId}")
     public ResponseEntity<String> HRInvite(@RequestHeader Map<String, Object> header,
                                                            @PathVariable String candId,

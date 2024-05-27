@@ -2,21 +2,12 @@ import '../css/global.css'
 
 import { Card, Space } from "antd";
 import React, { useEffect, useState } from "react";
-import { getPostById } from "../service/post";
-
-import { useParams } from "react-router-dom";
 import {BasicLayout, PrivateLayout} from "../components/layout";
-import PostDetails from "../components/post_details";
 import {getHRInfo} from "../service/hr_user";
 import HRMenu from "../components/hr_menu";
-import CandPostList from "../components/cand_post_list";
-import HRPostDetails from "../components/hr_user_info";
-import HRUserDetails from "../components/hr_user_info";
-import HRCandDetail from "../components/hr_cand_detail";
-import HREditCompany from "../components/hr_edit_company";
 import HRChangePasswordForm from "../components/hr_change_password";
 
-
+// 修改密码的界面
 export default function HRChangePasswordPage() {
     const [hr, setHR] = useState(null);
     const [company, setCompany] = useState(null);

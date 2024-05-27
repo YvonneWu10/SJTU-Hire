@@ -35,7 +35,6 @@ public class HRController {
     private DepartmentService departmentService;
 
     // 根据HRID，查询对应的PostID，并根据PostID提取所有负责的已投递的简历
-    // 感觉是根据token分析啥的，但是这里就先根据HRID=1来进行返回了
     @RequestMapping("/hr_view")
     public ResponseEntity<Map<String, Object>> getCandPostforHR(@RequestHeader Map<String, Object> header,
                                                                 @RequestParam(defaultValue = "") String candName,
@@ -47,6 +46,7 @@ public class HRController {
         if (Objects.equals(postName, "") && Objects.equals(candName, "")) {
             return new ResponseEntity<>(candPostService.getCandPostInfoByHRId(id), HttpStatus.OK);
         }
+        // 邀请阶段的不会在已投递的中显示
         List<CandPost> validPosts = candPostService.getCandPostBySubmissionStageIsNot("邀请");
         if (!Objects.equals(postName, "")) {
             // process postName
@@ -75,7 +75,7 @@ public class HRController {
             }
             Map<String, Object> ans = new HashMap<>();
             ans.put("postId", resPostId);
-//            //调用put()方法增添数据
+            //调用put()方法增添数据
             ans.put("candPost", candPosts);
             ans.put("candInfo", candList);
             ans.put("postInfo", postList);
@@ -86,6 +86,7 @@ public class HRController {
 
         List<String> candIdList = (candPosts.stream().map(CandPost::getBiId).toList()).stream().map(CandPostPK::getCandId).toList();
         if (!Objects.equals(candName, "")) {
+            // 搜索求职者姓名
             List<String> candList = candidateService.getCandIdByCandName(candName);
             candList.retainAll(candIdList);
             candIdList = candList;
@@ -109,6 +110,7 @@ public class HRController {
         return new ResponseEntity<>(ans, HttpStatus.OK);
     }
 
+    // 根据id获得具体的CandPost信息
     @RequestMapping("/hr_view/candPostDetail/{candId}/{postId}")
     public ResponseEntity<Map<String, Object>> getCandPostDetail(@RequestHeader Map<String, Object> header,
                                                                  @PathVariable String candId,
@@ -130,6 +132,7 @@ public class HRController {
         return new ResponseEntity<>(candPostService.getCandPostDetailByCandIdAndPostId(candId, postId), HttpStatus.OK);
     }
 
+    // 用于获取HR的个人信息
     @RequestMapping("/hr_view/user")
     public ResponseEntity<Map<String, Object>> getHRInfo(@RequestHeader Map<String, Object> header) {
         Integer id = authService.getHRIdByHeader(header);
@@ -151,8 +154,9 @@ public class HRController {
         return new ResponseEntity<>(ans, HttpStatus.OK);
     }
 
+    // 提交密码的修改到后端
     @RequestMapping("/hr_view/ChangePassword")
-    public ResponseEntity<Map<String, Object>> changeCandidatePassword(@RequestHeader Map<String, Object> header,
+    public ResponseEntity<Map<String, Object>> changeHRPassword(@RequestHeader Map<String, Object> header,
                                                                        @RequestBody Map<String, Object> body) {
         Integer id = authService.getHRIdByHeader(header);
         if (id == null) {
@@ -170,8 +174,9 @@ public class HRController {
         return new ResponseEntity<>(hrService.changePassword(id, oldPassword, newPassword), HttpStatus.OK);
     }
 
+    // 注销该hr的账号
     @RequestMapping("/hr_view/DeleteAccount")
-    public ResponseEntity<Map<String, Object>> changeCandidatePassword(@RequestHeader Map<String, Object> header) {
+    public ResponseEntity<Map<String, Object>> deleteHRAccount(@RequestHeader Map<String, Object> header) {
         Integer id = authService.getHRIdByHeader(header);
         if (id == null) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
@@ -184,6 +189,7 @@ public class HRController {
         return new ResponseEntity<>(ans, HttpStatus.OK);
     }
 
+    // 接受前端传递的个人信息并进行存入
     @RequestMapping("/hr_view/editPersonalInfo")
     public ResponseEntity<Map<String, Object>> editPersonalInfo(@RequestHeader Map<String, Object> header,
                                                                 @RequestBody Map<String, Object> body) {
@@ -202,6 +208,7 @@ public class HRController {
         return new ResponseEntity<>(ans, HttpStatus.OK);
     }
 
+    // 用于将新的注册数据录入数据库
     @RequestMapping("/hr_view/register")
     public ResponseEntity<Map<String, Object>> HRregister(@RequestBody Map<String, Object> body) {
         Map<String, Object> initial = (Map<String, Object>) body.get("initial");

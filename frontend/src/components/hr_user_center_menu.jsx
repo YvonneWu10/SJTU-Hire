@@ -17,6 +17,7 @@ const { Text } = Typography;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
+// HR的个人中心的侧边栏，用于进入不同的个人中心功能页
 const HRUserCenterMenu = ({}) => {
     let navigate = useNavigate();
     const handleEdit = () => {

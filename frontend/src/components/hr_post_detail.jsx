@@ -8,6 +8,7 @@ import {retHRPostCities} from "../service/hr_post_view";
 
 const { Title, Text } = Typography;
 
+// 用于展示和组织岗位详情界面的按钮和信息
 export default function PostDetails({ post }) {
     const basicItems = [
         {
@@ -53,10 +54,12 @@ export default function PostDetails({ post }) {
     ];
 
     let navigate = useNavigate();
+    // 用于进行跳转
     const edit = () => {
         let url = `/hr_view/managePosts/editPostDetail/${post.postId}`
         navigate(url);
     }
+    // 用于进行删除
     const deletePost = async () => {
         await HRdeletePost(post.postId);
         message.info('删除岗位成功');

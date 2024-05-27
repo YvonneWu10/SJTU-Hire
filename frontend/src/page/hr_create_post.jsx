@@ -16,6 +16,7 @@ import {getHRPostById} from "../service/hr_post_view";
 import HREditPostDetails from "../components/hr_edit_post_detail";
 import HRCreatePostDetails from "../components/hr_create_post";
 
+// 用于组织创建岗位的界面
 export default function HRCreatePostPage() {
 
     return PrivateLayout("HR", {

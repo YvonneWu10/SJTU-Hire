@@ -14,6 +14,7 @@ import HRMenu from "../components/hr_menu";
 import HRPostDetails from "../components/hr_post_detail";
 import {getHRPostById} from "../service/hr_post_view";
 
+// 用于组织具体的岗位详情查看
 export default function HRPostDetailPage() {
     const [post, setPost] = useState(null);
 

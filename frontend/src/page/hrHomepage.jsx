@@ -22,6 +22,7 @@ import HRMenu from "../components/hr_menu";
 import {retPostCities} from "../service/post";
 const { Search } = Input;
 
+// HR查看用户投递信息的主页面
 export default function CandPostPage() {
     const [candPosts, setCandPosts] = useState([]);
     const [cands, setCands] = useState([]);
@@ -36,6 +37,7 @@ export default function CandPostPage() {
     const pageIndex = searchParams.get("pageIndex") != null ? Number.parseInt(searchParams.get("pageIndex")) : 1;
     const pageSize = searchParams.get("pageSize") != null ? Number.parseInt(searchParams.get("pageSize")) : 10;
 
+    // 根据前端提供的信息去后端进行查找
     const getCandPostInfo = async () => {
         let CandPostInfo = await searchCandPost(candName, postName, pageIndex, pageSize);
         console.log(CandPostInfo);
@@ -80,6 +82,7 @@ export default function CandPostPage() {
         });
     };
 
+    // 使用岗位信息进行查询
     const handlePostSearch = (postName) => {
         setSearchParams({
             "postName": postName,
@@ -88,11 +91,11 @@ export default function CandPostPage() {
         });
     };
 
+    // 翻页
     const handlePageChange = (page) => {
         const currentParams = new URLSearchParams(searchParams);
         currentParams.set("pageIndex", (page).toString());
         setSearchParams(currentParams);
-        // setSearchParams({ ...searchParams, pageIndex: page - 1 });
     }
 
     return PrivateLayout("HR", {

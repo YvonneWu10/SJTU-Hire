@@ -1,5 +1,6 @@
 import { PREFIX, getJson } from "./common";
 
+// 根据提供的信息进行搜索
 export async function searchCandPost(candName, postName, pageIndex, pageSize) {
     const url = `${PREFIX}/hr_view?pageIndex=${pageIndex}&pageSize=${pageSize}&postName=${postName}&candName=${candName}`;
     let candPostInfo;
@@ -29,6 +30,7 @@ export async function searchCandPost(candName, postName, pageIndex, pageSize) {
     return response;
 }
 
+// 根据id获取给定的candPost信息，用于详情展示
 export async function getCandPostById(candId, postId) {
     const url = `${PREFIX}/hr_view/candPostDetail/${candId}/${postId}`;
     let candPostInfo;
@@ -42,6 +44,7 @@ export async function getCandPostById(candId, postId) {
     return candPostInfo;
 }
 
+// 进行环节的推进
 export async function forwardSubmissionStageByCandPostId(candId, postId) {
     const url = `${PREFIX}/hr_view/forwardSubmissionStage/${candId}/${postId}`;
     let ret;
@@ -69,6 +72,7 @@ export async function terminateSubmissionStageByCandPostId(candId, postId) {
     return ret;
 }
 
+// 用户获得所有的在招聘期限内的岗位用于邀请
 export async function retOpenPosts(){
     const url = `${PREFIX}/hr_view/retOpenPosts`;
     let postNames;
@@ -83,6 +87,7 @@ export async function retOpenPosts(){
     return postNames;
 }
 
+// 用于获得所有HR负责的岗位信息
 export async function retResponsiblePosts() {
     const url = `${PREFIX}/hr_view/retResponsiblePosts`;
     let postNames;
@@ -97,6 +102,7 @@ export async function retResponsiblePosts() {
     return postNames;
 }
 
+// 将邀请信息传递到后端
 export async function inviteByCandPostId(candId, postId) {
     const url = `${PREFIX}/hr_view/invite/${candId}/${postId}`;
     try {

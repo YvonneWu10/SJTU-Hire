@@ -7,6 +7,7 @@ import {HRDeleteAccount} from "../service/hr_user";
 
 const { Title, Text } = Typography;
 
+// 用于展示HR的个人信息的界面
 export default function HRUserDetails({ hr, company, department }) {
 
     const navigate = useNavigate();
@@ -24,11 +25,6 @@ export default function HRUserDetails({ hr, company, department }) {
 
     const handleOk = async () => {
         let res = await HRDeleteAccount();
-        // setConfirmLoading(true);
-        // setTimeout(() => {
-        //     setOpen(false);
-        //     setConfirmLoading(false);
-        // }, 2000);
         if (res.ok) {
             message.success(res.message);
             navigate(`/login`);

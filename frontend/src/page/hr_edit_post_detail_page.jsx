@@ -15,6 +15,7 @@ import HRPostDetails from "../components/hr_post_detail";
 import {getHRPostById} from "../service/hr_post_view";
 import HREditPostDetails from "../components/hr_edit_post_detail";
 
+// 用于组织岗位详情编辑界面
 export default function HREditPostDetailPage() {
     const [post, setPost] = useState(null);
 

@@ -19,10 +19,10 @@ const formItemLayout = {
         sm: { span: 20 },
     },
 };
+
+// 实现公司信息的编辑表格
 export default function HREditCompany({ hr, company, department }) {
     const [form] = Form.useForm();
-
-    const navigate = useNavigate();
     const refreshPage = () => {
         window.location.reload();
     }
@@ -41,7 +41,6 @@ export default function HREditCompany({ hr, company, department }) {
         }
         // console.log('Received values of form: ', values);
     };
-    console.log(company);
 
     return <div>
         <Row>

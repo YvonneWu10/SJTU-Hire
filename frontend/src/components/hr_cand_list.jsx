@@ -1,6 +1,7 @@
 import { List, Pagination, Space } from "antd"
 import HRCandCard from "./hr_cand_card";
 
+// 用于组织招聘者信息
 export default function HRCandList({ candidates, postNames, pageSize, current, total, onPageChange }) {
     // console.log(postNames);
     return <Space direction="vertical" style={{ width: "100%" }}>

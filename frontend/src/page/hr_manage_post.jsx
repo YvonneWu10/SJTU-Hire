@@ -16,6 +16,7 @@ import PostList from "../components/post_list";
 import Search from "antd/es/input/Search";
 import HRPostList from "../components/hr_post_list";
 
+// 用于展示所有的负责岗位，并提供进一步查看详情和增加岗位的入口
 export default function HRPostPage() {
     const [posts, setPosts] = useState([]);
     const [totalPage, setTotalPage] = useState(0);

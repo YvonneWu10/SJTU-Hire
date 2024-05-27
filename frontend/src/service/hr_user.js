@@ -1,5 +1,6 @@
 import {DUMMY_RESPONSE, PREFIX, put, post, getJson} from "./common";
 
+// 获得HR的个人信息
 export async function getHRInfo(){
     const url = `${PREFIX}/hr_view/user`
     let res;
@@ -12,6 +13,7 @@ export async function getHRInfo(){
     return res;
 }
 
+// 提交密码的修改
 export async function HRChangePassword(data) {
     const url = `${PREFIX}/hr_view/ChangePassword`;
     let result;
@@ -28,6 +30,7 @@ export async function HRChangePassword(data) {
     return result;
 }
 
+// 将新录入的公司信息提交数据库
 export async function HR_EditCompany(data) {
     const url = `${PREFIX}/hr_view/editCompany/`;
     let result;
@@ -44,6 +47,7 @@ export async function HR_EditCompany(data) {
     return result;
 }
 
+// 注销请求传递
 export async function HRDeleteAccount() {
     const url = `${PREFIX}/hr_view/DeleteAccount`;
     let result;
@@ -60,6 +64,7 @@ export async function HRDeleteAccount() {
     return result;
 }
 
+// 将修改的个人信息提交后端
 export async function HR_EditPersonalInfo(data) {
     const url = `${PREFIX}/hr_view/editPersonalInfo`;
     let result;
@@ -76,6 +81,7 @@ export async function HR_EditPersonalInfo(data) {
     return result;
 }
 
+// HR的注册，将HR信息加入数据库
 export async function HRRegister(data) {
     const url = `${PREFIX}/hr_view/register`;
     let result;

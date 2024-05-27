@@ -4,6 +4,7 @@ import React from "react";
 
 const { Title, Text } = Typography;
 
+// 具体的投递信息展示，主要是流程状态和招聘者简历
 export default function CandPostDetails({ candidate, post, candPost, projectList }) {
     const basicItems = [
         {

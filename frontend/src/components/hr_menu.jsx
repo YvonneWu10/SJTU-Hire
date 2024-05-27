@@ -15,6 +15,7 @@ import {Header} from "antd/es/layout/layout";
 const { Sider } = Layout;
 const { Text } = Typography;
 
+// HR对应界面的menu，主要包含首页、岗位管理、找人和个人信息
 const HRMenu = ({}) => {
     const location = useLocation();
     const getKeyFromPath = (path) => {

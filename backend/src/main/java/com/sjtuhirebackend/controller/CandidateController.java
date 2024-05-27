@@ -52,7 +52,7 @@ public class CandidateController {
         return new ResponseEntity<>(candidateService.getCandidates(), HttpStatus.OK);
     }
 
-    // HR related function
+    // 用于获得所有没有提交过hr负责岗位记录的应聘者信息
     @RequestMapping("/hr_view/allCandidates")
     public ResponseEntity<List<Candidate>> getAllAvailableCandidates(@RequestHeader Map<String, Object> header,
                                                                      @RequestParam(defaultValue = "") String candDegree,
@@ -75,7 +75,7 @@ public class CandidateController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
+    // 根据招聘身份证号获得其个人信息
     @RequestMapping("/hr_view/getCandInfoByCandId/{candId}")
     public ResponseEntity<Candidate> HRgetCandInfoByCandId(@RequestHeader Map<String, Object> header,
                                                                  @PathVariable String candId) {
