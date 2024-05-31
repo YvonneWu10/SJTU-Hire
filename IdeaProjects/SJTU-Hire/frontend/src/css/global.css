@@ -1,0 +1,137 @@
+.header {
+    background-color: white !important;
+    padding: 0;
+    height: 90px;
+}
+
+.navbar {
+    align-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 50px;
+}
+
+.center-container {
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    height: 750px; /* 设置容器高度为视口高度，以便垂直居中 */
+}
+
+svg {
+    vertical-align: baseline;
+}
+
+.footer {
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中，可选 */
+    width: 1670px;
+    height: 80px;
+    bottom: 15px;
+}
+
+.scroll-footer {
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中，可选 */
+    height: 80px;
+}
+
+.basic-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 98.3vh !important;
+}
+
+.card-container {
+    top: 10px;
+    width: 98%;
+    min-height: 740px;
+    margin: 1%;
+}
+
+.scroll-card-container {
+    margin: 20px;
+}
+
+.input-select-container {
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中，可选 */
+}
+
+.input-select-container .ant-input-search,
+.input-select-container .ant-select {
+    margin-right: 30px; /* 组件之间的间距，可选 */
+}
+
+/* Card组件的圆角 */
+.post-card, .company-card, .delivered-post-card  {
+    border-radius: 20px; /* 设置你想要的圆角大小 */
+    background-color: #F1F5F8;
+    display: flex;
+}
+
+.ant-menu-horizontal .ant-menu-item-selected::after,
+.ant-menu-horizontal .ant-menu-submenu-selected::after {
+    border-bottom: 2px solid #033941 !important; /* 这里的 #ff0000 是指示条的颜色，你可以根据需要修改 */
+}
+
+.ant-menu-submenu-title {
+    color: #033941 !important; /* 替换为你想要的颜色值 */
+}
+
+.candidate-header-menu {
+    /*color: #033941 !important;*/
+
+    /*color: #your-text-color !important;*/
+    .ant-menu-item-selected, .ant-menu-submenu-selected::after {
+        color: #033941 !important;
+    }
+
+    .active-parent > .ant-menu-item-group-title,
+    .active-parent > .ant-menu-item,
+    .active-parent > .ant-menu-submenu-selected,
+    .active-parent > .ant-menu-submenu-selected::after {
+        color: #ff0000  !important; /* 这里设置你想要的颜色 */
+    }
+
+    .ant-menu-item-selected::after, .ant-menu-submenu-selected::after {
+        border-bottom: 2px solid #033941; /* 这里的 #ff0000 是指示条的颜色，你可以根据需要修改 */
+    }
+}
+
+
+.ant-input-search-button {
+    background-color: #033941;
+}
+
+/* 还没调好，不能发挥作用 */
+.ant-input-search-button:hover {
+    background-color: #F1F5F8; /* Change to your desired hover color */
+    border-color: #F1F5F8; /* Change to your desired hover border color */
+    color: #F1F5F8; /* Change to your desired hover text color */
+}
+
+.ant-button-primary {
+    background-color: #033941;
+    border-color: #033941;
+    color: white;
+}
+
+.avatar-with-subtitle {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 如果需要垂直居中 */
+}
+
+.avatar-subtitle {
+    margin-top: -18px; /* 根据需要调整间距 */
+    font-size: 12px;
+    color: #888;
+}
+
+html {
+    overflow-y: scroll;
+}
