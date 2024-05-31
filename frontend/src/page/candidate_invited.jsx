@@ -9,7 +9,7 @@ import { searchInvitedPosts } from "../service/candPost";
 import CandidateHeader from "../components/candidate_header";
 import InvitedPostList from "../components/invitedPost_list";
 
-
+// 被邀请的岗位页面
 export default function CandidateInvitedPage() {
     const [posts, setPosts] = useState([]);
     const [companies, setCompanies] = useState([]);
@@ -60,9 +60,9 @@ export default function CandidateInvitedPage() {
                     <Card className="card-container">
                         <Space direction="vertical" size="large" style={{width: "100%"}}>
                             <InvitedPostList posts={posts} companies={companies} candPosts={candPosts}
-                                             timeout={timeout} pageSize={pageSize} total={totalPage * pageSize}
-                                             current={pageIndex} onPageChange={handlePageChange}
-                                             cardType={"InvitedPostCard"} />
+                                                           timeout={timeout} pageSize={pageSize} total={totalPage * pageSize}
+                                                           current={pageIndex} onPageChange={handlePageChange}
+                                                           cardType={"InvitedPostCard"} />
                         </Space>
                     </Card>
                 </div>

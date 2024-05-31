@@ -10,7 +10,7 @@ import PostDetails from "../components/post_details";
 import CompanyCard from "../components/company_card";
 import CandidateHeader from "../components/candidate_header";
 
-
+// 岗位详细情况页面
 export default function PostPage() {
     const [post, setPost] = useState(null);
     const [company, setCompany] = useState(null);
@@ -46,9 +46,9 @@ export default function PostPage() {
     }, []);
 
     return PrivateLayout("candidate", {
-            header: (
-                <CandidateHeader />
-            )
+        header: (
+            <CandidateHeader />
+        )
         }, {
             children: (
                 <Card className="card-container">

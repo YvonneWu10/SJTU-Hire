@@ -13,7 +13,7 @@ import { handleBaseApiResponse } from "../utils/message";
 import { Typography } from 'antd';
 const { Title, Paragraph } = Typography;
 
-
+// 登录页面，也是网站的首页
 export default function LoginPage() {
     const [form] = Form.useForm();
     const [messageApi, contextHolder] = useMessage();

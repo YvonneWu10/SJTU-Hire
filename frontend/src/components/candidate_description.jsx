@@ -2,6 +2,8 @@ import '../css/global.css'
 
 import {Col, Descriptions} from "antd"
 
+
+// 求职者简历展示组件
 export default function CandidateDescription({ candidate, projectList }) {
     const basicItems = [
         {
@@ -101,10 +103,10 @@ export default function CandidateDescription({ candidate, projectList }) {
     const allItems = [...basicItems, ...projectDescriptions];
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center', marginTop:'50px' }}>
-            <Col span={15}>
-                <Descriptions title={<span style={{fontSize: '22px'}}>个人简历</span>} layout="vertical" column={3} items={allItems}/>
-            </Col>
-        </div>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center', marginTop:'50px' }}>
+                <Col span={15}>
+                    <Descriptions title={<span style={{fontSize: '22px'}}>个人简历</span>} layout="vertical" column={3} items={allItems}/>
+                </Col>
+            </div>
     );
 }

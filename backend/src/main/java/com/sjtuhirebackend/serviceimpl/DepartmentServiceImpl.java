@@ -61,12 +61,6 @@ public class DepartmentServiceImpl implements DepartmentService {
         departmentPK.setDepartmentId(departmentId);
         department.setBiId(departmentPK);
         departmentDao.saveDepartment(department);
-//        departments = departmentDao.getByCompanyId(companyId);
-//        for (Department department_: departments){
-//            if (Objects.equals(department_.getDepartmentName(), departmentName)){
-//                return department_.getBiId().getDepartmentId();
-//            }
-//        }
         return departmentId;
     }
 }

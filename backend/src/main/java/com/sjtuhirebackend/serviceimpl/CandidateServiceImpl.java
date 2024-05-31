@@ -9,6 +9,7 @@ import com.sjtuhirebackend.entity.CandPostPK;
 import com.sjtuhirebackend.entity.Candidate;
 import com.sjtuhirebackend.entity.Project;
 import com.sjtuhirebackend.service.CandidateService;
+import com.sjtuhirebackend.utils.TokenGenerator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -33,6 +34,7 @@ public class CandidateServiceImpl implements CandidateService {
     @Autowired
     private CandPostDao candPostDao;
     @Autowired
+
     private ProjectDao projectDao;
 
     public String getCandNameByCandId(String id) {
@@ -191,4 +193,72 @@ public class CandidateServiceImpl implements CandidateService {
 
         candidateDao.saveCandidate(candidate);
     }
+
+    public Map<String, Object> changePassword(String id, String oldPassword, String newPassword) {
+        Candidate candidate = candidateDao.getCandidateByCandId(id);
+        if (!candidate.getCandPassword().equals(oldPassword)) {
+            Map<String, Object> ans = new HashMap<>();
+            ans.put("ok", false);
+            ans.put("message", "原密码错误");
+            return ans;
+        }
+
+        candidate.setCandPassword(newPassword);
+        candidateDao.saveCandidate(candidate);
+
+        Map<String, Object> ans = new HashMap<>();
+        ans.put("ok", true);
+        ans.put("message", "修改成功");
+        return ans;
+    }
+
+   public Map<String, Object> deleteAccount(String id, String candidateId, String password) {
+        if (!id.equals(candidateId)) {
+            Map<String, Object> ans = new HashMap<>();
+            ans.put("ok", false);
+            ans.put("message", "身份验证失败");
+            return ans;
+        }
+
+       Candidate candidate = candidateDao.getCandidateByCandId(id);
+       if (!candidate.getCandPassword().equals(password)) {
+           Map<String, Object> ans = new HashMap<>();
+           ans.put("ok", false);
+           ans.put("message", "身份验证失败");
+           return ans;
+       }
+
+       candidateDao.deleteCandidateById(id);
+
+       Map<String, Object> ans = new HashMap<>();
+       ans.put("ok", true);
+       ans.put("message", "注销成功");
+       return ans;
+   }
+
+   public Map<String, Object> register(String name, String id, String password) {
+        if (candidateDao.getCandidateByCandId(id) != null) {
+            Map<String, Object> ans = new HashMap<>();
+            ans.put("ok", false);
+            ans.put("message", "用户已存在");
+            return ans;
+        }
+
+        String token = TokenGenerator.generateToken(12);
+        while (candidateDao.existToken(token)) {
+            token = TokenGenerator.generateToken(12);
+        }
+
+        Candidate candidate = new Candidate();
+        candidate.setCandId(id);
+        candidate.setCandName(name);
+        candidate.setCandPassword(password);
+        candidate.setCandToken(token);
+        candidateDao.saveCandidate(candidate);
+
+        Map<String, Object> ans = new HashMap<>();
+        ans.put("ok", true);
+        ans.put("message", "注册成功");
+        return ans;
+   }
 }

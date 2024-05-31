@@ -112,6 +112,7 @@ export async function inviteByCandPostId(candId, postId) {
     }
 }
 
+// 根据status查找已投递/已结束流程的岗位
 export async function searchDeliveredEndedPosts(pageIndex, pageSize, status) {
     const url = `${PREFIX}/candidate_view/${status}`;
     let result;
@@ -137,6 +138,7 @@ export async function searchDeliveredEndedPosts(pageIndex, pageSize, status) {
     return response;
 }
 
+// 查找被邀请的岗位
 export async function searchInvitedPosts(pageIndex, pageSize) {
     const url = `${PREFIX}/candidate_view/InvitedPost`;
     let result;
@@ -164,6 +166,7 @@ export async function searchInvitedPosts(pageIndex, pageSize) {
     return response;
 }
 
+// 求职者投递岗位postId
 export async function deliverByPostId(postId) {
     const url = `${PREFIX}/candidate_view/deliver/${postId}`;
     try {
@@ -173,6 +176,7 @@ export async function deliverByPostId(postId) {
     }
 }
 
+// 求职者结束岗位postId的流程
 export async function endProcessByPostId(postId) {
     const url = `${PREFIX}/candidate_view/end/${postId}`;
     try {
@@ -182,6 +186,7 @@ export async function endProcessByPostId(postId) {
     }
 }
 
+// 求职者接受岗位postId的邀请
 export async function acceptInvitationByPostId(postId) {
     const url = `${PREFIX}/candidate_view/accept/${postId}`;
     try {
@@ -191,6 +196,7 @@ export async function acceptInvitationByPostId(postId) {
     }
 }
 
+// 求职者拒绝岗位postId的邀请
 export async function refuseInvitationByPostId(postId) {
     const url = `${PREFIX}/candidate_view/refuse/${postId}`;
     try {

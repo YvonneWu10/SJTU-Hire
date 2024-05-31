@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface CompanyService {
-    // 获取公司信息
+    // 获取所有公司
     List<Company> getCompanies();
     Company getCompany(int companyId);
     // 根据公司名查找公司
@@ -15,6 +15,7 @@ public interface CompanyService {
     List<Company> getCompanyByScale(String searchScale);
     // 根据公司融资阶段查找公司
     List<Company> getCompanyByFinancingStage(String searchFinanceStage);
+    // 根据公司类型查找公司
     List<Company> getCompanyByType(String searchType);
     // 根据公司所属行业查找公司
     List<Company> getCompanyByField(String searchField);
@@ -24,9 +25,10 @@ public interface CompanyService {
                             String companyType, String companyField);
 
     void deleteCompany(int companyId);
-    Map<String, Object> getCompanyDetailById(int companyId);
     Map<String, Object> editCompany(Map<String, Object> map);
     List<String> getAllCompanyNames();
 
     Company HRRegisterCompany(Map<String, Object> companyInfo);
+    // 根据companyId获取公司详细信息
+    Map<String, Object> getCompanyDetailById(int companyId);
 }

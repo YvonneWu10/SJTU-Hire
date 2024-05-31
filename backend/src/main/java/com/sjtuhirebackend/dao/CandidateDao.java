@@ -6,7 +6,9 @@ import java.util.List;
 
 
 public interface CandidateDao {
+    // 通过candId获取求职者
     Candidate getCandidateByCandId(String candidateId);
+    // 通过candToken获取求职者
     Candidate getCandidateByCandToken(String candidateToken);
     List<Candidate> getCandidates();
     List<Candidate> getCandidatesByCandIdList(List<String> candIds);
@@ -27,6 +29,12 @@ public interface CandidateDao {
     List<Candidate> getCandidatesByCandExpectedSalaryBetween(int lb, int ub);
     List<Candidate> getCandidateByCandIdNotIn(List<String> candIds);
     List<String> getCandIdByCandName(String candName);
-
+    // 保存求职者
     void saveCandidate(Candidate candidate);
+
+    // 删除求职者
+    void deleteCandidateById(String candidateId);
+
+    // 判断是否存在当前的token
+    boolean existToken(String token);
 }

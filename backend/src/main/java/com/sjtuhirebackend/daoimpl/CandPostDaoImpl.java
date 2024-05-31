@@ -75,14 +75,13 @@ public class CandPostDaoImpl implements CandPostDao {
         candPost.setSubmissionStage(submissionStage);
         candPostRepository.save(candPost);
     }
+    public List<CandPost> getDeliveredCandPostByCandId(String candId) {
+        return candPostRepository.findByCandIdAndExcludeTwoSubmissionStages(candId, "邀请", "流程终止");
+    }
     public void deleteCandPostByCandIdAndPostId(String candId, Integer postId) {
         candPostRepository.deleteByBiIdCandIdAndBiIdPostId(candId, postId);
     }
-
     public void save(CandPost candPost) {
         candPostRepository.save(candPost);
-    }
-    public List<CandPost> getDeliveredCandPostByCandId(String candId) {
-        return candPostRepository.findByCandIdAndExcludeTwoSubmissionStages(candId, "邀请", "流程终止");
     }
 }

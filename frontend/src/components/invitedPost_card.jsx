@@ -8,6 +8,7 @@ import React from "react";
 
 const { Meta } = Card;
 
+// 被邀请的岗位卡片
 export default function InvitedPostCard({ post, companyName, candPost, timeout }) {
     const acceptOnClick = () => {
         acceptInvitationByPostId(post.postId);
@@ -30,15 +31,15 @@ export default function InvitedPostCard({ post, companyName, candPost, timeout }
         <p style={{marginBottom: -10}}>目前状态 - {candPost.submissionStage}</p>
         {timeout ? (<div style={{display: "flex", marginTop: -30, marginLeft: 360}}>
                 <Button disabled>未开放</Button>
-            </div>) :
-            (<div style={{display: "flex", marginTop: -30}}>
-                <div style={{ marginLeft: 250 }}>
-                    <Button onClick={acceptOnClick}>接受邀请</Button>
-                </div>
-                <div style={{ marginLeft: 10 }}>
-                    <Button onClick={refuseOnClick}>拒绝邀请</Button>
-                </div>
-            </div>)
+        </div>) :
+                  (<div style={{display: "flex", marginTop: -30}}>
+                       <div style={{ marginLeft: 250 }}>
+                           <Button onClick={acceptOnClick}>接受邀请</Button>
+                       </div>
+                       <div style={{ marginLeft: 10 }}>
+                           <Button onClick={refuseOnClick}>拒绝邀请</Button>
+                       </div>
+                  </div>)
         }
     </Card>
 

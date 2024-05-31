@@ -66,7 +66,6 @@ public class CompanyServiceImpl implements CompanyService {
 
     public Map<String, Object> getCompanyDetailById(int companyId) {
         Company company = companyDao.getCompany(companyId);
-//        System.out.println("company: " + company);
         List<Department> departments = departmentDao.getByCompanyId(companyId);
         List<List<Post>> posts = new ArrayList<>();
         for (Department department : departments) {

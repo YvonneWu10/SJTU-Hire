@@ -1,20 +1,18 @@
 import '../css/global.css'
 
-import type {SelectProps, MenuProps} from 'antd';
-import {Avatar, Button, Card, Input, Menu, Select, Space} from "antd";
+import type { SelectProps } from 'antd';
+import { Card, Input, Select, Space } from "antd";
 import {useEffect, useState} from "react";
 import {retPostCities, searchPosts} from "../service/post";
 
-import {Link, useNavigate, useSearchParams} from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import {PrivateLayout} from "../components/layout";
 import PostList from "../components/post_list";
-import {UserOutlined} from "@ant-design/icons";
-import { searchCandidateUsername } from "../service/candidate";
 import CandidateHeader from "../components/candidate_header";
 
 const { Search } = Input;
 
-
+// 搜索岗位页面，也是求职者的主页
 export default function SearchPostsPage() {
     const [posts, setPosts] = useState([]);
     const [totalPage, setTotalPage] = useState(0);

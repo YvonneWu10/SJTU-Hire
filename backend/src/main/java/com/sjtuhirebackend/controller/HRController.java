@@ -1,6 +1,9 @@
 package com.sjtuhirebackend.controller;
 
 import com.sjtuhirebackend.entity.*;
+import com.sjtuhirebackend.entity.CandPost;
+import com.sjtuhirebackend.entity.Department;
+import com.sjtuhirebackend.entity.Post;
 import com.sjtuhirebackend.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @Slf4j
@@ -109,8 +115,6 @@ public class HRController {
         ans.put("postInfo", postList);
         return new ResponseEntity<>(ans, HttpStatus.OK);
     }
-
-    // 根据id获得具体的CandPost信息
     @RequestMapping("/hr_view/candPostDetail/{candId}/{postId}")
     public ResponseEntity<Map<String, Object>> getCandPostDetail(@RequestHeader Map<String, Object> header,
                                                                  @PathVariable String candId,
@@ -120,18 +124,17 @@ public class HRController {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
 
-        if (postId == null || candId == null) {
+        if (postId == null || candId == null){
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
 
         // 确定是否这个HR有权限访问这个candPost
         Post post = postService.getPostById(postId);
-        if (post.getHRId() != id) {
+        if (post.getHRId() != id){
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity<>(candPostService.getCandPostDetailByCandIdAndPostId(candId, postId), HttpStatus.OK);
     }
-
     // 用于获取HR的个人信息
     @RequestMapping("/hr_view/user")
     public ResponseEntity<Map<String, Object>> getHRInfo(@RequestHeader Map<String, Object> header) {

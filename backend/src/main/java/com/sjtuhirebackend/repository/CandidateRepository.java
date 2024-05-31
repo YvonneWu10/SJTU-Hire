@@ -1,9 +1,8 @@
 package com.sjtuhirebackend.repository;
 
 import com.sjtuhirebackend.entity.Candidate;
-import com.sjtuhirebackend.entity.Company;
-import jakarta.persistence.Column;
 import org.springframework.data.jpa.repository.JpaRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -30,4 +29,12 @@ public interface CandidateRepository extends JpaRepository<Candidate, String> {
     List<Candidate> findByCandExpectedSalaryBetween(int lb, int ub);
     @Query(value = "SELECT u.candId FROM Candidate u WHERE u.candName = ?1", nativeQuery = true)
     List<String> findCandIdByCandName(String candName);
+    List<Candidate> findByCandWorkYearAfter(int candWorkYear);
+    // 根据candId删除求职者
+    @Transactional
+    void deleteByCandId(String candId);
+
+    // 返回所有token
+    @Query("SELECT c.candToken FROM Candidate c")
+    List<String> findAllToken();
 }

@@ -7,6 +7,7 @@ public class TokenGenerator {
 
     private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
+    // 随机生成一个长度为length的token
     public static String generateToken(int length) {
         StringBuilder token = new StringBuilder(length);
         Random rnd = new Random();

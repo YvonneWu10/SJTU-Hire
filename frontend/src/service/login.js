@@ -1,5 +1,6 @@
 import { PREFIX, post } from "./common";
 
+// 登录页面
 export async function login(type, username, password) {
     console.log(type,  username, password);
     const url = `${PREFIX}/login`;

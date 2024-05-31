@@ -86,6 +86,7 @@ public class PostDaoImpl implements PostDao {
         System.out.println(hrId);
         postRepository.save(post);
     }
+    public void createPost(Post post) { postRepository.save(post); }
     // 删除已有岗位
     public void deletePost(int postId) { postRepository.deleteById(postId); }
 

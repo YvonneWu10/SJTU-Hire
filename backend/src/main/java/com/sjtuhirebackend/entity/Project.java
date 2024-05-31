@@ -1,11 +1,9 @@
 package com.sjtuhirebackend.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -28,7 +26,7 @@ public class Project {
     @Temporal(TemporalType.DATE)
     private Date endDate;
     @Column(name = "projectAchievement")
-    private int projectAchievement;
+    private Integer projectAchievement;
     @Column(name = "participant")
     private String participant;
     @Column(name = "role")

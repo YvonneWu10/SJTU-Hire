@@ -9,7 +9,7 @@ import {searchDeliveredEndedPosts} from "../service/candPost";
 import CandidateHeader from "../components/candidate_header";
 import DeliveredEndedPostList from "../components/deliveredEndedPost_list";
 
-
+// 已投递的岗位页面
 export default function CandidateDeliveredPage() {
     const [posts, setPosts] = useState([]);
     const [companies, setCompanies] = useState([]);
@@ -57,9 +57,9 @@ export default function CandidateDeliveredPage() {
                     <Card className="card-container">
                         <Space direction="vertical" size="large" style={{width: "100%"}}>
                             <DeliveredEndedPostList posts={ posts } companies={ companies } candPosts={ candPosts }
-                                                    pageSize={ pageSize } total={ totalPage * pageSize }
-                                                    current={ pageIndex } onPageChange={ handlePageChange }
-                                                    cardType={ "DeliveredPostCard" } />
+                                                           pageSize={ pageSize } total={ totalPage * pageSize }
+                                                           current={ pageIndex } onPageChange={ handlePageChange }
+                                                           cardType={ "DeliveredPostCard" } />
                         </Space>
                     </Card>
                 </div>

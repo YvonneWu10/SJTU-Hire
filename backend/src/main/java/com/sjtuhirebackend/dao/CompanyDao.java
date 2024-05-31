@@ -6,8 +6,11 @@ import java.util.List;
 
 
 public interface CompanyDao {
+    // 获取所有公司
     List<Company> getCompanies();
+    // 根据公司id查找公司
     Company getCompany(int id);
+    // 根据公司名查找公司
     List<Company> getCompanyByName(String searchCompstr);
     // 根据公司规模查找公司
     List<Company> getCompanyByScale(String searchScale);
@@ -23,6 +26,6 @@ public interface CompanyDao {
     // 删除公司信息
     void deleteCompany(int companyId);
     void saveCompany(Company company);
-
     List<String> getAllCompanyNames();
+
 }

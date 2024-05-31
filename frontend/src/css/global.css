@@ -41,7 +41,7 @@ svg {
     top: 10px;
     width: 98%;
     min-height: 740px;
-    margin: 20px;
+    margin: 1%;
 }
 
 .input-select-container {
@@ -72,23 +72,20 @@ svg {
 }
 
 .candidate-header-menu {
-/*color: #033941 !important;*/
+    .ant-menu-item-selected, .ant-menu-submenu-selected::after {
+        color: #033941 !important;
+    }
 
-/*color: #your-text-color !important;*/
-.ant-menu-item-selected, .ant-menu-submenu-selected::after {
-    color: #033941 !important;
-}
+    .active-parent > .ant-menu-item-group-title,
+    .active-parent > .ant-menu-item,
+    .active-parent > .ant-menu-submenu-selected,
+    .active-parent > .ant-menu-submenu-selected::after {
+        color: #ff0000  !important; /* 这里设置你想要的颜色 */
+    }
 
-.active-parent > .ant-menu-item-group-title,
-.active-parent > .ant-menu-item,
-.active-parent > .ant-menu-submenu-selected,
-.active-parent > .ant-menu-submenu-selected::after {
-    color: #ff0000  !important; /* 这里设置你想要的颜色 */
-}
-
-.ant-menu-item-selected::after, .ant-menu-submenu-selected::after {
-    border-bottom: 2px solid #033941; /* 这里的 #ff0000 是指示条的颜色，你可以根据需要修改 */
-}
+    .ant-menu-item-selected::after, .ant-menu-submenu-selected::after {
+        border-bottom: 2px solid #033941; /* 这里的 #ff0000 是指示条的颜色，你可以根据需要修改 */
+    }
 }
 
 
@@ -96,17 +93,27 @@ svg {
     background-color: #033941;
 }
 
-/* 还没调好，不能发挥作用 */
-.ant-input-search-button:hover {
-    background-color: #F1F5F8; /* Change to your desired hover color */
-    border-color: #F1F5F8; /* Change to your desired hover border color */
-    color: #F1F5F8; /* Change to your desired hover text color */
-}
-
 .ant-button-primary {
     background-color: #033941;
     border-color: #033941;
     color: white;
+}
+
+.ant-radio-button-checked,
+.ant-radio-button-inner,
+.ant-radio-button-inner,
+.ant-radio-button-wrapper-checked,
+.ant-radio-button-input:focus,
+.ant-radio-button-inner {
+    border-color: #033941 !important;
+    /*color: #ff4d4f !important;*/
+    background-color: #033941;
+}
+
+.ant-radio:hover,
+.ant-radio-button-wrapper:hover {
+    color: #033941;
+    border-color: #033941 !important;
 }
 
 .avatar-with-subtitle {

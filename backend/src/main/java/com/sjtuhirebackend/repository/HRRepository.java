@@ -17,4 +17,5 @@ public interface HRRepository extends JpaRepository<HR, Integer> {
     List<HR> findByCompanyIdAndDepartmentId(int companyId, int departmentId);
     @Query("SELECT h.HRToken FROM HR h")
     List<String> findAllToken();
+
 }

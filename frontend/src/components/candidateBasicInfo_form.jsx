@@ -44,6 +44,7 @@ function transformData(data) {
     return transformedData;
 }
 
+// 求职者修改基本信息表单
 export default function CandidateBasicInfoForm({candidate, projectList}) {
     const [form] = Form.useForm();
     const navigate = useNavigate();
@@ -75,9 +76,9 @@ export default function CandidateBasicInfoForm({candidate, projectList}) {
             values: values,
             deletedProjects: deletedProjects,
         };
-        console.log(JSON.stringify(data, null, 2));
+        // console.log(JSON.stringify(data, null, 2));
         let res = await candidateEdit(data);
-        console.log(JSON.stringify(res, null, 2));
+        // console.log(JSON.stringify(res, null, 2));
 
         if (res.ok) {
             message.info(res.message);
@@ -220,6 +221,7 @@ export default function CandidateBasicInfoForm({candidate, projectList}) {
                 </Row>
 
                 <ProjectForm projectList={projects} handleDeleteProject={handleDeleteProject} />
+
                 <Form.Item wrapperCol={{xs: {span: 24, offset: 21}, sm: {span: 24, offset: 21}}}>
                     <Button onClick={handleAddProject}
                             className="ant-button-primary"

@@ -1,36 +1,18 @@
 import '../css/global.css'
 
-import type {SelectProps, MenuProps} from 'antd';
-import {Avatar, Button, Card, Input, Menu, Select, Space} from "antd";
+import type { SelectProps } from 'antd';
+import { Card, Input, Select, Space } from "antd";
 import {useEffect, useState} from "react";
 
-import {Link, useNavigate, useSearchParams} from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import {PrivateLayout} from "../components/layout";
-import {UserOutlined} from "@ant-design/icons";
-import { searchCandidateUsername } from "../service/candidate";
 import CompanyList from "../components/company_list";
 import {searchCompany} from "../service/company";
 import CandidateHeader from "../components/candidate_header";
 
-
 const { Search } = Input;
 
-const candidateMenuItems: MenuProps['items'] = [
-    {
-        label: (<Link to="/candidate_view/SearchPost">岗位查找</Link>),
-        key: 'postSearch',
-    },
-    {
-        label: (<Link to="/candidate_view/SearchCompany">公司查找</Link>),
-        key: 'companySearch',
-    },
-    {
-        label: (<Link to="/candidate_view/Delivery">投递列表</Link>),
-        key: 'deliveryList',
-    },
-];
-
-
+// 搜索公司页面
 export default function SearchCompanyPage() {
     const [company, setCompany] = useState([]);
     const [totalPage, setTotalPage] = useState(0);
@@ -126,9 +108,9 @@ export default function SearchCompanyPage() {
     };
 
     return PrivateLayout("candidate", {
-            header: (
-                <CandidateHeader initialMenu={'companySearch'} />
-            )
+        header: (
+            <CandidateHeader initialMenu={'companySearch'} />
+        )
         }, {
             children: (
                 <div className="center-container">
@@ -145,7 +127,7 @@ export default function SearchCompanyPage() {
                                         onChange={handleCompanyScaleOption} options={companyScaleOptions}/>
                             </div>
                             <CompanyList company={company} pageSize={pageSize} total={totalPage * pageSize} current={pageIndex}
-                                         onPageChange={handlePageChange}/>
+                                      onPageChange={handlePageChange}/>
                         </Space>
                     </Card>
                 </div>

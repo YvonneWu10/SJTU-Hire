@@ -29,20 +29,29 @@ import HRChangePasswordPage from "../page/HR_change_password_page";
 import HREditUserInfoPage from "../page/hr_edit_personal_info";
 import CandidateRegisterPage from "../page/candidage_register";
 import HRRegisterPage from "../page/hr_register";
+import CandPersonalCenterPage from "../page/candPersonalCenter";
+import CandEditPersonalCenterPage from "../page/candEditPersonalCenter";
+import CandidateChangePasswordPage from "../page/candidate_changePassword";
+import CandidateDeleteAccountPage from "../page/candidate_deleteAccount";
 
-
+// 路由配置
 export default function AppRouter() {
     return <BrowserRouter>
         <Routes>
             <Route index element={<LoginPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/candidate_view" element={<SearchPostsPage />} />
+            <Route path="/candidate_view/SearchPost" element={<SearchPostsPage />} />
             <Route path="/candidate_view/Post/:postId" element={<PostPage />} />
             <Route path="/candidate_view/SearchCompany" element={<SearchCompanyPage />} />
             <Route path="/candidate_view/Company/:companyId" element={<CompanyPage />} />
             <Route path="/candidate_view/Delivered" element={<CandidateDeliveredPage />} />
             <Route path="/candidate_view/Invited" element={<CandidateInvitedPage />} />
             <Route path="/candidate_view/Ended" element={<CandidateEndedPage />} />
+            <Route path="/candidate_view/PersonalCenter" element={<CandPersonalCenterPage />} />
+            <Route path="/candidate_view/PersonalCenterEdit" element={<CandEditPersonalCenterPage />} />
+            <Route path="/candidate_view/ChangePassword" element={<CandidateChangePasswordPage />} />
+            <Route path="/candidate_view/DeleteAccount" element={<CandidateDeleteAccountPage />} />
             <Route path="/candidate_view/Register" element={<CandidateRegisterPage />} />
 
             <Route path="/administer_view" element={<AdminPage />} />

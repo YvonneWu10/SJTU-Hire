@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 const { Meta } = Card;
 
+// 已结束流程的岗位卡片
 export default function EndedPostCard({ post, companyName, candPost }) {
     return <Card hoverable
                  bordered={false}

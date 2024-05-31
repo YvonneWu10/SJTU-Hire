@@ -3,6 +3,7 @@ package com.sjtuhirebackend.serviceimpl;
 import com.sjtuhirebackend.dao.AdminDao;
 import com.sjtuhirebackend.dao.CandidateDao;
 import com.sjtuhirebackend.entity.Administer;
+
 import com.sjtuhirebackend.entity.Candidate;
 import com.sjtuhirebackend.dao.HRDao;
 import com.sjtuhirebackend.entity.Candidate;
@@ -72,7 +73,6 @@ public class AuthServiceImpl implements AuthService {
         }
         return null;
     }
-
     public String getHRToken(String username, String password){
         HR res = hrDao.getHR(Integer.parseInt(username));
         if (res != null && Objects.equals(res.getHRPassword(), password)) {

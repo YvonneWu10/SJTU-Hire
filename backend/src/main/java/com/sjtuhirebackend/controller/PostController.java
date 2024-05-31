@@ -5,7 +5,7 @@ import com.sjtuhirebackend.entity.Post;
 import com.sjtuhirebackend.service.AuthService;
 import com.sjtuhirebackend.service.HRService;
 import com.sjtuhirebackend.service.PostService;
-import jakarta.persistence.criteria.CriteriaBuilder;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +15,10 @@ import org.springframework.http.ResponseEntity;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.ArrayList;
 
 @RestController
 @Slf4j
@@ -26,7 +30,8 @@ public class PostController {
     @Autowired
     private HRService hrService;
 
-    @RequestMapping("/candidate_view/SearchPosts")
+    // 根据条件筛选符合要求的岗位
+    @RequestMapping("/candidate_view/SearchPost")
     public ResponseEntity<List<Post>> searchPosts(@RequestHeader Map<String, Object> header,
                                                   @RequestParam(defaultValue = "") String postName,
                                                   @RequestParam(defaultValue = "") String city,
@@ -37,7 +42,7 @@ public class PostController {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
 
-        if (Objects.equals(postName, "") && Objects.equals(city, "")) {
+        if (Objects.equals(postName, "") && Objects.equals(city, "") && Objects.equals(workType, "") && Objects.equals(workStyle, "")) {
             return new ResponseEntity<>(postService.getPosts(), HttpStatus.OK);
         }
 
@@ -94,9 +99,10 @@ public class PostController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    // 获取岗位postId的详细信息
     @RequestMapping("/candidate_view/Post/{postId}")
-    public ResponseEntity<Post> getPostDetailById(@RequestHeader Map<String, Object> header,
-                                                  @PathVariable Integer postId) {
+    public ResponseEntity<Map<String, Object>> getPostDetailById(@RequestHeader Map<String, Object> header,
+                                                                 @PathVariable Integer postId) {
         String id = authService.getCandIdByHeader(header);
         if (id == null) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
@@ -105,10 +111,10 @@ public class PostController {
         if (postId == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-
-        return new ResponseEntity<>(postService.getPostById(postId), HttpStatus.OK);
+        return new ResponseEntity<>(postService.getPostDetailById(id, postId), HttpStatus.OK);
     }
 
+    // 获取所有岗位的城市信息
     @RequestMapping("/candidate_view/PostCities")
     public ResponseEntity<List<String>> getPostCities(@RequestHeader Map<String, Object> header) {
         String id = authService.getCandIdByHeader(header);

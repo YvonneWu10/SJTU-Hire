@@ -1,5 +1,4 @@
 import '../css/global.css'
-
 import {Button, Card, Menu, message, Space} from "antd";
 import React, { useEffect, useState } from "react";
 import {
@@ -15,6 +14,7 @@ import type {MenuProps} from "antd";
 import HRMenu from "../components/hr_menu";
 
 // 用于展示具体的CandPost信息，同时包含两个用于流程变化的按钮
+
 export default function CandPostDetailPage() {
     const [post, setPost] = useState(null);
     const [cand, setCand] = useState(null);
@@ -23,7 +23,6 @@ export default function CandPostDetailPage() {
 
     let { postId } = useParams();
     let { candId } = useParams();
-
     const getCandPost = async () => {
         let resCandPost = await getCandPostById(candId, postId);
         console.log(resCandPost);

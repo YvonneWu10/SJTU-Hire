@@ -10,10 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.ArrayList;
+
 
 @RestController
 @Slf4j
@@ -24,11 +22,44 @@ public class CandPostController {
     private AuthService authService;
     @Autowired
     private PostService postService;
-    // 根据id号推进招聘流程
+
+    // 获取求职者投递的岗位
+    @RequestMapping("/candidate_view/DeliveredPost")
+    public ResponseEntity<Map<String, Object>> getDeliveredCandPostForCandidate(@RequestHeader Map<String, Object> header) {
+        String id = authService.getCandIdByHeader(header);
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<>(candPostService.getDeliveredCandPostDetailByCandId(id), HttpStatus.OK);
+    }
+
+    // 获取求职者被邀请的岗位
+    @RequestMapping("/candidate_view/InvitedPost")
+    public ResponseEntity<Map<String, Object>> getInvitedCandPostForCandidate(@RequestHeader Map<String, Object> header) {
+        String id = authService.getCandIdByHeader(header);
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<>(candPostService.getCandPostByCandIdAndSubmissionStage(id, "邀请"), HttpStatus.OK);
+    }
+
+    // 获取求职者已结束流程的岗位
+    @RequestMapping("/candidate_view/EndedPost")
+    public ResponseEntity<Map<String, Object>> getEndedCandPostForCandidate(@RequestHeader Map<String, Object> header) {
+        String id = authService.getCandIdByHeader(header);
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<>(candPostService.getCandPostByCandIdAndSubmissionStage(id, "流程终止"), HttpStatus.OK);
+    }
+
     @RequestMapping("/hr_view/forwardSubmissionStage/{candId}/{postId}")
     public ResponseEntity<String> forwardSubmissionStage(@RequestHeader Map<String, Object> header,
-                                                                      @PathVariable String candId,
-                                                                      @PathVariable Integer postId) {
+                                                         @PathVariable String candId,
+                                                         @PathVariable Integer postId) {
         Integer id = authService.getHRIdByHeader(header);
         if (id == null) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
@@ -92,37 +123,8 @@ public class CandPostController {
         return new ResponseEntity<>("", HttpStatus.OK);
     }
 
-    @RequestMapping("/candidate_view/DeliveredPost")
-    public ResponseEntity<Map<String, Object>> getDeliveredCandPostForCandidate(@RequestHeader Map<String, Object> header) {
-        String id = authService.getCandIdByHeader(header);
-        if (id == null) {
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-        }
 
-        return new ResponseEntity<>(candPostService.getDeliveredCandPostDetailByCandId(id), HttpStatus.OK);
-    }
-
-    @RequestMapping("/candidate_view/InvitedPost")
-    public ResponseEntity<Map<String, Object>> getInvitedCandPostForCandidate(@RequestHeader Map<String, Object> header) {
-        String id = authService.getCandIdByHeader(header);
-        if (id == null) {
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-        }
-
-        return new ResponseEntity<>(candPostService.getCandPostByCandIdAndSubmissionStage(id, "邀请"), HttpStatus.OK);
-    }
-
-    @RequestMapping("/candidate_view/EndedPost")
-    public ResponseEntity<Map<String, Object>> getEndedCandPostForCandidate(@RequestHeader Map<String, Object> header) {
-        String id = authService.getCandIdByHeader(header);
-        if (id == null) {
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-        }
-
-        return new ResponseEntity<>(candPostService.getCandPostByCandIdAndSubmissionStage(id, "流程终止"), HttpStatus.OK);
-    }
-
-
+    // 求职者投递岗位postId
     @RequestMapping("/candidate_view/deliver/{postId}")
     public ResponseEntity<String> CandidateDeliverPost(@RequestHeader Map<String, Object> header,
                                                        @PathVariable Integer postId) {
@@ -139,9 +141,10 @@ public class CandPostController {
         return new ResponseEntity<>("", HttpStatus.OK);
     }
 
+    // 求职者结束岗位postId的流程
     @RequestMapping("/candidate_view/end/{postId}")
     public ResponseEntity<String> CandidateEndProcess(@RequestHeader Map<String, Object> header,
-                                                      @PathVariable Integer postId) {
+                                                       @PathVariable Integer postId) {
         String id = authService.getCandIdByHeader(header);
         if (id == null) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
@@ -155,6 +158,7 @@ public class CandPostController {
         return new ResponseEntity<>("", HttpStatus.OK);
     }
 
+    // 求职者接受岗位postId的邀请
     @RequestMapping("/candidate_view/accept/{postId}")
     public ResponseEntity<String> CandidateAcceptInvitation(@RequestHeader Map<String, Object> header,
                                                             @PathVariable Integer postId) {
@@ -171,9 +175,10 @@ public class CandPostController {
         return new ResponseEntity<>("", HttpStatus.OK);
     }
 
+    // 求职者拒绝岗位postId的邀请
     @RequestMapping("/candidate_view/refuse/{postId}")
     public ResponseEntity<String> CandidateRefuseInvitation(@RequestHeader Map<String, Object> header,
-                                                            @PathVariable Integer postId) {
+                                                      @PathVariable Integer postId) {
         String id = authService.getCandIdByHeader(header);
         if (id == null) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);

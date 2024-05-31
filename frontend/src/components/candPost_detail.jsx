@@ -1,4 +1,5 @@
 import {Button, Col, Descriptions, Row, Space, Steps} from "antd";
+
 import { Divider, Typography } from 'antd';
 import React from "react";
 
@@ -176,5 +177,4 @@ export default function CandPostDetails({ candidate, post, candPost, projectList
             </div>
         </div>
     );
-
 }

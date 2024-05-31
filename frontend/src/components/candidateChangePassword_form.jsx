@@ -2,7 +2,7 @@ import '../css/global.css'
 
 import { Button, Form, Input, message } from "antd"
 import { useNavigate } from "react-router-dom";
-import { candidateRegister } from "../service/candidate";
+import { candidateChangePassword } from "../service/candidate";
 
 const formItemLayout = {
     labelCol: {
@@ -15,13 +15,14 @@ const formItemLayout = {
     },
 };
 
-// 求职者注册表单
-export default function CandidateRegisterForm() {
+// 求职者修改密码表单
+export default function CandidateChangePasswordForm() {
     const [form] = Form.useForm();
     const navigate = useNavigate();
 
-    const registerOnFinish = async (values) => {
-        let res = await candidateRegister(values);
+
+    const changePasswordOnFinish = async (values) => {
+        let res = await candidateChangePassword(values);
         if (res.ok) {
             message.success(res.message);
             navigate(`/login`);
@@ -39,32 +40,27 @@ export default function CandidateRegisterForm() {
             <Form
                 {...formItemLayout}
                 form={form}
-                name="candidateDeleteAccount"
-                onFinish={registerOnFinish}
+                name="candidateChangePassword"
+                onFinish={changePasswordOnFinish}
                 onFinishFailed={onFinishFailed}
                 scrollToFirstError
-                style={{width: '80%', marginTop: '2%', alignItems: "center", justifyContent: "center"}}>
-                <Form.Item name="candidateName" label={'姓名'}
-                           rules={[{required: true, message: "请输入姓名"}]}>
-                    <Input allowClear style={{width: '40%'}}></Input>
+                style={{width: '80%', marginTop: '10%', alignItems: "center", justifyContent: "center"}}>
+                <Form.Item name="oldPassword" label={'原密码'}
+                           rules={[{required: true, message: "请输入原密码"}]}>
+                    <Input.Password allowClear style={{width: '40%'}}></Input.Password>
                 </Form.Item>
 
-                <Form.Item name="candidateId" label={'身份证号'}
-                           rules={[{required: true, message: "请输入身份证号"}]}>
-                    <Input allowClear style={{width: '40%'}}></Input>
-                </Form.Item>
-
-                <Form.Item name="password" label={'密码'}
-                           rules={[{required: true, message: "请设置密码"},
+                <Form.Item name="newPassword" label={'新密码'}
+                           rules={[{required: true, message: "请输入新密码"},
                                {pattern: /^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z\d]{6,12}$/, message: "密码必须是6-12位的数字字母组合"}]}>
-                    <Input.Password style={{width: '40%'}}></Input.Password>
+                    <Input.Password allowClear style={{width: '40%'}}></Input.Password>
                 </Form.Item>
 
                 <Form.Item name="confirmedPassword" label={'确认密码'}
                            rules={[{required: true, message: "请确认密码"},
                                ({ getFieldValue }) => ({
                                    validator(_, value) {
-                                       if (!value || getFieldValue('password') === value) {
+                                       if (!value || getFieldValue('newPassword') === value) {
                                            return Promise.resolve();
                                        }
                                        return Promise.reject(new Error('两次输入的密码不一致'));
@@ -74,7 +70,7 @@ export default function CandidateRegisterForm() {
                 </Form.Item>
 
                 <Form.Item wrapperCol={{xs: {span: 24, offset: 0}, sm: {span: 24, offset: 11}}}>
-                    <Button className="ant-button-primary" type="primary" htmlType="submit">注册</Button>
+                    <Button className="ant-button-primary" type="primary" htmlType="submit">确认</Button>
                 </Form.Item>
             </Form>
         </div>

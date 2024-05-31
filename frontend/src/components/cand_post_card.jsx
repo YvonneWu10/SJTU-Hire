@@ -4,7 +4,6 @@ import {Avatar, Button, Card, Col, message, Row, Steps} from "antd"
 import {Link} from "react-router-dom";
 import * as antIcons from "@ant-design/icons";
 import {forwardSubmissionStageByCandPostId, terminateSubmissionStageByCandPostId} from "../service/candPost";
-
 const { Meta } = Card;
 
 const IconFont = antIcons.createFromIconfontCN({
