@@ -27,7 +27,7 @@ export default function InvitedPostCard({ post, companyName, candPost, timeout }
         <Link to={`/candidate_view/Post/${post.postId}`}>
             <Meta title={post.postName} description={companyName}/>
         </Link>
-        <p style={{marginBottom: -10}}>应聘于 {candPost.submissionDate}</p>
+        <p style={{marginBottom: -10}}>邀请于 {candPost.submissionDate}</p>
         <p style={{marginBottom: -10}}>目前状态 - {candPost.submissionStage}</p>
         {timeout ? (<div style={{display: "flex", marginTop: -30, marginLeft: 360}}>
                 <Button disabled>未开放</Button>
