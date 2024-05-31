@@ -18,7 +18,6 @@ public class CandidateDaoImpl implements CandidateDao {
     @Autowired
     private CandidateRepository candidateRepository;
 
-    // 通过candId获取求职者
     public Candidate getCandidateByCandId(String candidateId) { return candidateRepository.findByCandId(candidateId); }
     public Candidate getCandidateByCandToken(String candidateToken) { return candidateRepository.findByCandToken(candidateToken); }
 
@@ -33,6 +32,9 @@ public class CandidateDaoImpl implements CandidateDao {
 
     public List<Candidate> getCandidatesByCandName(String candName){
         return candidateRepository.findByCandName(candName);
+    }
+    public List<Candidate> getCandidatesByCandNameContaining(String candName){
+        return candidateRepository.findByCandNameContaining(candName);
     }
     public List<Candidate> getCandidatesByCandAge(int candAge){
         return candidateRepository.findByCandAge(candAge);
@@ -68,7 +70,7 @@ public class CandidateDaoImpl implements CandidateDao {
         return candidateRepository.findByCandWorkYear(candWorkYear);
     }
     public List<Candidate> getCandidatesByCandWorkYearAfter(int candWorkYear){
-        return candidateRepository.findByCandWorkYearGreaterThanEqual(candWorkYear);
+        return candidateRepository.findByCandWorkYearAfter(candWorkYear);
     }
     public List<Candidate> getCandidatesByCandExpectedSalary(int candExpectedSalary){
         return candidateRepository.findByCandExpectedSalary(candExpectedSalary);
@@ -76,24 +78,22 @@ public class CandidateDaoImpl implements CandidateDao {
     public List<Candidate> getCandidatesByCandExpectedSalaryBetween(int lb, int ub){
         return candidateRepository.findByCandExpectedSalaryBetween(lb, ub);
     }
-    public List<Candidate> getCandidateByCandIdNotIn(List<String> candIds){
-        return candidateRepository.findByCandIdNotIn(candIds);
+    public List<String> getDistinctCandMajors(){
+        return candidateRepository.findDistinctMajor();
     }
-    public List<String> getCandIdByCandName(String candName){
-        return candidateRepository.findCandIdByCandName(candName);
-    }
-
-    // 保存求职者
-    public void saveCandidate(Candidate candidate) {
-        candidateRepository.save(candidate);
+    public List<String> getDistinctUniversities(){
+        return candidateRepository.findDistinctUniversity();
     }
 
-    // 删除求职者
-    public void deleteCandidateById(String candidateId) { candidateRepository.deleteByCandId(candidateId); }
-
-    // 判断是否存在当前的token
-    public boolean existToken(String token) {
-        List<String> tokens = candidateRepository.findAllToken();
-        return tokens.contains(token);
+    public void deleteCandidate(String candId) {
+        candidateRepository.deleteById(candId);
     }
+
+    public long candidateCount() { return candidateRepository.count(); }
+
+    public List<Object[]> countCandidatesByAgeRange() { return candidateRepository.countCandidatesByAgeRange(); }
+
+    public List<Object[]> countCandidatesByDegree() { return candidateRepository.countCandidatesByDegree(); }
+
+    public List<Object[]> findSalaryExpectationsByCandidate() { return candidateRepository.findSalaryExpectationsByCandidate(); };
 }

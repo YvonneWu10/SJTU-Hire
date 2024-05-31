@@ -98,15 +98,15 @@ export default function PostDetails({ post, department, timeout, delivered, ende
             }}>{post.salary}k</Text>
             <div style={{position: 'absolute', right: 180, top: 70}}>
                 { (delivered && !ended) ? <Button onClick={ endPorcessOnClick } className={"ant-button-primary"} style={{ width: 100, height: 50, fontSize: 16, letterSpacing: 2 }} >结束流程</Button> :
-                                          ( ended ? <Button disabled className={"ant-button-primary"} style={{ width: 100, height: 50, fontSize: 13, letterSpacing: 1 }}>已结束流程</Button> :
-                                                    (timeout ? <Button disabled className={"ant-button-primary"} style={{ width: 100, height: 50, fontSize: 18, letterSpacing: 4 }}>未开放</Button> :
-                                                               ( invited ? (<div>
-                                                                                <Button onClick={ acceptOnClick } className={"ant-button-primary"} style={{ width: 100, height: 50, fontSize: 16, letterSpacing: 2, position: 'absolute', right: 60 }}>接受邀请</Button>
-                                                                                <Button onClick={ refuseOnClick } className={"ant-button-primary"} style={{ width: 100, height: 50, fontSize: 16, letterSpacing: 2, position: 'absolute', right: -60 }}>拒绝邀请</Button>
-                                                                            </div>) :
-                                                                           <Button onClick={ deliverOnClick } className={"ant-button-primary"} style={{ width: 100, height: 50, fontSize: 18, letterSpacing: 4 }}>投递</Button>)
-                                                    )
-                                          )
+                    ( ended ? <Button disabled className={"ant-button-primary"} style={{ width: 100, height: 50, fontSize: 13, letterSpacing: 1 }}>已结束流程</Button> :
+                            (timeout ? <Button disabled className={"ant-button-primary"} style={{ width: 100, height: 50, fontSize: 18, letterSpacing: 4 }}>未开放</Button> :
+                                    ( invited ? (<div>
+                                            <Button onClick={ acceptOnClick } className={"ant-button-primary"} style={{ width: 100, height: 50, fontSize: 16, letterSpacing: 2, position: 'absolute', right: 60 }}>接受邀请</Button>
+                                            <Button onClick={ refuseOnClick } className={"ant-button-primary"} style={{ width: 100, height: 50, fontSize: 16, letterSpacing: 2, position: 'absolute', right: -60 }}>拒绝邀请</Button>
+                                        </div>) :
+                                        <Button onClick={ deliverOnClick } className={"ant-button-primary"} style={{ width: 100, height: 50, fontSize: 18, letterSpacing: 4 }}>投递</Button>)
+                            )
+                    )
                 }
             </div>
         </Row>

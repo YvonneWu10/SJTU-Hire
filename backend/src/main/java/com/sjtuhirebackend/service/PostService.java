@@ -4,12 +4,11 @@ import com.sjtuhirebackend.entity.Post;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 
 public interface PostService {
     Post getPostById(int postId);
-    // 获取所有岗位信息
+    // 获取岗位信息
     List<Post> getPosts();
     // 根据岗位名查找岗位
     List<Post> getPostByName(String searchPostName);
@@ -38,23 +37,18 @@ public interface PostService {
     List<Post> getPostByHRId(int hrId);
     List<Integer> getPostIdByHRId(int hrId);
     // 添加新岗位
-    // 删除已有岗位
-    List<Integer> getPostIdByPostNameAndHRId(String postName, Integer HRId);
-    void editPost(Integer postId, String postName, String degreeReq, Integer workYearReq,
-                  Integer onSiteDayReq, String city, Date openDate, Date endDate,
-                  Integer recruitNum, Integer salary, String workStyle, String workType,
-                  String description, String responsibility);
-
-    void createPost(String postName, String degreeReq, Integer workYearReq,
-                  Integer onSiteDayReq, String city, Date openDate, Date endDate,
-                  Integer recruitNum, Integer salary, String workStyle, String workType,
-                  String description, String responsibility, Integer departmetnId, Integer companyId,
-                    Integer hrId);
     void createPost(Post post);
     // 删除已有岗位
     void deletePost(int postId);
-    // 获取所有岗位的城市（不重复）
     List<String> getDistinctPostCities();
-    // 获取岗位postId的详细信息，和该岗位求职者candId的投递情况
-    Map<String, Object> getPostDetailById(String candId, int postId);
+    // 获取所有岗位数
+    long getPostCount();
+    // 根据id获取岗位
+    List<Post> getPostsByPostIds(List<Integer> postIds);
+    // 根据薪水和学历聚类
+    List<Object[]> countPostsBySalaryAndDegree();
+    // 根据薪水聚类
+    List<Object[]> findSalaryDistributionByPost();
+    // 根据城市聚类
+    List<Object[]> findRecruitmentByCity();
 }

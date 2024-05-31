@@ -7,11 +7,9 @@ import java.util.List;
 
 
 public interface PostDao {
-    // 根据postId查找岗位
     Post getPostById(int postId);
-    // 获取所有岗位
+    // 获取岗位信息
     List<Post> getPosts();
-    // 根据postId查找岗位
     Post getPostByPostId(int postId);
     List<Post> getPostsByPostIds(List<Integer> postIds);
     // 根据岗位名查找岗位
@@ -30,9 +28,9 @@ public interface PostDao {
     List<Post> getPostByNum(int searchNumLow, int searchNumHigh);
     // 根据工资查找岗位
     List<Post> getPostBySalary(int searchSalaryLow, int searchSalaryHigh);
-    // 根据公司id查找岗位
+    // 根据公司名查找岗位
     List<Post> getPostByCompany(int searchCompId);
-    // 根据公司id和部门id查找岗位
+    // 根据公司名和部门名查找岗位
     List<Post> getPostByCompDep(int searchCompId, int searchDepId);
     // 根据远程/线下查找岗位
     List<Post> getPostByWorkStyle(String searchWorkStyle);
@@ -41,20 +39,17 @@ public interface PostDao {
     List<Post> getPostByHRId(int hrId);
     List<Integer> getPostIdByHRId(int hrId);
     // 添加新岗位
-    void createPost(String postName, String degreeReq, Integer workYearReq,
-                    Integer onSiteDayReq, String city, Date openDate, Date endDate,
-                    Integer recruitNum, Integer salary, String workStyle, String workType,
-                    String description, String responsibility, Integer departmentId,
-                    Integer companyId, Integer hrId);
-    List<Integer> getPostIdByPostNameAndHRId(String postName, Integer HRId);
-    void editPost(Integer postId, String postName, String degreeReq, Integer workYearReq,
-                  Integer onSiteDayReq, String city, Date openDate, Date endDate,
-                  Integer recruitNum, Integer salary, String workStyle, String workType,
-                  String description, String responsibility);
     void createPost(Post post);
     // 删除已有岗位
     void deletePost(int postId);
 
-    // 获取所有岗位的城市（不重复）
     List<String> getDistinctPostCities();
+
+    long getPostCount();
+
+    List<Object[]> countPostsBySalaryAndDegree();
+
+    List<Object[]> findSalaryDistributionByPost();
+
+    List<Object[]> findRecruitmentByCity();
 }

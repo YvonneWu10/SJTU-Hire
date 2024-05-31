@@ -10,7 +10,6 @@ public class DepartmentPK implements Serializable {
     @Column(name = "companyId")
     private Integer companyId;
     @Column(name = "departmentId")
-
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer departmentId;
     public void setCompanyId(int companyId){

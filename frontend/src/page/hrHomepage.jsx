@@ -1,46 +1,57 @@
-import {Avatar, Button, Card, Select, Space} from "antd";
-import React, { useEffect, useState } from "react";
+import {Avatar, Button, Card, Space} from "antd";
+import { useEffect, useState } from "react";
 
-import {Link, useSearchParams} from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import {BasicLayout, PrivateLayout} from "../components/layout";
 import CandPostList from "../components/cand_post_list";
 
 import { Input } from 'antd';
-import {retResponsiblePosts, searchCandPost} from "../service/candPost";
-import type {MenuProps, SelectProps} from 'antd';
+import {searchCandPost} from "../service/candPost";
+import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
-import {
-    AppstoreOutlined, BarChartOutlined,
-    HomeOutlined,
-    InboxOutlined,
-    MailOutlined, ProfileOutlined,
-    SettingOutlined, ShopOutlined,
-    UserOutlined, UserSwitchOutlined
-} from '@ant-design/icons';
-import {Header} from "antd/es/layout/layout";
-import HRMenu from "../components/hr_menu";
-import {retPostCities} from "../service/post";
+import {AppstoreOutlined, MailOutlined, SettingOutlined, UserOutlined} from '@ant-design/icons';
 const { Search } = Input;
 
-// HR查看用户投递信息的主页面
+
+const menuItems: MenuProps['items'] = [
+    {
+        label: '首页',
+        key: 'homepage',
+    },
+    {
+        label: '职位管理',
+        key: 'postManagement',
+    },
+    {
+        label: '找人',
+        key: 'hire',
+    },
+];
+
+const rightMenuItems: MenuProps['items'] = [
+    {
+        label: '个人中心',
+        key: 'center'
+    }
+];
+
 export default function CandPostPage() {
     const [candPosts, setCandPosts] = useState([]);
     const [cands, setCands] = useState([]);
     const [posts, setPosts] = useState([]);
     const [totalPage, setTotalPage] = useState(0);
-    const [postNames, setPostNames] = useState([]);
+    const [current, setCurrent] = useState('homepage');
 
     const [searchParams, setSearchParams] = useSearchParams();
-    const candName = searchParams.get("candName") || "";
-    const postName = searchParams.get("postName") || "";
+    const candName = searchParams.get("candName") || " ";
+    const postName = searchParams.get("postName") || " ";
     // const submissionStage = searchParams.get("submissionStage") || " ";
     const pageIndex = searchParams.get("pageIndex") != null ? Number.parseInt(searchParams.get("pageIndex")) : 1;
-    const pageSize = searchParams.get("pageSize") != null ? Number.parseInt(searchParams.get("pageSize")) : 10;
+    const pageSize = searchParams.get("pageSize") != null ? Number.parseInt(searchParams.get("pageSize")) : 30;
 
-    // 根据前端提供的信息去后端进行查找
     const getCandPostInfo = async () => {
         let CandPostInfo = await searchCandPost(candName, postName, pageIndex, pageSize);
-        console.log(CandPostInfo);
+
         let cands = CandPostInfo.cands;
         let posts = CandPostInfo.posts;
         let candPosts = CandPostInfo.candPost;
@@ -58,64 +69,39 @@ export default function CandPostPage() {
 
     useEffect(() => {
         getCandPostInfo();
-    }, [candName, postName, pageIndex, pageSize]);
+    }, [candName, postName, pageIndex, pageSize])
 
-    useEffect(() => {
-        getResponsiblePostName();
-    }, []);
-
-    const postOptions: SelectProps['options'] = postNames.map(postName => ({
-        label: postName,
-        value: postName
-    }));
-
-    const getResponsiblePostName = async () => {
-        let res = await retResponsiblePosts();
-        setPostNames(res);
-    };
-
-    const handleCandSearch = (candName) => {
+    const handleSearch = (candName, postName) => {
         setSearchParams({
             "candName": candName,
-            "pageIndex": 1,
-            "pageSize": 10
-        });
-    };
-
-    // 使用岗位信息进行查询
-    const handlePostSearch = (postName) => {
-        setSearchParams({
             "postName": postName,
             "pageIndex": 1,
-            "pageSize": 10
+            "pageSize": 30
         });
     };
 
-    // 翻页
     const handlePageChange = (page) => {
         const currentParams = new URLSearchParams(searchParams);
         currentParams.set("pageIndex", (page).toString());
         setSearchParams(currentParams);
+        // setSearchParams({ ...searchParams, pageIndex: page - 1 });
     }
 
-    return PrivateLayout("HR", {
-        header:(
-        <div>
-            <HRMenu></HRMenu>
-        </div>
-        )
-        }, {
+    const onClick: MenuProps['onClick'] = (e) => {
+        console.log('click ', e);
+        setCurrent(e.key);
+    };
+
+    return PrivateLayout("HR", {}, {
         children: (
             <div>
-                <Card className="scroll-card-container">
+                <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" style={{position: 'absolute', top: 15, left: 10}}
+                      items={menuItems}/>
+                <Menu selectable={false} mode='horizontal' style={{position: 'absolute', top: 15, right: 10}}
+                      items={rightMenuItems}/>
+                <Card className="card-container">
                     <Space direction="vertical" size="large" style={{width: "100%"}}>
-                        <div className="input-select-container">
-                            <Search placeholder="输入应聘者姓名" onSearch={handleCandSearch} enterButton size="middle"
-                                    style={{width: '30%'}}/>
-                            <Select allowClear style={{width: '30%'}} placeholder="请选择应聘岗位"
-                                    onChange={handlePostSearch}
-                                    options={postOptions}/>
-                        </div>
+                        <Search placeholder="输入姓名" onSearch={handleSearch} enterButton size="large"/>
                         <CandPostList cands={cands} posts={posts} candPosts={candPosts} pageSize={pageSize}
                                       total={totalPage * pageSize} current={pageIndex} onPageChange={handlePageChange}/>
                     </Space>

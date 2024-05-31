@@ -46,4 +46,5 @@ public class Candidate {
     private String candPassword;
     @Column(name = "token")
     private String candToken;
+
 }
