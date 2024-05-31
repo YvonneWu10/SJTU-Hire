@@ -204,7 +204,7 @@ public class HRController {
 
     // 删除HR
     @DeleteMapping(value = "/deleteHR/{HRId}")
-    public ResponseEntity<String> deleteCandidateById(@RequestHeader Map<String, Object> header,
+    public ResponseEntity<String> deleteHRById(@RequestHeader Map<String, Object> header,
                                                       @PathVariable Integer HRId) {
         // 检查管理员权限
         String userType = (String) header.get("user-type");
@@ -240,7 +240,7 @@ public class HRController {
 
     // 删除投递信息
     @DeleteMapping(value = "/deleteCandPost/candID={candID}&postID={postID}")
-    public ResponseEntity<String> deleteCandidateById(@RequestHeader Map<String, Object> header,
+    public ResponseEntity<String> deleteCandPostById(@RequestHeader Map<String, Object> header,
                                                       @PathVariable String candID,
                                                       @PathVariable Integer postID) {
         // 检查管理员权限
