@@ -62,4 +62,12 @@ public class CompanyDaoImpl implements CompanyDao {
     public long companyCount(){
         return companyRepository.count();
     }
+
+    public void saveCompany(Company company){
+        companyRepository.save(company);
+    }
+
+    public List<String> getAllCompanyNames(){
+        return companyRepository.findAllCompanyNames();
+    }
 }

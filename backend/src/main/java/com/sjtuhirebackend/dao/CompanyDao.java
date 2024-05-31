@@ -24,4 +24,7 @@ public interface CompanyDao {
     void deleteCompany(int companyId);
 
     long companyCount();
+
+    void saveCompany(Company company);
+    List<String> getAllCompanyNames();
 }

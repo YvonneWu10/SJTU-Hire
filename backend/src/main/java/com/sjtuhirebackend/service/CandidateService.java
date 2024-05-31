@@ -3,6 +3,7 @@ package com.sjtuhirebackend.service;
 import com.sjtuhirebackend.entity.Candidate;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CandidateService {
     String getCandNameByCandId(String id);
@@ -40,6 +41,22 @@ public interface CandidateService {
     List<Candidate> getCandidatesByCandExpectedSalary(int candExpectedSalary);
 
     List<Candidate> getCandidatesByCandExpectedSalaryBetween(int lb, int ub);
+
+    List<Candidate> getAllCandidatesAvailable(int HRId);
+    List<String> getCandIdByCandName(String candName);
+    // 根据candId获取求职者详细信息
+    Map<String, Object> getCandInfoByCandId(String id);
+    // 修改求职者简历
+    void editCandidateInfo(String id, Map<String, Object> values, List<Integer> deletedProjects);
+
+    // 修改求职者密码
+    Map<String, Object> changePassword(String id, String oldPassword, String newPassword);
+
+    // 删除求职者账号
+    Map<String, Object> deleteAccount(String id, String candidateId, String password);
+
+    // 添加求职者账号
+    Map<String, Object> register(String name, String id, String password);
 
     List<String> getDistinctCandMajors();   // 得到应聘者所有专业名
 

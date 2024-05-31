@@ -11,4 +11,6 @@ public interface DepartmentDao {
     List<Department> getByCompanyId(int companyId);
     List<Department> getByDepartmentId(int departmentId);
     List<Department> getByDepartmentName(String departmentName);
+    void saveDepartment(Department department);
+    List<Department> getByCompanyIdAscDepartmentId(int companyId);
 }

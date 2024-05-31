@@ -58,7 +58,6 @@ export default function CandidateHeader(initialMenu) {
         localStorage.removeItem("candidateToken");
         navigate("/login");
     };
-
     useEffect(() => {
         getUserName();
     }, []);

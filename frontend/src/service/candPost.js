@@ -88,6 +88,74 @@ export async function getCandPostById(candId, postId) {
     return candPostInfo;
 }
 
+// 进行环节的推进
+export async function forwardSubmissionStageByCandPostId(candId, postId) {
+    const url = `${PREFIX}/hr_view/forwardSubmissionStage/${candId}/${postId}`;
+    let ret;
+    try {
+        console.log(url);
+        ret = await getJson(url, "HR");
+    } catch (e) {
+        console.log(e);
+        ret = null;
+    }
+
+    return ret;
+}
+
+export async function terminateSubmissionStageByCandPostId(candId, postId) {
+    const url = `${PREFIX}/hr_view/terminateSubmissionStage/${candId}/${postId}`;
+    let ret;
+    try {
+        ret = await getJson(url, "HR");
+    } catch (e) {
+        console.log(e);
+        ret = null;
+    }
+
+    return ret;
+}
+
+// 用户获得所有的在招聘期限内的岗位用于邀请
+export async function retOpenPosts(){
+    const url = `${PREFIX}/hr_view/retOpenPosts`;
+    let postNames;
+    try {
+        postNames = await getJson(url, "HR");
+        console.log(postNames);
+    } catch (e) {
+        console.log(e);
+        postNames = null;
+    }
+
+    return postNames;
+}
+
+// 用于获得所有HR负责的岗位信息
+export async function retResponsiblePosts() {
+    const url = `${PREFIX}/hr_view/retResponsiblePosts`;
+    let postNames;
+    try {
+        postNames = await getJson(url, "HR");
+        console.log(postNames);
+    } catch (e) {
+        console.log(e);
+        postNames = null;
+    }
+
+    return postNames;
+}
+
+// 将邀请信息传递到后端
+export async function inviteByCandPostId(candId, postId) {
+    const url = `${PREFIX}/hr_view/invite/${candId}/${postId}`;
+    try {
+        await getJson(url, "HR");
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 // 删除投递信息
 export async function adminDeleteResume(candID, postID) {
     const url = `${PREFIX}/deleteCandPost/candID=${candID}&postID=${postID}`; // 假设这是删除岗位的API端点

@@ -52,4 +52,12 @@ public class HRDaoImpl implements HRDao {
     }
 
     public long HRCount() {return hrRepository.count(); }
+
+    public void saveHR(HR hr){
+        hrRepository.save(hr);
+    }
+    public boolean existToken(String token) {
+        List<String> tokens = hrRepository.findAllToken();
+        return tokens.contains(token);
+    }
 }

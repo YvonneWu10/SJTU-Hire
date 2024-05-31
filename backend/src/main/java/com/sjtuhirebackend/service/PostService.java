@@ -4,6 +4,7 @@ import com.sjtuhirebackend.entity.Post;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 public interface PostService {
@@ -36,8 +37,17 @@ public interface PostService {
     List<Post> getPostByWorkType(String searchWorkType);
     List<Post> getPostByHRId(int hrId);
     List<Integer> getPostIdByHRId(int hrId);
-    // 添加新岗位
-    void createPost(Post post);
+    List<Integer> getPostIdByPostNameAndHRId(String postName, Integer HRId);
+    void editPost(Integer postId, String postName, String degreeReq, Integer workYearReq,
+                  Integer onSiteDayReq, String city, Date openDate, Date endDate,
+                  Integer recruitNum, Integer salary, String workStyle, String workType,
+                  String description, String responsibility);
+
+    void createPost(String postName, String degreeReq, Integer workYearReq,
+                    Integer onSiteDayReq, String city, Date openDate, Date endDate,
+                    Integer recruitNum, Integer salary, String workStyle, String workType,
+                    String description, String responsibility, Integer departmetnId, Integer companyId,
+                    Integer hrId);
     // 删除已有岗位
     void deletePost(int postId);
     List<String> getDistinctPostCities();
@@ -51,4 +61,6 @@ public interface PostService {
     List<Object[]> findSalaryDistributionByPost();
     // 根据城市聚类
     List<Object[]> findRecruitmentByCity();
+    // 获取岗位postId的详细信息，和该岗位求职者candId的投递情况
+    Map<String, Object> getPostDetailById(String candId, int postId);
 }

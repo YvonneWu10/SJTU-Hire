@@ -3,6 +3,7 @@ package com.sjtuhirebackend.service;
 import com.sjtuhirebackend.entity.HR;
 
 import java.util.List;
+import java.util.Map;
 
 public interface HRService {
     List<HR> getHRs();
@@ -14,4 +15,8 @@ public interface HRService {
     HR registerHR(int HRId, String HRName, int companyId, int departmentId);
     void deleteHRById(int HRId);    // 删除HR
     long HRCount(); // 计数HR个数
+    Map<String, Object> changePassword(Integer id, String oldPassword, String newPassword);
+
+    void editPersonalInfo(Map<String, Object> map);
+    Integer HRRegister(String HRName, Integer companyId, Integer departmentId, String password);
 }

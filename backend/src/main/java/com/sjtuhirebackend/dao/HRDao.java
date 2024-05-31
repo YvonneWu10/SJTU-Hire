@@ -17,4 +17,6 @@ public interface HRDao {
     HR registerHR(int HRId, String HRName, int companyId, int departmentId);
     void deleteHRById(int HRId);
     long HRCount();
+    void saveHR(HR hr);
+    boolean existToken(String token);
 }

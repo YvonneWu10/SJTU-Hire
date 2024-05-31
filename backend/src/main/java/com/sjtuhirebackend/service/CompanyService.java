@@ -3,6 +3,7 @@ package com.sjtuhirebackend.service;
 import com.sjtuhirebackend.entity.Company;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CompanyService {
     // 获取公司信息
@@ -27,4 +28,11 @@ public interface CompanyService {
 
     // 总公司个数
     long companyCount();
+
+    Map<String, Object> editCompany(Map<String, Object> map);
+    List<String> getAllCompanyNames();
+
+    Company HRRegisterCompany(Map<String, Object> companyInfo);
+    // 根据companyId获取公司详细信息
+    Map<String, Object> getCompanyDetailById(int companyId);
 }

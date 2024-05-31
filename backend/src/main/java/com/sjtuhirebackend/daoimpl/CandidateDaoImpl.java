@@ -96,4 +96,25 @@ public class CandidateDaoImpl implements CandidateDao {
     public List<Object[]> countCandidatesByDegree() { return candidateRepository.countCandidatesByDegree(); }
 
     public List<Object[]> findSalaryExpectationsByCandidate() { return candidateRepository.findSalaryExpectationsByCandidate(); };
+
+    public List<Candidate> getCandidateByCandIdNotIn(List<String> candIds){
+        return candidateRepository.findByCandIdNotIn(candIds);
+    }
+    public List<String> getCandIdByCandName(String candName){
+        return candidateRepository.findCandIdByCandName(candName);
+    }
+
+    // 保存求职者
+    public void saveCandidate(Candidate candidate) {
+        candidateRepository.save(candidate);
+    }
+
+    // 删除求职者
+    public void deleteCandidateById(String candidateId) { candidateRepository.deleteByCandId(candidateId); }
+
+    // 判断是否存在当前的token
+    public boolean existToken(String token) {
+        List<String> tokens = candidateRepository.findAllToken();
+        return tokens.contains(token);
+    }
 }

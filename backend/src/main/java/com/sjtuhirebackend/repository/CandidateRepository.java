@@ -4,6 +4,7 @@ import com.sjtuhirebackend.entity.Candidate;
 import com.sjtuhirebackend.entity.Company;
 import jakarta.persistence.Column;
 import org.springframework.data.jpa.repository.JpaRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 public interface CandidateRepository extends JpaRepository<Candidate, String> {
     Candidate findByCandId(String candId);
     Candidate findByCandToken(String candToken);
+    List<Candidate> findByCandIdNotIn(List<String> candIds);
     List<Candidate> findByCandIdIn(List<String> candIds);
     List<Candidate> findByCandName(String candName);
     List<Candidate> findByCandNameContaining(String candName);
@@ -25,9 +27,20 @@ public interface CandidateRepository extends JpaRepository<Candidate, String> {
     List<Candidate> findByCandUniversity(String candUniversity);
     List<Candidate> findByCandMajor(String candMajor);
     List<Candidate> findByCandWorkYear(int candWorkYear);
+    List<Candidate> findByCandWorkYearGreaterThanEqual(int candWorkYear);
     List<Candidate> findByCandWorkYearAfter(int candWorkYear);
     List<Candidate> findByCandExpectedSalary(int candExpectedSalary);
     List<Candidate> findByCandExpectedSalaryBetween(int lb, int ub);
+    @Query(value = "SELECT u.candId FROM candidate u WHERE u.candName = ?1", nativeQuery = true)
+    List<String> findCandIdByCandName(String candName);
+
+    // 根据candId删除求职者
+    @Transactional
+    void deleteByCandId(String candId);
+
+    // 返回所有token
+    @Query("SELECT c.candToken FROM Candidate c")
+    List<String> findAllToken();
 
     //返回所有涉及应聘者的专业
     @Query("SELECT DISTINCT p.candMajor FROM Candidate p")

@@ -1,26 +1,22 @@
 import '../css/global.css'
 
-import type {SelectProps} from 'antd';
-import {Avatar, Button, Card, Input, Select, Space} from "antd";
+import type { SelectProps } from 'antd';
+import { Card, Input, Select, Space } from "antd";
 import {useEffect, useState} from "react";
 import {retPostCities, searchPosts} from "../service/post";
 
-import {useSearchParams} from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import {PrivateLayout} from "../components/layout";
 import PostList from "../components/post_list";
-import {UserOutlined} from "@ant-design/icons";
-import {getUsernameById} from "../service/candidate";
+import CandidateHeader from "../components/candidate_header";
 
 const { Search } = Input;
 
+// 搜索岗位页面，也是求职者的主页
 export default function SearchPostsPage() {
     const [posts, setPosts] = useState([]);
     const [totalPage, setTotalPage] = useState(0);
     const [cities, setCities] = useState([]);
-    const [user, setUser] = useState("");
-
-    // const candId = useContext(UserContext);
-    // console.log("context candId:", candId);
 
     const [searchParams, setSearchParams] = useSearchParams();
     const pageIndex = searchParams.get("pageIndex") != null ? Number.parseInt(searchParams.get("pageIndex")) : 1;
@@ -43,15 +39,8 @@ export default function SearchPostsPage() {
         setCities(resCities);
     };
 
-    const getUserName = async () => {
-        console.log(`Entering getUserName`);
-        let resUser = await getUsernameById();
-        setUser(resUser);
-    };
-
     useEffect(() => {
         getPostCities();
-        getUserName();
     }, []);
 
     // 用来调试，监听searchParams
@@ -77,16 +66,17 @@ export default function SearchPostsPage() {
         setSearchParams(currentParams);
     };
 
-    // const cities = ["北京", "成都", "重庆", "大连", "福州", "广州", "哈尔滨", "海口", "杭州", "齐齐哈尔", "上海", "深圳", "台北", "武汉"];
     const cityOptions: SelectProps['options'] = cities.map(city => ({
         label: city,
         value: city
     }));
+
     const workTypes = ["实习", "正式"];
     const workTypeOptions: SelectProps["options"] = workTypes.map(workType => ({
         label: workType,
         value: workType
     }));
+
     const workStyles = ["线下", "远程"];
     const workStyleOptions: SelectProps["options"] = workStyles.map(workStyle => ({
         label: workStyle,
@@ -97,7 +87,6 @@ export default function SearchPostsPage() {
         if (city === undefined) {
             city = "";
         }
-        // console.log(city)
         const currentParams = new URLSearchParams(searchParams);
         currentParams.set("pageIndex", 1);
         currentParams.set("pageSize", 25);
@@ -109,7 +98,6 @@ export default function SearchPostsPage() {
         if (workType === undefined) {
             workType = "";
         }
-        // console.log(workType)
         const currentParams = new URLSearchParams(searchParams);
         currentParams.set("pageIndex", 1);
         currentParams.set("pageSize", 25);
@@ -121,7 +109,6 @@ export default function SearchPostsPage() {
         if (workStyle === undefined) {
             workStyle = "";
         }
-        // console.log(workStyle)
         const currentParams = new URLSearchParams(searchParams);
         currentParams.set("pageIndex", 1);
         currentParams.set("pageSize", 25);
@@ -131,17 +118,9 @@ export default function SearchPostsPage() {
 
     return PrivateLayout("candidate", {
             header: (
-                <div style={{ marginLeft: '80%', marginTop: "10px"}} >
-                    <Space direction={"horizontal"} size={"middle"}>
-                        <div className="avatar-with-subtitle" style={{ marginBottom: "-40px"}}>
-                            <Avatar size="large" icon={<UserOutlined/>}/>
-                            { user && <span className="avatar-subtitle">您好，{user}</span> }
-                        </div>
-                            <Button className={"ant-button-primary"} >个人中心</Button>
-                    </Space>
-                </div>
-)
-}, {
+                <CandidateHeader initialMenu={'postSearch'} />
+            )
+        }, {
             children: (
                 <div className="center-container">
                     <Card className="card-container">

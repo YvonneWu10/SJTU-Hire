@@ -1,6 +1,11 @@
 package com.sjtuhirebackend.serviceimpl;
 
 import com.sjtuhirebackend.dao.PostDao;
+import com.sjtuhirebackend.dao.CandPostDao;
+import com.sjtuhirebackend.dao.CompanyDao;
+import com.sjtuhirebackend.dao.DepartmentDao;
+import com.sjtuhirebackend.entity.CandPost;
+import com.sjtuhirebackend.entity.Company;
 import com.sjtuhirebackend.entity.Post;
 import com.sjtuhirebackend.service.PostService;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -17,6 +24,12 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
     @Autowired
     private PostDao postDao;
+    @Autowired
+    private CompanyDao companyDao;
+    @Autowired
+    private DepartmentDao departmentDao;
+    @Autowired
+    private CandPostDao candPostDao;
 
     public Post getPostById(int postId) { return postDao.getPostById(postId); }
     // 获取岗位信息
@@ -51,14 +64,59 @@ public class PostServiceImpl implements PostService {
     public List<Integer> getPostIdByHRId(int hrId){
         return postDao.getPostIdByHRId(hrId);
     }
-    // 添加新岗位
-    public void createPost(Post post) { postDao.createPost(post); }
     // 删除已有岗位
     public void deletePost(int postId) { postDao.deletePost(postId); }
     // 根据id获取岗位
     public List<Post> getPostsByPostIds(List<Integer> postIds) { return postDao.getPostsByPostIds(postIds); }
 
     public List<String> getDistinctPostCities() { return postDao.getDistinctPostCities(); }
+
+    public List<Integer> getPostIdByPostNameAndHRId(String postName, Integer HRId){
+        return postDao.getPostIdByPostNameAndHRId(postName, HRId);
+    }
+    public void editPost(Integer postId, String postName, String degreeReq, Integer workYearReq,
+                         Integer onSiteDayReq, String city, Date openDate, Date endDate,
+                         Integer recruitNum, Integer salary, String workStyle, String workType,
+                         String description, String responsibility){
+        postDao.editPost(postId, postName, degreeReq, workYearReq,
+                onSiteDayReq, city, openDate, endDate,
+                recruitNum, salary, workStyle, workType,
+                description, responsibility);
+    }
+
+    public void createPost(String postName, String degreeReq, Integer workYearReq,
+                           Integer onSiteDayReq, String city, Date openDate, Date endDate,
+                           Integer recruitNum, Integer salary, String workStyle, String workType,
+                           String description, String responsibility, Integer departmentId, Integer companyId,
+                           Integer hrId) {
+        postDao.createPost(postName, degreeReq, workYearReq,
+                onSiteDayReq, city, openDate, endDate,
+                recruitNum, salary, workStyle, workType,
+                description, responsibility, departmentId, companyId, hrId);
+    }
+
+    public Map<String, Object> getPostDetailById(String candId, int postId) {
+        Post post = postDao.getPostById(postId);
+        Company company = companyDao.getCompany(post.getCompanyId());
+        String department = departmentDao.getByCompanyIdAndDepartmentId(post.getCompanyId(), post.getDepartmentId()).getDepartmentName();
+        CandPost record = candPostDao.getCandPostByCandIdAndPostId(candId, postId);
+
+        Date current = new Date();
+        boolean timeout = post.getOpenDate().after(current) || post.getEndDate().before(current);
+        boolean delivered = (record != null && !record.getSubmissionStage().equals("邀请"));
+        boolean ended = (record != null && record.getSubmissionStage().equals("流程终止"));
+        boolean invited = (record != null && record.getSubmissionStage().equals("邀请"));
+
+        Map<String, Object> ans = new HashMap<>();
+        ans.put("post", post);
+        ans.put("company", company);
+        ans.put("department", department);
+        ans.put("timeout", timeout);
+        ans.put("delivered", delivered);
+        ans.put("ended", ended);
+        ans.put("invited", invited);
+        return ans;
+    }
 
     public long getPostCount() { return postDao.getPostCount(); }
 

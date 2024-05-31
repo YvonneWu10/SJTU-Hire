@@ -34,6 +34,9 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Query("SELECT DISTINCT p.city FROM Post p")
     List<String> findDistinctCity();
 
+    @Query("SELECT p.postId FROM Post p WHERE p.postName = ?1 AND p.HRId = ?2")
+    List<Integer> findPostIdByPostNameAndHRId(String postName, Integer HRId);
+
     // 返回岗位关于工资和学历的聚类
     @Query(value = "SELECT " +
             "CASE " +

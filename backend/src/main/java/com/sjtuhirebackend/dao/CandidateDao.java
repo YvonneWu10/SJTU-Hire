@@ -33,4 +33,14 @@ public interface CandidateDao {
     List<Object[]> countCandidatesByAgeRange();
     List<Object[]> countCandidatesByDegree();
     List<Object[]> findSalaryExpectationsByCandidate();
+    List<Candidate> getCandidateByCandIdNotIn(List<String> candIds);
+    List<String> getCandIdByCandName(String candName);
+    // 保存求职者
+    void saveCandidate(Candidate candidate);
+
+    // 删除求职者
+    void deleteCandidateById(String candidateId);
+
+    // 判断是否存在当前的token
+    boolean existToken(String token);
 }
