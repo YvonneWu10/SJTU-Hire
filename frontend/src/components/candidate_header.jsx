@@ -29,6 +29,10 @@ const candidateMenuItems: MenuProps['items'] = [
             {
                 label: (<Link to="/candidate_view/Ended">流程终止</Link>),
                 key: 'ended'
+            },
+            {
+                label: (<Link to="/candidate_view/Admitted">已录取</Link>),
+                key: 'admitted'
             }
         ],
     },
@@ -58,7 +62,6 @@ export default function CandidateHeader(initialMenu) {
         localStorage.removeItem("candidateToken");
         navigate("/login");
     };
-
     useEffect(() => {
         getUserName();
     }, []);

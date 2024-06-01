@@ -1,5 +1,4 @@
 import '../css/global.css'
-
 import { Button, Card } from "antd";
 import { useEffect, useState } from "react";
 

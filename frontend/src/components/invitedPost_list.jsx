@@ -1,4 +1,5 @@
 import { List, Pagination, Space } from "antd"
+
 import InvitedPostCard from "./invitedPost_card";
 
 

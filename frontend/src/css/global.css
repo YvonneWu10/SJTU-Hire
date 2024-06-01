@@ -26,7 +26,7 @@ svg {
     display: flex;
     justify-content: center; /* 水平居中 */
     align-items: center; /* 垂直居中，可选 */
-    width: 1670px;
+    width: 98%;
     height: 80px;
     bottom: 15px;
 }
@@ -72,9 +72,6 @@ svg {
 }
 
 .candidate-header-menu {
-    /*color: #033941 !important;*/
-
-    /*color: #your-text-color !important;*/
     .ant-menu-item-selected, .ant-menu-submenu-selected::after {
         color: #033941 !important;
     }
@@ -95,7 +92,6 @@ svg {
 .ant-input-search-button {
     background-color: #033941;
 }
-
 
 .ant-button-primary {
     background-color: #033941;

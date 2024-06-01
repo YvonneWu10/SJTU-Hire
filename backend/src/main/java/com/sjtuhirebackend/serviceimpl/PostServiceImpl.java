@@ -1,9 +1,9 @@
 package com.sjtuhirebackend.serviceimpl;
 
+import com.sjtuhirebackend.dao.PostDao;
 import com.sjtuhirebackend.dao.CandPostDao;
 import com.sjtuhirebackend.dao.CompanyDao;
 import com.sjtuhirebackend.dao.DepartmentDao;
-import com.sjtuhirebackend.dao.PostDao;
 import com.sjtuhirebackend.entity.CandPost;
 import com.sjtuhirebackend.entity.Company;
 import com.sjtuhirebackend.entity.Post;
@@ -14,8 +14,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -64,12 +64,36 @@ public class PostServiceImpl implements PostService {
     public List<Integer> getPostIdByHRId(int hrId){
         return postDao.getPostIdByHRId(hrId);
     }
-    // 添加新岗位
-    public void createPost(Post post) { postDao.createPost(post); }
     // 删除已有岗位
     public void deletePost(int postId) { postDao.deletePost(postId); }
+    // 根据id获取岗位
+    public List<Post> getPostsByPostIds(List<Integer> postIds) { return postDao.getPostsByPostIds(postIds); }
 
     public List<String> getDistinctPostCities() { return postDao.getDistinctPostCities(); }
+
+    public List<Integer> getPostIdByPostNameAndHRId(String postName, Integer HRId){
+        return postDao.getPostIdByPostNameAndHRId(postName, HRId);
+    }
+    public void editPost(Integer postId, String postName, String degreeReq, Integer workYearReq,
+                         Integer onSiteDayReq, String city, Date openDate, Date endDate,
+                         Integer recruitNum, Integer salary, String workStyle, String workType,
+                         String description, String responsibility){
+        postDao.editPost(postId, postName, degreeReq, workYearReq,
+                onSiteDayReq, city, openDate, endDate,
+                recruitNum, salary, workStyle, workType,
+                description, responsibility);
+    }
+
+    public void createPost(String postName, String degreeReq, Integer workYearReq,
+                           Integer onSiteDayReq, String city, Date openDate, Date endDate,
+                           Integer recruitNum, Integer salary, String workStyle, String workType,
+                           String description, String responsibility, Integer departmentId, Integer companyId,
+                           Integer hrId) {
+        postDao.createPost(postName, degreeReq, workYearReq,
+                onSiteDayReq, city, openDate, endDate,
+                recruitNum, salary, workStyle, workType,
+                description, responsibility, departmentId, companyId, hrId);
+    }
 
     public Map<String, Object> getPostDetailById(String candId, int postId) {
         Post post = postDao.getPostById(postId);
@@ -82,6 +106,7 @@ public class PostServiceImpl implements PostService {
         boolean delivered = (record != null && !record.getSubmissionStage().equals("邀请"));
         boolean ended = (record != null && record.getSubmissionStage().equals("流程终止"));
         boolean invited = (record != null && record.getSubmissionStage().equals("邀请"));
+        boolean admitted = (record != null && record.getSubmissionStage().equals("录取"));
 
         Map<String, Object> ans = new HashMap<>();
         ans.put("post", post);
@@ -91,7 +116,15 @@ public class PostServiceImpl implements PostService {
         ans.put("delivered", delivered);
         ans.put("ended", ended);
         ans.put("invited", invited);
-
+        ans.put("admitted", admitted);
         return ans;
     }
+
+    public long getPostCount() { return postDao.getPostCount(); }
+
+    public List<Object[]> countPostsBySalaryAndDegree() { return  postDao.countPostsBySalaryAndDegree(); }
+
+    public List<Object[]> findSalaryDistributionByPost() { return postDao.findSalaryDistributionByPost(); }
+
+    public List<Object[]> findRecruitmentByCity() { return postDao.findRecruitmentByCity(); }
 }

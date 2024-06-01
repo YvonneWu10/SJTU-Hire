@@ -18,12 +18,22 @@ public interface CandPostService {
     List<CandPost> getCandPostBySubmissionDateAfter(Date submissionDate);
     List<CandPost> getCandPostBySubmissionDateBetween(Date lb, Date ub);
     List<CandPost> getCandPostBySubmissionStage(String submissionStage);
-    Map<String,Object> getCandPostByHRId(int hrId);
+//    Map<String,Object> getCandPostByHRId(int hrId);
+    List<CandPost> getPagedCandPosts(int pageIndex, int pageSize); //分页列举
+    int getTotalPages(int pageSize);    //总页数
+    void deleteCandPost(String candId, int postId);
+    long countPosts(); //返回所有有投递的岗位数
+    List<Object[]> getHotJobId(int rank);   // 得到热门的前rank个岗位id
+    Map<String,Object> getCandPostInfoByHRId(int hrId);
+    List<CandPost> getCandPostByCandIdInAndPostId(List<String> candIds, Integer postId);
+    List<CandPost> getCandPostByHRId(int hrId);
+    void forwardSubmissionStageByCandIdAndPostId(String candId, Integer postId);
+    List<CandPost> getCandPostBySubmissionStageIsNot(String submissionStage);
+    void insertCandPostByInvitation(String CandId, Integer postId);
     // 获取求职者投递的岗位详情
     Map<String, Object> getDeliveredCandPostDetailByCandId(String candidateId);
     List<CandPost> getCandPostByCandIdIn(List<String> candIds);
     List<CandPost> getCandPostByPostIdIn(List<Integer> postIds);
-    void forwardSubmissionStageByCandIdAndPostId(String candId, Integer postId);
     // 终止求职者candId在岗位postId的流程
     void terminateSubmissionStageByCandIdAndPostId(String candId, Integer postId);
     // 添加投递记录

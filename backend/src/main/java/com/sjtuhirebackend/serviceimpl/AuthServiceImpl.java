@@ -1,6 +1,8 @@
 package com.sjtuhirebackend.serviceimpl;
 
+import com.sjtuhirebackend.dao.AdminDao;
 import com.sjtuhirebackend.dao.CandidateDao;
+import com.sjtuhirebackend.entity.Administer;
 import com.sjtuhirebackend.entity.Candidate;
 import com.sjtuhirebackend.dao.HRDao;
 import com.sjtuhirebackend.entity.Candidate;
@@ -25,6 +27,8 @@ public class AuthServiceImpl implements AuthService {
     private CandidateDao candidateDao;
     @Autowired
     private HRDao hrDao;
+    @Autowired
+    private AdminDao adminDao;
 
     public String getCandidateToken(String username, String password) {
 //        System.out.println("username: " + username);
@@ -68,10 +72,39 @@ public class AuthServiceImpl implements AuthService {
         }
         return null;
     }
+
     public String getHRToken(String username, String password){
+        if (!username.matches("^\\d+$")) {
+            return null;
+        }
+
         HR res = hrDao.getHR(Integer.parseInt(username));
         if (res != null && Objects.equals(res.getHRPassword(), password)) {
             return res.getHRToken();
+        }
+        return null;
+    }
+
+    public String getAdminToken(String ID, String password) {
+        Administer res = adminDao.getAdminByID(ID);
+        if (res != null && Objects.equals(res.getAdminPw(), password)) {
+            return res.getAdminToken();
+        }
+        return null;
+    }
+
+    public String getAdminIdByHeader(Map<String, Object> header) {
+        String token = (String) header.get("token");
+
+        if (token == null){
+            System.out.println("getAdminByCandToken: 缺少参数");
+            return null;
+        }
+
+        Administer res = adminDao.getAdminByToken(token);
+
+        if (res != null) {
+            return res.getAdminID();
         }
         return null;
     }

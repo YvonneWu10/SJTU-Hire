@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.Map;
 
+
 @RestController
 @Slf4j
 public class CandPostController {
@@ -55,6 +56,17 @@ public class CandPostController {
         return new ResponseEntity<>(candPostService.getCandPostByCandIdAndSubmissionStage(id, "流程终止"), HttpStatus.OK);
     }
 
+    // 获取求职者已录取的岗位
+    @RequestMapping("/candidate_view/AdmittedPost")
+    public ResponseEntity<Map<String, Object>> getAdmittedCandPostForCandidate(@RequestHeader Map<String, Object> header) {
+        String id = authService.getCandIdByHeader(header);
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<>(candPostService.getCandPostByCandIdAndSubmissionStage(id, "录取"), HttpStatus.OK);
+    }
+
     @RequestMapping("/hr_view/forwardSubmissionStage/{candId}/{postId}")
     public ResponseEntity<String> forwardSubmissionStage(@RequestHeader Map<String, Object> header,
                                                          @PathVariable String candId,
@@ -76,11 +88,11 @@ public class CandPostController {
         candPostService.forwardSubmissionStageByCandIdAndPostId(candId, postId);
         return new ResponseEntity<>("", HttpStatus.OK);
     }
-
+    // 根据id号终止招聘流程
     @RequestMapping("/hr_view/terminateSubmissionStage/{candId}/{postId}")
     public ResponseEntity<String> terminateSubmissionStage(@RequestHeader Map<String, Object> header,
-                                                           @PathVariable String candId,
-                                                           @PathVariable Integer postId) {
+                                                         @PathVariable String candId,
+                                                         @PathVariable Integer postId) {
         Integer id = authService.getHRIdByHeader(header);
         if (id == null) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
@@ -98,6 +110,30 @@ public class CandPostController {
         candPostService.terminateSubmissionStageByCandIdAndPostId(candId, postId);
         return new ResponseEntity<>("", HttpStatus.OK);
     }
+
+    // 邀请该candidate应聘该岗位，在CandPost表格中增加一条邀请记录
+    @RequestMapping("/hr_view/invite/{candId}/{postId}")
+    public ResponseEntity<String> HRInvite(@RequestHeader Map<String, Object> header,
+                                                           @PathVariable String candId,
+                                                           @PathVariable Integer postId) {
+        Integer id = authService.getHRIdByHeader(header);
+        if (id == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        if (postId == null || candId == null){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        // 确定是否这个HR有权限访问这个candPost
+        Post post = postService.getPostById(postId);
+        if (post.getHRId() != id){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+        candPostService.insertCandPostByInvitation(candId, postId);
+        return new ResponseEntity<>("", HttpStatus.OK);
+    }
+
 
     // 求职者投递岗位postId
     @RequestMapping("/candidate_view/deliver/{postId}")

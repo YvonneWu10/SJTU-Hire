@@ -1,4 +1,4 @@
-import { Col, Descriptions, Row } from "antd";
+import {Col, Descriptions, Row, Space} from "antd";
 import { Divider, Typography } from 'antd';
 import React from "react";
 import { TeamOutlined, RiseOutlined, BankOutlined, CompassOutlined } from "@ant-design/icons";

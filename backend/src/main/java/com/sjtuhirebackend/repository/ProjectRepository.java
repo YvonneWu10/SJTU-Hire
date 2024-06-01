@@ -18,7 +18,6 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
     List<Project> findByProjectAchievement(int projectAchievement);
     List<Project> findByProjectAchievementBetween(int lb, int ub);
     List<Project> findByParticipant(String participant);
-
     // 根据projectId删除项目
     @Transactional
     void deleteByProjectId(int projectId);

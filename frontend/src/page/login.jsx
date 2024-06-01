@@ -39,12 +39,19 @@ export default function LoginPage() {
             if (res.ok) {
                 localStorage.setItem("HRToken", res.token);
             }
+        } else if (type === "admin") {
+            handleBaseApiResponse(res, messageApi, () => navigate("/administer-main"));
+            if (res.ok) {
+                localStorage.setItem("adminToken", res.token);
+            }
         }
     };
 
     const handleRegister = () => {
         if (type === "candidate") {
             navigate("/candidate_view/Register");
+        } else if (type === "HR") {
+            navigate("/hr_view/Register")
         }
     };
 

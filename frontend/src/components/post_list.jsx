@@ -2,7 +2,7 @@ import { List, Pagination, Space } from "antd"
 import PostCard from "./post_card";
 
 // 搜索页面的岗位列表
-export default function PostList({ posts, pageSize, current, total, column = 5, onPageChange }) {
+export default function PostList({ posts, pageSize, current, total, column = 5, onPageChange, user="candidate" }) {
     return <Space direction="vertical" style={{ width: "100%" }}>
         <List
             grid={{
@@ -14,7 +14,7 @@ export default function PostList({ posts, pageSize, current, total, column = 5, 
             }))}
             renderItem={(post, _) => (
                 <List.Item>
-                    <PostCard post={post} />
+                    <PostCard post={post} user={{user}} />
                 </List.Item>
             )}
         />

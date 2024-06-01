@@ -19,11 +19,13 @@ export default function PostPage() {
     const [delivered, setDelivered] = useState(null);
     const [ended, setEnded] = useState(null);
     const [invited, setInvited] = useState(null);
+    const [admitted, setAdmitted] = useState(null);
 
     let { postId } = useParams();
 
     const getPost = async () => {
         let resPostInfo = await getPostById(postId);
+        console.log(`resPostInfo: `, JSON.stringify(resPostInfo, null, 2));
         let resPost = resPostInfo.post;
         let resCompany = resPostInfo.company;
         let resDepartment = resPostInfo.department;
@@ -31,6 +33,7 @@ export default function PostPage() {
         let resDelivered = resPostInfo.delivered;
         let resEnded = resPostInfo.ended;
         let resInvited = resPostInfo.invited;
+        let resAdmitted = resPostInfo.admitted;
         console.log(`resTimeout: ${resTimeout}, resDelivered: ${resDelivered}`);
         setPost(resPost);
         setCompany(resCompany);
@@ -39,6 +42,7 @@ export default function PostPage() {
         setDelivered(resDelivered);
         setEnded(resEnded);
         setInvited(resInvited);
+        setAdmitted(resAdmitted);
     }
 
     useEffect(() => {
@@ -46,15 +50,16 @@ export default function PostPage() {
     }, []);
 
     return PrivateLayout("candidate", {
-        header: (
-            <CandidateHeader />
-        )
+            header: (
+                <CandidateHeader />
+            )
         }, {
             children: (
                 <Card className="card-container">
                     <Space direction="vertical" style={{ width: "100%" }}>
                         {post && <PostDetails post={ post } department={ department } timeout={ timeout }
-                                              delivered={ delivered } ended={ ended } invited={ invited } />}
+                                              delivered={ delivered } ended={ ended } invited={ invited }
+                                              admitted={ admitted } />}
                     </Space>
                     <div style={{ width: 300, position: 'absolute', top: 200, right: 70 }}>{company && <CompanyCard company={company} /> }</div>
                 </Card>

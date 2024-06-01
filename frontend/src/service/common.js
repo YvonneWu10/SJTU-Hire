@@ -10,17 +10,24 @@ export async function getJson(url, type) {
     if (type === "candidate") {
         // 统一命名为token传给后端，否则不知道为什么后端会识别不出来
         opts.headers['token'] = localStorage.getItem("candidateToken");
+        opts.headers['User-Type'] = "candidate";
     }
     else if (type === "HR") {
         opts.headers['token'] = localStorage.getItem("HRToken");
+        opts.headers['User-Type'] = "HR";
+    }
+    else if (type === "admin") {
+        opts.headers['token'] = localStorage.getItem("adminToken");
+        opts.headers['User-Type'] = "admin";
     }
 
+    console.log(`Making request to ${url} with options:`, opts);
     let res = await fetch(url, opts);
-    console.log(`Response in getJson: ${res}`);
+    console.log(`Response in getJson:`, JSON.stringify(res, null, 2));
     if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
     }
-
+    // res.json() 会自动将JSON格式的响应体解析为JavaScript对象
     return res.json();
 }
 
@@ -64,6 +71,9 @@ export async function post(url, type, data) {
     }
     else if (type === "HR"){
         opts.headers['token'] = localStorage.getItem("HRToken");
+    }
+    else if (type === "admin"){
+        opts.headers['token'] = localStorage.getItem("adminToken");
     }
 
     let res = await fetch(url, opts);

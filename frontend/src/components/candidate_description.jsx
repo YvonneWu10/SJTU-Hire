@@ -2,6 +2,7 @@ import '../css/global.css'
 
 import {Col, Descriptions} from "antd"
 
+
 // 求职者简历展示组件
 export default function CandidateDescription({ candidate, projectList }) {
     const basicItems = [

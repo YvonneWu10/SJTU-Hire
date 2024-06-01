@@ -1,14 +1,16 @@
 import { List, Pagination, Space } from "antd"
 import DeliveredPostCard from "./deliveredPost_card";
 import EndedPostCard from "./endedPost_card";
+import AdmittedPostCard from "./admittedPost_card";
 
 const CardComponentMap = {
     'DeliveredPostCard': DeliveredPostCard,
     'EndedPostCard': EndedPostCard,
+    'AdmittedPostCard': AdmittedPostCard
 };
 
-// 已投递/已结束流程的职位列表
-export default function DeliveredEndedPostList({ posts, companies, candPosts, pageSize, current, total,
+// 已投递/已结束流程/已录取的职位列表
+export default function DeliveredEndedAdmittedPostList({ posts, companies, candPosts, pageSize, current, total,
                                                         onPageChange, cardType }) {
     const combinedData = candPosts.map((candPost, index) => ({
         post: posts[index],

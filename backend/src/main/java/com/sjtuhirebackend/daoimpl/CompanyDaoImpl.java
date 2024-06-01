@@ -16,7 +16,6 @@ import java.util.List;
 public class CompanyDaoImpl implements CompanyDao {
     @Autowired
     private CompanyRepository companyRepository;
-
     public List<Company> getCompanies(){
         return companyRepository.findAll();
     }
@@ -58,5 +57,17 @@ public class CompanyDaoImpl implements CompanyDao {
     // 删除公司信息
     public void deleteCompany(int companyId){
         companyRepository.deleteById(companyId);
+    }
+
+    public long companyCount(){
+        return companyRepository.count();
+    }
+
+    public void saveCompany(Company company){
+        companyRepository.save(company);
+    }
+
+    public List<String> getAllCompanyNames(){
+        return companyRepository.findAllCompanyNames();
     }
 }

@@ -1,6 +1,5 @@
 package com.sjtuhirebackend.serviceimpl;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.sjtuhirebackend.dao.CompanyDao;
 import com.sjtuhirebackend.dao.DepartmentDao;
 import com.sjtuhirebackend.dao.PostDao;
@@ -65,6 +64,10 @@ public class CompanyServiceImpl implements CompanyService {
         companyDao.deleteCompany(companyId);
     }
 
+    public long companyCount(){
+        return companyDao.companyCount();
+    }
+
     public Map<String, Object> getCompanyDetailById(int companyId) {
         Company company = companyDao.getCompany(companyId);
         List<Department> departments = departmentDao.getByCompanyId(companyId);
@@ -81,4 +84,60 @@ public class CompanyServiceImpl implements CompanyService {
         return ans;
     }
 
+    public Map<String, Object> editCompany(Map<String, Object> map){
+        Integer companyId = (Integer) map.get("companyId");
+        String companyName = (String) map.get("companyName");
+        String companyScale = (String) map.get("companyScale");
+        String financingStage = (String) map.get("financingStage");
+        String companyType = (String) map.get("companyType");
+        String companyField = (String) map.get("companyField");
+        String description = (String) map.get("description");
+        String token = (String) map.get("companyToken");
+
+        Company company = companyDao.getCompany(companyId);
+        if (!company.getCompanyToken().equals(token)){
+            Map<String, Object> ans = new HashMap<>();
+            ans.put("ok", false);
+            ans.put("message", "Token错误");
+            return ans;
+        }
+
+        company.setCompanyName(companyName);
+        company.setCompanyScale(companyScale);
+        company.setFinancingStage(financingStage);
+        company.setCompanyType(companyType);
+        company.setCompanyField(companyField);
+        company.setDescription(description);
+
+        companyDao.saveCompany(company);
+
+        Map<String, Object> ans = new HashMap<>();
+        ans.put("ok", true);
+        ans.put("message", "修改成功");
+        return ans;
+    }
+    public List<String> getAllCompanyNames(){
+        return companyDao.getAllCompanyNames();
+    }
+    public Company HRRegisterCompany(Map<String, Object> companyInfo){
+        String companyName = (String) companyInfo.get("companyName");
+        String companyToken = (String) companyInfo.get("companyToken");
+        String companyScale = (String) companyInfo.get("companyScale");
+        String financingStage = (String) companyInfo.get("financingStage");
+        String companyType = (String) companyInfo.get("companyType");
+        String companyField = (String) companyInfo.get("companyField");
+        String description = (String) companyInfo.get("description");
+        Company company = new Company();
+
+        company.setCompanyName(companyName);
+        company.setCompanyScale(companyScale);
+        company.setFinancingStage(financingStage);
+        company.setCompanyType(companyType);
+        company.setCompanyField(companyField);
+        company.setDescription(description);
+        company.setCompanyToken(companyToken);
+
+        companyDao.saveCompany(company);
+        return companyDao.getCompanyByName(companyName).get(0);
+    }
 }

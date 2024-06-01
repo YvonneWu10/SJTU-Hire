@@ -1,6 +1,7 @@
 package com.sjtuhirebackend.dao;
 
 import com.sjtuhirebackend.entity.CandPost;
+import com.sjtuhirebackend.entity.CandPostPK;
 
 import java.util.Date;
 import java.util.List;
@@ -19,11 +20,17 @@ public interface CandPostDao {
     List<CandPost> getCandPostBySubmissionDateAfter(Date submissionDate);
     List<CandPost> getCandPostBySubmissionDateBetween(Date lb, Date ub);
     List<CandPost> getCandPostBySubmissionStage(String submissionStage);
+    List<CandPost> getPagedCandPosts(int pageIndex,int pageSize);
+    long count();
+    void deleteCandPost(String candId, int postId);
+    long countPosts();
+    List<Object[]> getHotJobId(int rank);
     List<CandPost> getCandPostByCandIdInAndPostId(List<String> candIds, Integer postId);
     List<CandPost> getCandPostByCandIdIn(List<String> candIds);
+    List<CandPost> getCandPostBySubmissionStageIsNot(String submissionStage);
+    void insertCandPost(String candId, Integer postId, Date submissionDate, String submissionStage);
     // // 获取求职者在stage阶段的岗位列表
     List<CandPost> getCandPostByCandIdAndSubmissionStage(String candId, String stage);
-
     // 修改求职者candId在岗位postId的投递阶段
     void updateSubmissionStageByBiIdCandIdAndBiIdPostId(String submissionStage, String candId, Integer PostId);
     // 修改求职者candId在岗位postId的投递阶段和投递时间

@@ -12,4 +12,5 @@ public interface DepartmentRepository extends JpaRepository<Department, Departme
     List<Department> findByBiIdCompanyId(int companyId);
     List<Department> findByBiIdDepartmentId(int departmentId);
     List<Department> findByDepartmentName(String departmentName);
+    List<Department> findByBiIdCompanyIdOrderByBiIdDepartmentIdAsc(int companyId);
 }

@@ -1,14 +1,24 @@
 package com.sjtuhirebackend.serviceimpl;
 
 import com.sjtuhirebackend.dao.*;
+import com.sjtuhirebackend.entity.*;
+import com.sjtuhirebackend.dao.CandPostDao;
 
 import com.sjtuhirebackend.entity.CandPost;
 
+import com.sjtuhirebackend.dao.CandidateDao;
+import com.sjtuhirebackend.dao.PostDao;
+import com.sjtuhirebackend.entity.CandPost;
 import com.sjtuhirebackend.entity.CandPostPK;
 import com.sjtuhirebackend.entity.Candidate;
 import com.sjtuhirebackend.entity.Post;
 import com.sjtuhirebackend.dao.CandidateDao;
 import com.sjtuhirebackend.dao.PostDao;
+import com.sjtuhirebackend.entity.CandPost;
+import com.sjtuhirebackend.entity.CandPostPK;
+import com.sjtuhirebackend.entity.Candidate;
+import com.sjtuhirebackend.entity.Post;
+import com.sjtuhirebackend.entity.CandPost;
 
 import com.sjtuhirebackend.service.CandPostService;
 import lombok.extern.slf4j.Slf4j;
@@ -16,10 +26,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import java.util.Date;
 import java.util.List;
+
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Service
@@ -33,7 +51,11 @@ public class CandPostServiceImpl implements CandPostService {
     @Autowired
     private CandidateDao candidateDao;
     @Autowired
+    private ProjectDao projectDao;
+    @Autowired
+
     private CompanyDao companyDao;
+
 
     public List<CandPost> getAllCandPosts(){
         return candPostDao.getAllCandPosts();
@@ -47,11 +69,13 @@ public class CandPostServiceImpl implements CandPostService {
         Candidate cand = candidateDao.getCandidateByCandId(candId);
         Post post = postDao.getPostByPostId(postId);
         CandPost candPost = candPostDao.getCandPostByCandIdAndPostId(candId, postId);
+        List<Project> projectList = projectDao.getProjectByCandId(candId);
         Map<String,Object> ans = new HashMap<>();
         //调用put()方法增添数据
         ans.put("candPost", candPost);
         ans.put("candInfo", cand);
         ans.put("postInfo", post);
+        ans.put("projectInfo", projectList);
         return ans;
     }
     public List<CandPost> getCandPostByCandId(String candId){
@@ -75,10 +99,12 @@ public class CandPostServiceImpl implements CandPostService {
     public List<CandPost> getCandPostBySubmissionStage(String submissionStage){
         return candPostDao.getCandPostBySubmissionStage(submissionStage);
     }
-    public Map<String,Object> getCandPostByHRId(int hrId){
+    public Map<String,Object> getCandPostInfoByHRId(int hrId){
         List<Integer> responsiblePostId = postDao.getPostIdByHRId(hrId);
         // return all candpost given post id
         List<CandPost> responsibleRecords = candPostDao.getCandPostByPostIdIn(responsiblePostId);
+        List<CandPost> validRecords = candPostDao.getCandPostBySubmissionStageIsNot("邀请");
+        responsibleRecords.retainAll(validRecords);
         List<String> candIdList = (responsibleRecords.stream().map(CandPost::getBiId).toList()).stream().map(CandPostPK::getCandId).toList();
         List<Integer> postIdList = (responsibleRecords.stream().map(CandPost::getBiId).toList()).stream().map(CandPostPK::getPostId).toList();
         // return candidate list given candID list
@@ -95,8 +121,34 @@ public class CandPostServiceImpl implements CandPostService {
         ans.put("candPost", responsibleRecords);
         ans.put("candInfo", candList);
         ans.put("postInfo", postList);
-
         return ans;
+    }
+
+    public List<CandPost> getCandPostByCandIdInAndPostId(List<String> candIds, Integer postId){
+        return candPostDao.getCandPostByCandIdInAndPostId(candIds, postId);
+    }
+    public List<CandPost> getCandPostByHRId(int hrId){
+        List<Integer> responsiblePostId = postDao.getPostIdByHRId(hrId);
+        // return all candpost given post id
+        return candPostDao.getCandPostByPostIdIn(responsiblePostId);
+    }
+    public List<CandPost> getCandPostByCandIdIn(List<String> candIds){
+        return candPostDao.getCandPostByCandIdIn(candIds);
+    }
+
+    public List<CandPost> getCandPostByPostIdIn(List<Integer> postIds){
+        return candPostDao.getCandPostByPostIdIn(postIds);
+    }
+
+    public void terminateSubmissionStageByCandIdAndPostId(String candId, Integer postId){
+        candPostDao.updateSubmissionStageByBiIdCandIdAndBiIdPostId("流程终止", candId, postId);
+    }
+    public List<CandPost> getCandPostBySubmissionStageIsNot(String submissionStage){
+        return candPostDao.getCandPostBySubmissionStageIsNot(submissionStage);
+    }
+
+    public void insertCandPostByInvitation(String candId, Integer postId) {
+        candPostDao.insertCandPost(candId, postId, Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()), "邀请");
     }
 
     public Map<String, Object> getDeliveredCandPostDetailByCandId(String candidateId) {
@@ -152,14 +204,6 @@ public class CandPostServiceImpl implements CandPostService {
         return ans;
     }
 
-    public List<CandPost> getCandPostByCandIdIn(List<String> candIds){
-        return candPostDao.getCandPostByCandIdIn(candIds);
-    }
-
-    public List<CandPost> getCandPostByPostIdIn(List<Integer> postIds){
-        return candPostDao.getCandPostByPostIdIn(postIds);
-    }
-
     public void forwardSubmissionStageByCandIdAndPostId(String candId, Integer postId){
         CandPost candPost = candPostDao.getCandPostByCandIdAndPostId(candId, postId);
         Map<String, String> map = new HashMap<>();
@@ -170,10 +214,6 @@ public class CandPostServiceImpl implements CandPostService {
         map.put("hr面", "offer评估");
         map.put("offer评估", "录取");
         candPostDao.updateSubmissionStageByBiIdCandIdAndBiIdPostId(map.get(candPost.getSubmissionStage()), candId, postId);
-    }
-
-    public void terminateSubmissionStageByCandIdAndPostId(String candId, Integer postId){
-        candPostDao.updateSubmissionStageByBiIdCandIdAndBiIdPostId("流程终止", candId, postId);
     }
 
     public void insertCandPostByDelivery(String candId, Integer postId) {
@@ -195,4 +235,52 @@ public class CandPostServiceImpl implements CandPostService {
     public void refuseInvitationByCandIdAndPostId(String candId, Integer postId) {
         candPostDao.deleteCandPostByCandIdAndPostId(candId, postId);
     }
+//    public Map<String,Object> getCandPostByHRId(int hrId){
+//        List<Integer> responsiblePostId = postDao.getPostIdByHRId(hrId);
+//        // return all candpost given post id
+//        List<CandPost> responsibleRecords = candPostDao.getCandPostByPostIdIn(responsiblePostId);
+//        List<String> candIdList = (responsibleRecords.stream().map(CandPost::getBiId).toList()).stream().map(CandPostPK::getCandId).toList();
+//        List<Integer> postIdList = (responsibleRecords.stream().map(CandPost::getBiId).toList()).stream().map(CandPostPK::getPostId).toList();
+//        // return candidate list given candID list
+//        List<Candidate> candList = new ArrayList<>();
+//        for (String candId: candIdList){
+//            candList.add(candidateDao.getCandidateByCandId(candId));
+//        }
+//        List<Post> postList = new ArrayList<>();
+//        for (int postId: postIdList){
+//            postList.add(postDao.getPostByPostId(postId));
+//        }
+//        Map<String,Object> ans = new HashMap<>();
+//        //调用put()方法增添数据
+//        ans.put("candPost", responsibleRecords);
+//        ans.put("candInfo", candList);
+//        ans.put("postInfo", postList);
+//
+//        return ans;
+//    }
+
+    public List<CandPost> getPagedCandPosts(int pageIndex, int pageSize){
+        // 计算起始索引
+        int startIndex = pageIndex * pageSize;
+        // 调用 repository 的 findByPages 方法进行分页查询
+        return candPostDao.getPagedCandPosts(startIndex, pageSize);
+    }
+
+    public int getTotalPages(int pageSize) {
+        // 获取总的数据行数
+        long totalItems = candPostDao.count();
+        // 计算总页数
+        return (int) Math.ceil((double) totalItems / pageSize);
+    }
+
+    public void deleteCandPost(String candId, int postId) {
+        candPostDao.deleteCandPost(candId, postId);
+    }
+
+    public long countPosts() { return candPostDao.countPosts(); }
+
+    public List<Object[]> getHotJobId(int rank) {
+        return candPostDao.getHotJobId(rank);
+    }
+
 }

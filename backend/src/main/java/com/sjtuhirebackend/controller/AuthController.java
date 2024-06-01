@@ -16,7 +16,6 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    // 登录
     @RequestMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, Object> map) {
         String type = (String) map.get("type");
@@ -30,18 +29,35 @@ public class AuthController {
 
         if (Objects.equals(type, "candidate")) {
             String token = authService.getCandidateToken(username, password);
+            if (token == null) {
+                System.out.println("login failed: 错误的用户名或密码");
+                return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+            }
             System.out.println("Token: " + token);
             return new ResponseEntity<>(Map.of("token", token), HttpStatus.OK);
         } else if (Objects.equals(type, "HR")) {
             String token = authService.getHRToken(username, password);
+            if (token == null) {
+                System.out.println("login failed: 错误的用户名或密码");
+                return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+            }
             System.out.println("Token: " + token);
+            return new ResponseEntity<>(Map.of("token", token), HttpStatus.OK);
+        } else if (Objects.equals(type, "admin")) {
+            String token = authService.getAdminToken(username, password);
+            if (token == null) {
+                System.out.println("login failed: 错误的用户名或密码");
+                return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+            }
+//            String adminID = authService.getAdminIdByHeader(Map.of("token", token));
+            System.out.println("Token: " + token);
+//            System.out.println("adminID: " + adminID);
             return new ResponseEntity<>(Map.of("token", token), HttpStatus.OK);
         }
 
         return new ResponseEntity<>(null, HttpStatus.NOT_IMPLEMENTED);
     }
 
-    // 页面鉴权
     @RequestMapping("/auth")
     public ResponseEntity<Map<String, Object>> auth(@RequestHeader Map<String, Object> header,
                                                     @RequestBody Map<String, Object> body) {
@@ -54,12 +70,19 @@ public class AuthController {
 
         if (Objects.equals(type, "candidate")) {
             String id = authService.getCandIdByHeader(header);
+            System.out.println("id in auth: " + id);
             if (id == null) {
                 return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
             }
             return new ResponseEntity<>(Map.of("candId", id), HttpStatus.OK);
         } else if (Objects.equals(type, "HR")) {
             Integer id = authService.getHRIdByHeader(header);
+            if (id == null) {
+                return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+            }
+            return new ResponseEntity<>(Map.of("HRId", id), HttpStatus.OK);
+        } else if (Objects.equals(type, "admin")) {
+            String id = authService.getAdminIdByHeader(header);
             if (id == null) {
                 return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
             }

@@ -1,6 +1,7 @@
 import { List, Pagination, Space } from "antd"
 import CompanyCard from "./company_card";
 
+
 // 公司列表
 export default function CompanyList({ company, pageSize, current, total, onPageChange }) {
     return <Space direction="vertical" style={{ width: "100%" }}>

@@ -1,7 +1,11 @@
 package com.sjtuhirebackend.serviceimpl;
 
+import com.sjtuhirebackend.dao.CandPostDao;
 import com.sjtuhirebackend.dao.CandidateDao;
+import com.sjtuhirebackend.dao.PostDao;
 import com.sjtuhirebackend.dao.ProjectDao;
+import com.sjtuhirebackend.entity.CandPost;
+import com.sjtuhirebackend.entity.CandPostPK;
 import com.sjtuhirebackend.entity.Candidate;
 import com.sjtuhirebackend.entity.Project;
 import com.sjtuhirebackend.service.CandidateService;
@@ -26,6 +30,11 @@ public class CandidateServiceImpl implements CandidateService {
     @Autowired
     private CandidateDao candidateDao;
     @Autowired
+    private PostDao postDao;
+    @Autowired
+    private CandPostDao candPostDao;
+    @Autowired
+
     private ProjectDao projectDao;
 
     public String getCandNameByCandId(String id) {
@@ -43,7 +52,7 @@ public class CandidateServiceImpl implements CandidateService {
         return candidateDao.getCandidateByCandId(candId);
     }
     public List<Candidate> getCandidatesByCandName(String candName){
-        return candidateDao.getCandidatesByCandName(candName);
+        return candidateDao.getCandidatesByCandNameContaining(candName);
     }
     public List<Candidate> getCandidatesByCandAge(int candAge){
         return candidateDao.getCandidatesByCandAge(candAge);
@@ -87,6 +96,20 @@ public class CandidateServiceImpl implements CandidateService {
     public List<Candidate> getCandidatesByCandExpectedSalaryBetween(int lb, int ub){
         return candidateDao.getCandidatesByCandExpectedSalaryBetween(lb, ub);
     }
+    public List<Candidate> getAllCandidatesAvailable(int HRId){
+        List<Integer> responsiblePostId = postDao.getPostIdByHRId(HRId);
+        if (responsiblePostId.isEmpty()){
+            return candidateDao.getCandidates();
+        }
+        // return all candpost given post id
+        List<CandPost> responsibleRecords = candPostDao.getCandPostByPostIdIn(responsiblePostId);
+        System.out.print(responsibleRecords);
+        if (responsibleRecords.isEmpty()) {
+            return candidateDao.getCandidates();
+        }
+        List<String> candIdList = (responsibleRecords.stream().map(CandPost::getBiId).toList()).stream().map(CandPostPK::getCandId).toList();
+        return candidateDao.getCandidateByCandIdNotIn(candIdList);
+    }
 
     public Map<String, Object> getCandInfoByCandId(String id) {
         Candidate candidate = candidateDao.getCandidateByCandId(id);
@@ -97,6 +120,10 @@ public class CandidateServiceImpl implements CandidateService {
         ans.put("projects", projects);
 
         return ans;
+    }
+
+    public List<String> getCandIdByCandName(String candName){
+        return candidateDao.getCandIdByCandName(candName);
     }
 
     public void editCandidateInfo(String id, Map<String, Object> values, List<Integer> deletedProjects) {
@@ -185,7 +212,7 @@ public class CandidateServiceImpl implements CandidateService {
         return ans;
     }
 
-   public Map<String, Object> deleteAccount(String id, String candidateId, String password) {
+    public Map<String, Object> deleteAccount(String id, String candidateId, String password) {
         if (!id.equals(candidateId)) {
             Map<String, Object> ans = new HashMap<>();
             ans.put("ok", false);
@@ -193,23 +220,23 @@ public class CandidateServiceImpl implements CandidateService {
             return ans;
         }
 
-       Candidate candidate = candidateDao.getCandidateByCandId(id);
-       if (!candidate.getCandPassword().equals(password)) {
-           Map<String, Object> ans = new HashMap<>();
-           ans.put("ok", false);
-           ans.put("message", "身份验证失败");
-           return ans;
-       }
+        Candidate candidate = candidateDao.getCandidateByCandId(id);
+        if (!candidate.getCandPassword().equals(password)) {
+            Map<String, Object> ans = new HashMap<>();
+            ans.put("ok", false);
+            ans.put("message", "身份验证失败");
+            return ans;
+        }
 
-       candidateDao.deleteCandidateById(id);
+        candidateDao.deleteCandidateById(id);
 
-       Map<String, Object> ans = new HashMap<>();
-       ans.put("ok", true);
-       ans.put("message", "注销成功");
-       return ans;
-   }
+        Map<String, Object> ans = new HashMap<>();
+        ans.put("ok", true);
+        ans.put("message", "注销成功");
+        return ans;
+    }
 
-   public Map<String, Object> register(String name, String id, String password) {
+    public Map<String, Object> register(String name, String id, String password) {
         if (candidateDao.getCandidateByCandId(id) != null) {
             Map<String, Object> ans = new HashMap<>();
             ans.put("ok", false);
@@ -233,5 +260,25 @@ public class CandidateServiceImpl implements CandidateService {
         ans.put("ok", true);
         ans.put("message", "注册成功");
         return ans;
-   }
+    }
+    public List<String> getDistinctCandMajors(){
+        return candidateDao.getDistinctCandMajors();
+    }
+    public List<String> getDistinctCandUniversities(){
+        return candidateDao.getDistinctUniversities();
+    }
+
+    public void deleteCandidate(String candId) {
+        candidateDao.deleteCandidate(candId);
+    }
+
+    public long candidateCount() {
+        return candidateDao.candidateCount();
+    }
+
+    public List<Object[]> countCandidatesByAgeRange() {return candidateDao.countCandidatesByAgeRange();}
+
+    public List<Object[]> countCandidatesByDegree() {return candidateDao.countCandidatesByDegree();}
+
+    public List<Object[]> findSalaryExpectationsByCandidate() {return candidateDao.findSalaryExpectationsByCandidate(); }
 }

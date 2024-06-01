@@ -5,9 +5,9 @@ import {useEffect, useState} from "react";
 
 import { useSearchParams } from "react-router-dom";
 import {PrivateLayout} from "../components/layout";
-import {searchDeliveredEndedPosts} from "../service/candPost";
+import {searchDeliveredEndedAdmittedPosts} from "../service/candPost";
 import CandidateHeader from "../components/candidate_header";
-import DeliveredEndedPostList from "../components/deliveredEndedPost_list";
+import DeliveredEndedAdmittedPostList from "../components/deliveredEndedAdmittedPost_list";
 
 // 已投递的岗位页面
 export default function CandidateDeliveredPage() {
@@ -21,7 +21,7 @@ export default function CandidateDeliveredPage() {
     const pageSize = searchParams.get("pageSize") != null ? Number.parseInt(searchParams.get("pageSize")) : 6;
 
     const getDeliveredPosts = async () => {
-        let resDeliveredPosts = await searchDeliveredEndedPosts(pageIndex, pageSize, "DeliveredPost");
+        let resDeliveredPosts = await searchDeliveredEndedAdmittedPosts(pageIndex, pageSize, "DeliveredPost");
         let resPosts = resDeliveredPosts.posts;
         let resCompanies = resDeliveredPosts.companies;
         let resCandPosts = resDeliveredPosts.candPosts;
@@ -56,7 +56,7 @@ export default function CandidateDeliveredPage() {
                 <div className="center-container">
                     <Card className="card-container">
                         <Space direction="vertical" size="large" style={{width: "100%"}}>
-                            <DeliveredEndedPostList posts={ posts } companies={ companies } candPosts={ candPosts }
+                            <DeliveredEndedAdmittedPostList posts={ posts } companies={ companies } candPosts={ candPosts }
                                                            pageSize={ pageSize } total={ totalPage * pageSize }
                                                            current={ pageIndex } onPageChange={ handlePageChange }
                                                            cardType={ "DeliveredPostCard" } />
